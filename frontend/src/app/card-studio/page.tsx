@@ -27,15 +27,16 @@ export default function CardStudioPage() {
   const [theme, setTheme] = useState<CardTheme>("white");
   const [companyName, setCompanyName] = useState("MAA DIAMOND");
   const [directors, setDirectors] = useState("Haresh Patel & Ketan Patel");
-  const [websiteUrl, setWebsiteUrl] = useState("www.maadiamond.com");
+  const [websiteUrl, setWebsiteUrl] = useState("maa-diamond.vercel.app");
   const [phone, setPhone] = useState("+91 98250 88991");
-  const [targetQrUrl, setTargetQrUrl] = useState("http://localhost:3000/card");
+  const [targetQrUrl, setTargetQrUrl] = useState("https://maa-diamond.vercel.app");
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setTargetQrUrl(`${window.location.origin}/card`);
+      setTargetQrUrl(window.location.origin);
+      setWebsiteUrl(window.location.host);
     }
   }, []);
 
@@ -382,6 +383,26 @@ export default function CardStudioPage() {
                 </button>
 
                 <div className="flex gap-2">
+                  <a
+                    href="/maa-diamond-website-qr.png"
+                    download="Maa_Diamond_Website_QR.png"
+                    className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 py-2.5 text-xs font-bold text-emerald-900 transition-colors shadow-xs"
+                  >
+                    <QrCode className="h-3.5 w-3.5 text-emerald-700" />
+                    <span>Download QR (.PNG)</span>
+                  </a>
+
+                  <a
+                    href="/maa-diamond-card-horizontal.png"
+                    download="Maa_Diamond_Card_300DPI.png"
+                    className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 py-2.5 text-xs font-bold text-amber-900 transition-colors shadow-xs"
+                  >
+                    <Download className="h-3.5 w-3.5 text-amber-700" />
+                    <span>Card High-Res (.PNG)</span>
+                  </a>
+                </div>
+
+                <div className="flex gap-2">
                   <button
                     onClick={handlePrint}
                     className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 py-2.5 text-xs font-bold text-slate-800 transition-colors shadow-xs"
@@ -393,10 +414,10 @@ export default function CardStudioPage() {
                   <a
                     href={orientation === "landscape" ? "/maa-diamond-card-horizontal.svg" : "/maa-diamond-card-portrait.svg"}
                     download={orientation === "landscape" ? "Maa_Diamond_Card_Horizontal.svg" : "Maa_Diamond_Card_Portrait.svg"}
-                    className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 py-2.5 text-xs font-bold text-amber-900 transition-colors shadow-xs"
+                    className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-slate-100 py-2.5 text-xs font-bold text-slate-700 transition-colors shadow-xs"
                   >
-                    <Download className="h-3.5 w-3.5 text-amber-700" />
-                    <span>Direct SVG File</span>
+                    <Download className="h-3.5 w-3.5 text-slate-600" />
+                    <span>Vector (.SVG)</span>
                   </a>
                 </div>
 
@@ -643,10 +664,10 @@ export default function CardStudioPage() {
                       <div className="w-32 h-32 sm:w-36 sm:h-36 bg-slate-100 animate-pulse rounded-xl" />
                     )}
                   </div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest mt-2 text-center">
-                    Scan for Digital vCard
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest mt-2 text-center text-slate-900">
+                    Scan to Open Website
                   </span>
-                  <span className="text-[9px] opacity-70 font-medium text-center">
+                  <span className="text-[9px] font-bold text-blue-600 text-center tracking-wide">
                     {websiteUrl}
                   </span>
                 </div>
