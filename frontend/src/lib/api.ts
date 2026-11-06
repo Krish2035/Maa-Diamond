@@ -1,6 +1,9 @@
 import { Diamond, Inquiry, BusinessProfile, User } from "./types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const rawUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_BASE_URL = rawUrl.endsWith("/api")
+  ? rawUrl
+  : `${rawUrl.replace(/\/$/, "")}/api`;
 
 class ApiClient {
   private getHeaders(customHeaders: Record<string, string> = {}): Record<string, string> {

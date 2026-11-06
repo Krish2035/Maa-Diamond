@@ -10,7 +10,7 @@ import inquiriesRoutes from "./routes/inquiries.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import vcardRoutes from "./routes/vcard.routes.js";
 import statsRoutes from "./routes/stats.routes.js";
-import { initPostgresDatabase } from "./db/postgres.js";
+import { initPostgresDatabase, isPostgresActive } from "./db/postgres.js";
 
 const app = express();
 
@@ -38,6 +38,23 @@ app.use(timeoutMiddleware(6000));
 
 // Rate Limiting (Pillar 1)
 app.use("/api/", apiLimiter);
+
+// Root API Status Endpoint
+app.get("/", (req: Request, res: Response) => {
+  res.json({
+    status: "ONLINE",
+    service: "Maa Diamond Enterprise Backend API",
+    message: "💎 Maa Diamond API is online and running successfully.",
+    database: isPostgresActive() ? "Connected (PostgreSQL / Neon)" : "Active (Synchronized)",
+    endpoints: {
+      health: "/api/health",
+      diamonds: "/api/diamonds",
+      auth: "/api/auth/login",
+      inquiries: "/api/inquiries",
+    },
+    timestamp: new Date().toISOString(),
+  });
+});
 
 // Health Check Probe (Pillar 56)
 app.get("/api/health", (req: Request, res: Response) => {
