@@ -7,9 +7,20 @@ const TARGET_URL = 'https://maa-diamond.vercel.app';
 const ARTIFACT_DIR = 'C:/Users/DELL/.gemini/antigravity/brain/35cac826-a18a-47fb-a6b1-332873d2f70f';
 
 async function generate() {
-  console.log(`Generating QR code and Card for: ${TARGET_URL}`);
+  console.log(`Generating full-size QR code for: ${TARGET_URL}`);
 
-  // 1. Generate standalone high-res QR Code (SVG & PNG)
+  // 1. Standalone high-res 1024x1024 QR Code PNG
+  await QRCode.toFile('frontend/public/maa-diamond-website-qr.png', TARGET_URL, {
+    width: 1024,
+    margin: 2,
+    errorCorrectionLevel: 'H',
+    color: {
+      dark: '#0f172a',
+      light: '#ffffff',
+    },
+  });
+
+  // Standalone QR Code SVG
   const standaloneQrSvg = await QRCode.toString(TARGET_URL, {
     type: 'svg',
     margin: 2,
@@ -21,30 +32,9 @@ async function generate() {
   });
 
   fs.writeFileSync('frontend/public/maa-diamond-website-qr.svg', standaloneQrSvg);
-  if (fs.existsSync(ARTIFACT_DIR)) {
-    fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-website-qr.svg'), standaloneQrSvg);
-  }
 
-  await QRCode.toFile('frontend/public/maa-diamond-website-qr.png', TARGET_URL, {
-    width: 1024,
-    margin: 2,
-    errorCorrectionLevel: 'H',
-    color: {
-      dark: '#0f172a',
-      light: '#ffffff',
-    },
-  });
-
-  if (fs.existsSync(ARTIFACT_DIR)) {
-    fs.copyFileSync(
-      'frontend/public/maa-diamond-website-qr.png',
-      path.join(ARTIFACT_DIR, 'maa-diamond-website-qr.png')
-    );
-  }
-  console.log('✓ Standalone QR code saved (SVG & PNG 1024x1024)');
-
-  // 2. Generate QR SVG path specifically for the Card
-  const cardQrSvg = await QRCode.toString(TARGET_URL, {
+  // 2. Generate vector QR for the card
+  const rawSvg = await QRCode.toString(TARGET_URL, {
     type: 'svg',
     margin: 1,
     errorCorrectionLevel: 'H',
@@ -54,7 +44,9 @@ async function generate() {
     },
   });
 
-  const qrInner = cardQrSvg
+  const viewBoxMatch = rawSvg.match(/viewBox="0 0 (\d+) (\d+)"/);
+  const vbSize = viewBoxMatch ? parseInt(viewBoxMatch[1], 10) : 35;
+  const qrInnerPaths = rawSvg
     .replace(/<svg[^>]*>/, '')
     .replace(/<\/svg>/, '')
     .trim();
@@ -71,7 +63,7 @@ async function generate() {
   <!-- PVC Card Base (Clean Luxury White with Rounded Corners R=38) -->
   <rect x="8" y="8" width="996" height="622" rx="38" ry="38" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2.5" filter="url(#cardShadow)"/>
 
-  <!-- Outer Double Luxury Inset Border (Matching user's Screenshot) -->
+  <!-- Outer Double Luxury Inset Border -->
   <rect x="22" y="22" width="968" height="594" rx="28" ry="28" fill="none" stroke="#F1F5F9" stroke-width="2"/>
 
   <!-- ======================================================== -->
@@ -104,7 +96,7 @@ async function generate() {
       <polygon points="155,56 114,56 80,145" fill="#0F172A" stroke="#0F172A" stroke-width="2"/>
     </g>
 
-    <!-- Brand Typography (Matching user's Screenshot) -->
+    <!-- Brand Typography -->
     <text x="0" y="360" font-family="'Cinzel', 'Playfair Display', Calibri, 'Segoe UI', Arial, sans-serif" font-size="34" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="4">MAA DIAMOND</text>
     <text x="0" y="400" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14.5" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="3">SURAT DIAMOND BOURSE</text>
     <text x="0" y="432" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#64748B" text-anchor="middle" letter-spacing="1">Haresh Patel &amp; Ketan Patel</text>
@@ -112,37 +104,40 @@ async function generate() {
   </g>
 
   <!-- ======================================================== -->
-  <!-- CENTER VERTICAL DIVIDER LINE (Exact Replica of Screenshot) -->
+  <!-- CENTER VERTICAL DIVIDER LINE -->
   <!-- ======================================================== -->
   <line x1="506" y1="140" x2="506" y2="500" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
 
   <!-- ======================================================== -->
-  <!-- RIGHT HALF: CRISP LIVE SCANNABLE VERCEL WEBSITE QR CODE -->
+  <!-- RIGHT HALF: PROMINENT LARGE SCANNABLE QR CODE -->
   <!-- ======================================================== -->
-  <g transform="translate(629, 175)">
-    <!-- QR Card Container Pad -->
-    <rect x="-14" y="-14" width="288" height="288" rx="18" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  <g transform="translate(614, 140)">
+    <!-- QR Card Container Pad (290x290 rounded container) -->
+    <rect x="-10" y="-10" width="290" height="290" rx="20" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
     
-    <!-- Rendered QR Vector (Points to https://maa-diamond.vercel.app) -->
-    <g transform="scale(0.8125)">
-      ${qrInner}
-    </g>
+    <!-- Full-Size Razor-Sharp Vector QR Code filling the entire 270x270 container -->
+    <svg x="0" y="0" width="270" height="270" viewBox="0 0 ${vbSize} ${vbSize}" shape-rendering="crispEdges">
+      ${qrInnerPaths}
+    </svg>
   </g>
 
   <!-- Action Callout & Website Footer -->
-  <text x="759" y="495" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="2">SCAN TO OPEN WEBSITE</text>
-  <text x="759" y="520" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B" text-anchor="middle">Tower-D, Office 602, SDB, Surat</text>
-  <text x="759" y="542" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="1">maa-diamond.vercel.app</text>
+  <text x="749" y="475" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="2">SCAN TO OPEN WEBSITE</text>
+  <text x="749" y="502" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#64748B" text-anchor="middle">Tower-D, Office 602, SDB, Surat</text>
+  <text x="749" y="526" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="1">maa-diamond.vercel.app</text>
 
 </svg>`;
 
-  // 4. Save SVG Card files
+  // 4. Save SVG files
   fs.writeFileSync('frontend/public/maa-diamond-card-horizontal.svg', horizontalCardSvg);
   fs.writeFileSync('frontend/public/maa-diamond-card.svg', horizontalCardSvg);
   if (fs.existsSync(ARTIFACT_DIR)) {
     fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-card-horizontal.svg'), horizontalCardSvg);
+    fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-card.svg'), horizontalCardSvg);
+    fs.copyFileSync('frontend/public/maa-diamond-website-qr.png', path.join(ARTIFACT_DIR, 'maa-diamond-website-qr.png'));
+    fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-website-qr.svg'), standaloneQrSvg);
   }
-  console.log('✓ Horizontal SVG card saved');
+  console.log('✓ Vector SVG cards saved');
 
   // 5. Convert SVG to High-Resolution 300 DPI PNG using Sharp
   const pngBuffer = await sharp(Buffer.from(horizontalCardSvg), { density: 300 })
@@ -155,7 +150,7 @@ async function generate() {
     fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-card-horizontal.png'), pngBuffer);
     fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-card-preview.png'), pngBuffer);
   }
-  console.log('✓ High-resolution PNG card saved (300 DPI print-ready)');
+  console.log('✓ High-resolution PNG card saved with FULL-SIZE QR code (300 DPI)');
 }
 
 generate().catch(console.error);

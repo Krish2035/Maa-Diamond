@@ -79,12 +79,14 @@ export default function CardStudioPage() {
       },
     });
 
+    const viewBoxMatch = rawQrSvg.match(/viewBox="0 0 (\d+) (\d+)"/);
+    const vbSize = viewBoxMatch ? parseInt(viewBoxMatch[1], 10) : 35;
     const qrInner = rawQrSvg.replace(/<svg[^>]*>/, "").replace(/<\/svg>/, "").trim();
 
     let svgContent = "";
 
     if (orientation === "portrait") {
-      // Portrait CR80 (638 x 1012 px) - Exact Replica of Screenshot 1
+      // Portrait CR80 (638 x 1012 px)
       svgContent = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="638" height="1012" viewBox="0 0 638 1012">
   <defs>
@@ -96,7 +98,7 @@ export default function CardStudioPage() {
   <!-- PVC Card Base (Clean White with Rounded Corners R=40) -->
   <rect x="8" y="8" width="622" height="996" rx="40" ry="40" fill="${bgColor}" stroke="#E2E8F0" stroke-width="2.5" filter="url(#cardShadow)"/>
 
-  <!-- TOP SECTION: BRAND & DIAMOND EMBLEM (Exact Replica of Screenshot 1) -->
+  <!-- TOP SECTION: BRAND & DIAMOND EMBLEM -->
   <g transform="translate(60, 60)">
     
     <!-- Left: Brand Name & Details -->
@@ -107,7 +109,7 @@ export default function CardStudioPage() {
       <text x="0" y="148" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#334155">${phone}  •  info@maadiamond.com</text>
     </g>
 
-    <!-- Right: Geometric Diamond Emblem (Modeled on Screenshot 1) -->
+    <!-- Right: Geometric Diamond Emblem -->
     <g transform="translate(370, 40)">
       <polygon points="65,10 130,55 65,150 0,55" fill="none" stroke="${strokeColor}" stroke-width="4.5" stroke-linejoin="round"/>
       <line x1="32" y1="55" x2="98" y2="55" stroke="${strokeColor}" stroke-width="3"/>
@@ -119,60 +121,68 @@ export default function CardStudioPage() {
     </g>
   </g>
 
-  <!-- HORIZONTAL DIVIDING LINE (Matching Screenshot 1) -->
+  <!-- HORIZONTAL DIVIDING LINE -->
   <line x1="60" y1="320" x2="578" y2="320" stroke="${strokeColor}" stroke-width="2.5" stroke-linecap="round"/>
 
-  <!-- BOTTOM SECTION: LARGE CRISP QR CODE -->
-  <g transform="translate(139, 390)">
+  <!-- BOTTOM SECTION: FULL-SIZE CRISP QR CODE (Centered) -->
+  <g transform="translate(139, 380)">
     <rect x="-16" y="-16" width="392" height="392" rx="20" fill="${bgColor}" stroke="#F1F5F9" stroke-width="2"/>
-    <g transform="scale(1.2)">
+    <svg x="0" y="0" width="360" height="360" viewBox="0 0 ${vbSize} ${vbSize}" shape-rendering="crispEdges">
       ${qrInner}
-    </g>
+    </svg>
   </g>
 
   <!-- Bottom Captions -->
-  <text x="319" y="865" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14" font-weight="800" fill="${textColor}" text-anchor="middle" letter-spacing="3">SCAN TO VIEW DIGITAL VCARD &amp; INVENTORY</text>
+  <text x="319" y="865" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14" font-weight="800" fill="${textColor}" text-anchor="middle" letter-spacing="3">SCAN TO OPEN WEBSITE</text>
   <text x="319" y="905" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B" text-anchor="middle">Tower-D, Office 602, Surat Diamond Bourse, Khajod, Surat - 395007</text>
   <text x="319" y="935" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="${subColor}" text-anchor="middle" letter-spacing="1.5">${websiteUrl}</text>
 </svg>`;
     } else {
-      // Landscape CR80 (1012 x 638 px)
+      // Landscape CR80 (1012 x 638 px) - Matching Exactly the Reference Card
       svgContent = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1012" height="638" viewBox="0 0 1012 638">
-  <rect x="8" y="8" width="996" height="622" rx="36" fill="${bgColor}" stroke="#E2E8F0" stroke-width="3"/>
-  
-  <!-- Left Side: Details -->
-  <g transform="translate(70, 90)">
-    <text x="0" y="45" font-family="Calibri, sans-serif" font-size="44" font-weight="900" fill="${textColor}" letter-spacing="4">${companyName}</text>
-    <text x="0" y="90" font-family="Calibri, sans-serif" font-size="18" font-weight="700" fill="${subColor}" letter-spacing="2">SURAT DIAMOND BOURSE</text>
-    <text x="0" y="150" font-family="Calibri, sans-serif" font-size="20" font-weight="bold" fill="${textColor}">${directors}</text>
-    <text x="0" y="185" font-family="Calibri, sans-serif" font-size="15" fill="#64748B">Certified Diamond Manufacturers &amp; Exporters</text>
-    <text x="0" y="245" font-family="Calibri, sans-serif" font-size="16" font-weight="bold" fill="${textColor}">${phone}</text>
-    <text x="0" y="275" font-family="Calibri, sans-serif" font-size="16" font-weight="bold" fill="${subColor}">${websiteUrl}</text>
-  </g>
+  <defs>
+    <filter id="cardShadow" x="-3%" y="-4%" width="106%" height="108%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
 
-  <!-- Center Divider -->
-  <line x1="570" y1="80" x2="570" y2="558" stroke="#E2E8F0" stroke-width="2"/>
+  <rect x="8" y="8" width="996" height="622" rx="38" ry="38" fill="${bgColor}" stroke="#E2E8F0" stroke-width="2.5" filter="url(#cardShadow)"/>
+  <rect x="22" y="22" width="968" height="594" rx="28" ry="28" fill="none" stroke="#F1F5F9" stroke-width="2"/>
 
-  <!-- Right Side: QR Code & Emblem -->
-  <g transform="translate(640, 90)">
-    <!-- Mini Diamond Emblem -->
-    <g transform="translate(100, 0)">
-      <polygon points="40,5 80,30 40,85 0,30" fill="none" stroke="${strokeColor}" stroke-width="3"/>
-      <polygon points="40,5 0,30 40,85" fill="${strokeColor}" fill-opacity="0.8"/>
-      <polygon points="40,5 80,30 40,85" fill="${subColor}" fill-opacity="0.4"/>
+  <!-- Left Half: Diamond Emblem & Brand Details -->
+  <g transform="translate(253, 0)">
+    <g transform="translate(-80, 145)">
+      <polygon points="30,15 130,15 155,56 80,145 5,56" fill="none" stroke="${strokeColor}" stroke-width="4.5" stroke-linejoin="round"/>
+      <line x1="5" y1="56" x2="155" y2="56" stroke="${strokeColor}" stroke-width="3.5"/>
+      <polygon points="55,15 105,15 80,56" fill="${strokeColor}" stroke="${strokeColor}" stroke-width="2.5"/>
+      <line x1="30" y1="15" x2="80" y2="56" stroke="${strokeColor}" stroke-width="2.5"/>
+      <line x1="130" y1="15" x2="80" y2="56" stroke="${strokeColor}" stroke-width="2.5"/>
+      <line x1="80" y1="56" x2="80" y2="145" stroke="${strokeColor}" stroke-width="3"/>
+      <polygon points="5,56 46,56 80,145" fill="${strokeColor}" stroke="${strokeColor}" stroke-width="2"/>
+      <polygon points="155,56 114,56 80,145" fill="${strokeColor}" stroke="${strokeColor}" stroke-width="2"/>
     </g>
 
-    <!-- QR Code -->
-    <g transform="translate(0, 110)">
-      <rect x="0" y="0" width="280" height="280" rx="16" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-      <g transform="translate(15, 15) scale(0.78)">
-        ${qrInner}
-      </g>
-    </g>
-
-    <text x="140" y="425" font-family="Calibri, sans-serif" font-size="12" font-weight="bold" fill="${textColor}" text-anchor="middle" letter-spacing="2">SCAN TO VIEW VCARD</text>
+    <text x="0" y="360" font-family="'Cinzel', 'Playfair Display', Calibri, 'Segoe UI', Arial, sans-serif" font-size="34" font-weight="900" fill="${textColor}" text-anchor="middle" letter-spacing="4">${companyName}</text>
+    <text x="0" y="400" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14.5" font-weight="800" fill="${subColor}" text-anchor="middle" letter-spacing="3">SURAT DIAMOND BOURSE</text>
+    <text x="0" y="432" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#64748B" text-anchor="middle" letter-spacing="1">${directors}</text>
+    <text x="0" y="458" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" letter-spacing="0.5">${phone}</text>
   </g>
+
+  <!-- Center Vertical Divider Line -->
+  <line x1="506" y1="140" x2="506" y2="500" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Right Half: Full-Size Scannable QR Code -->
+  <g transform="translate(614, 140)">
+    <rect x="-10" y="-10" width="290" height="290" rx="20" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+    <svg x="0" y="0" width="270" height="270" viewBox="0 0 ${vbSize} ${vbSize}" shape-rendering="crispEdges">
+      ${qrInner}
+    </svg>
+  </g>
+
+  <text x="749" y="475" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="900" fill="${textColor}" text-anchor="middle" letter-spacing="2">SCAN TO OPEN WEBSITE</text>
+  <text x="749" y="502" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#64748B" text-anchor="middle">Tower-D, Office 602, SDB, Surat</text>
+  <text x="749" y="526" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="800" fill="${subColor}" text-anchor="middle" letter-spacing="1">${websiteUrl}</text>
 </svg>`;
     }
 
