@@ -179,9 +179,14 @@ export default function Navbar() {
         <div className="flex items-center gap-2 lg:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-lg border border-slate-200 bg-slate-100 p-2 text-slate-700 hover:text-black"
+            aria-label="Toggle navigation menu"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-amber-300 bg-white p-2 text-amber-500 hover:bg-amber-50 hover:border-amber-400 hover:text-amber-600 shadow-xs transition-all focus:outline-none focus:ring-2 focus:ring-amber-400/40"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? (
+              <X className="h-6 w-6 text-amber-500 transition-transform" />
+            ) : (
+              <Menu className="h-6 w-6 text-amber-500 transition-transform" />
+            )}
           </button>
         </div>
       </div>
