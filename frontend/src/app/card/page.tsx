@@ -148,9 +148,6 @@ export default function DigitalCardPage() {
           <h1 className="text-2xl font-extrabold tracking-wider text-slate-900">
             MAA DIAMOND
           </h1>
-          <p className="text-xs text-amber-700 font-bold uppercase tracking-widest mt-1">
-            Surat Diamond Bourse
-          </p>
           <p className="text-xs text-slate-600 mt-2 font-medium">
             Owners / Directors: <span className="text-slate-900 font-bold">Hardik Sorathiya & Sanket Sorathiya</span>
           </p>
@@ -338,7 +335,7 @@ export default function DigitalCardPage() {
         {/* Footer info matching Screenshot 2 bottom */}
         <div className="bg-slate-900 text-slate-300 py-4 px-6 text-center text-xs">
           <p className="font-semibold text-white">Maa Diamond • Certified Diamond Manufacturers</p>
-          <p className="text-[10px] text-slate-400 mt-0.5">Surat Diamond Bourse Member</p>
+          <p className="text-[10px] text-slate-400 mt-0.5">Diamond Manufacturers &amp; Exporters</p>
         </div>
       </div>
 

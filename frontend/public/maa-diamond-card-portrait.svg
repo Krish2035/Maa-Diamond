@@ -13,11 +13,11 @@
   <g transform="translate(60, 60)">
     
     <!-- Left: Brand Name & Details -->
-    <g transform="translate(0, 45)">
-      <text x="0" y="40" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="40" font-weight="900" fill="#0F172A" letter-spacing="3">MAA DIAMOND</text>
-      <text x="0" y="78" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="16" font-weight="700" fill="#D97706" letter-spacing="2">SURAT DIAMOND BOURSE</text>
-      <text x="0" y="116" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#64748B" letter-spacing="0.5">Hardik Sorathiya &amp; Sanket Sorathiya</text>
-      <text x="0" y="148" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#334155">+91 90333 20326  •  info@maadiamond.com</text>
+    <g transform="translate(0, 50)">
+      <text x="0" y="45" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="40" font-weight="900" fill="#0F172A" letter-spacing="3">MAA DIAMOND</text>
+      <text x="0" y="88" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#64748B" letter-spacing="0.5">Hardik Sorathiya &amp; Sanket Sorathiya</text>
+      <text x="0" y="116" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">+91 90333 20326</text>
+      <text x="0" y="136" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">+91 80000 45391</text>
     </g>
 
     <!-- Right: Geometric Diamond Emblem (Modeled on Screenshot 1) -->

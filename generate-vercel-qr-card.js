@@ -98,9 +98,9 @@ async function generate() {
 
     <!-- Brand Typography -->
     <text x="0" y="360" font-family="'Cinzel', 'Playfair Display', Calibri, 'Segoe UI', Arial, sans-serif" font-size="34" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="4">MAA DIAMOND</text>
-    <text x="0" y="400" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14.5" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="3">SURAT DIAMOND BOURSE</text>
-    <text x="0" y="432" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#64748B" text-anchor="middle" letter-spacing="1">Hardik Sorathiya &amp; Sanket Sorathiya</text>
-    <text x="0" y="458" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A" text-anchor="middle" letter-spacing="0.5">+91 90333 20326</text>
+    <text x="0" y="400" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#64748B" text-anchor="middle" letter-spacing="1">Hardik Sorathiya &amp; Sanket Sorathiya</text>
+    <text x="0" y="428" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0F172A" text-anchor="middle" letter-spacing="0.5">+91 90333 20326</text>
+    <text x="0" y="454" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0F172A" text-anchor="middle" letter-spacing="0.5">+91 80000 45391</text>
   </g>
 
   <!-- ======================================================== -->

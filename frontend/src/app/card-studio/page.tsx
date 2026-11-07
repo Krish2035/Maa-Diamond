@@ -29,6 +29,7 @@ export default function CardStudioPage() {
   const [directors, setDirectors] = useState("Hardik Sorathiya & Sanket Sorathiya");
   const [websiteUrl, setWebsiteUrl] = useState("maa-diamond.vercel.app");
   const [phone, setPhone] = useState("+91 90333 20326");
+  const [secondaryPhone, setSecondaryPhone] = useState("+91 80000 45391");
   const [targetQrUrl, setTargetQrUrl] = useState("https://maa-diamond.vercel.app");
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
   const [downloadSuccess, setDownloadSuccess] = useState(false);
@@ -102,11 +103,11 @@ export default function CardStudioPage() {
   <g transform="translate(60, 60)">
     
     <!-- Left: Brand Name & Details -->
-    <g transform="translate(0, 45)">
-      <text x="0" y="40" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="38" font-weight="900" fill="${textColor}" letter-spacing="3">${companyName}</text>
-      <text x="0" y="78" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="16" font-weight="700" fill="${subColor}" letter-spacing="2">SURAT DIAMOND BOURSE</text>
-      <text x="0" y="116" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#64748B" letter-spacing="0.5">${directors}</text>
-      <text x="0" y="148" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#334155">${phone}  •  info@maadiamond.com</text>
+    <g transform="translate(0, 50)">
+      <text x="0" y="45" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="38" font-weight="900" fill="${textColor}" letter-spacing="3">${companyName}</text>
+      <text x="0" y="88" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#64748B" letter-spacing="0.5">${directors}</text>
+      <text x="0" y="116" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#334155">${phone}</text>
+      <text x="0" y="136" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#334155">${secondaryPhone}</text>
     </g>
 
     <!-- Right: Geometric Diamond Emblem -->
@@ -164,9 +165,9 @@ export default function CardStudioPage() {
     </g>
 
     <text x="0" y="360" font-family="'Cinzel', 'Playfair Display', Calibri, 'Segoe UI', Arial, sans-serif" font-size="34" font-weight="900" fill="${textColor}" text-anchor="middle" letter-spacing="4">${companyName}</text>
-    <text x="0" y="400" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14.5" font-weight="800" fill="${subColor}" text-anchor="middle" letter-spacing="3">SURAT DIAMOND BOURSE</text>
-    <text x="0" y="432" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#64748B" text-anchor="middle" letter-spacing="1">${directors}</text>
-    <text x="0" y="458" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" letter-spacing="0.5">${phone}</text>
+    <text x="0" y="400" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#64748B" text-anchor="middle" letter-spacing="1">${directors}</text>
+    <text x="0" y="428" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="700" fill="${textColor}" text-anchor="middle" letter-spacing="0.5">${phone}</text>
+    <text x="0" y="454" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="700" fill="${textColor}" text-anchor="middle" letter-spacing="0.5">${secondaryPhone}</text>
   </g>
 
   <!-- Center Vertical Divider Line -->
@@ -469,9 +470,6 @@ export default function CardStudioPage() {
                       <h2 className="font-serif text-2xl font-black tracking-widest leading-none">
                         {companyName}
                       </h2>
-                      <p className="text-xs font-extrabold text-amber-600 tracking-wider mt-1.5 uppercase">
-                        Surat Diamond Bourse
-                      </p>
                       <p className="text-[11px] font-bold opacity-80 mt-2">
                         {directors}
                       </p>
@@ -646,11 +644,14 @@ export default function CardStudioPage() {
                   <h2 className="font-serif text-lg sm:text-xl font-black tracking-widest leading-tight">
                     {companyName}
                   </h2>
-                  <p className="text-[10px] font-extrabold text-amber-600 tracking-wider mt-1 uppercase">
-                    Surat Diamond Bourse
-                  </p>
                   <p className="text-[9px] opacity-70 font-semibold mt-1">
                     {directors}
+                  </p>
+                  <p className="text-[9px] font-bold mt-1 text-slate-800">
+                    {phone}
+                  </p>
+                  <p className="text-[9px] font-bold text-slate-800">
+                    {secondaryPhone}
                   </p>
                 </div>
 
