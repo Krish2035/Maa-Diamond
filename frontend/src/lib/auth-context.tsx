@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { User, UserRole } from "./types";
+import { getApiBaseUrl } from "./api";
 
 export type Currency = "USD" | "INR" | "EUR" | "AED";
 
@@ -98,22 +99,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const login = async (email: string, password: string) => {
-    const res = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    const baseUrl = getApiBaseUrl();
+    try {
+      const res = await fetch(`${baseUrl}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || "Login failed");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Login failed. Please check your credentials.");
+      }
+
+      const data = await res.json();
+      setToken(data.token);
+      setUser(data.user);
+      localStorage.setItem("maa_token", data.token);
+      localStorage.setItem("maa_user", JSON.stringify(data.user));
+    } catch (err: any) {
+      if (err.name === "TypeError" && err.message === "Failed to fetch") {
+        throw new Error(
+          "Unable to connect to the backend server. The cloud server may be waking up from cold standby (takes ~30s) — please try again in a few moments."
+        );
+      }
+      throw err;
     }
-
-    const data = await res.json();
-    setToken(data.token);
-    setUser(data.user);
-    localStorage.setItem("maa_token", data.token);
-    localStorage.setItem("maa_user", JSON.stringify(data.user));
   };
 
   const register = async (userData: {
@@ -123,22 +134,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     companyName?: string;
     phone?: string;
   }) => {
-    const res = await fetch("http://localhost:5000/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData),
-    });
+    const baseUrl = getApiBaseUrl();
+    try {
+      const res = await fetch(`${baseUrl}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || "Registration failed");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Registration failed. Please try again.");
+      }
+
+      const data = await res.json();
+      setToken(data.token);
+      setUser(data.user);
+      localStorage.setItem("maa_token", data.token);
+      localStorage.setItem("maa_user", JSON.stringify(data.user));
+    } catch (err: any) {
+      if (err.name === "TypeError" && err.message === "Failed to fetch") {
+        throw new Error(
+          "Unable to connect to the backend server. The cloud server may be waking up from cold standby (takes ~30s) — please try again in a few moments."
+        );
+      }
+      throw err;
     }
-
-    const data = await res.json();
-    setToken(data.token);
-    setUser(data.user);
-    localStorage.setItem("maa_token", data.token);
-    localStorage.setItem("maa_user", JSON.stringify(data.user));
   };
 
   const logout = () => {

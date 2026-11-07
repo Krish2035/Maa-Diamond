@@ -1,11 +1,46 @@
 import { Diamond, Inquiry, BusinessProfile, User } from "./types";
 
-const rawUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-const API_BASE_URL = rawUrl.endsWith("/api")
-  ? rawUrl
-  : `${rawUrl.replace(/\/$/, "")}/api`;
+export function getApiBaseUrl(): string {
+  // 1. If running in browser on a production domain (e.g. Vercel)
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+    if (hostname !== "localhost" && hostname !== "127.0.0.1") {
+      // If NEXT_PUBLIC_API_URL is configured and not pointing to localhost, use it;
+      // otherwise use the production Render backend API.
+      if (
+        process.env.NEXT_PUBLIC_API_URL &&
+        !process.env.NEXT_PUBLIC_API_URL.includes("localhost") &&
+        !process.env.NEXT_PUBLIC_API_URL.includes("127.0.0.1")
+      ) {
+        const trimmed = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
+        return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+      }
+      return "https://maa-diamond.onrender.com/api";
+    }
+  }
+
+  // 2. If NEXT_PUBLIC_API_URL is set in environment
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    const trimmed = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
+    return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+  }
+
+  // 3. Next.js production build / SSR default
+  if (process.env.NODE_ENV === "production") {
+    return "https://maa-diamond.onrender.com/api";
+  }
+
+  // 4. Default for local development
+  return "http://localhost:5000/api";
+}
+
+export const API_BASE_URL = getApiBaseUrl();
 
 class ApiClient {
+  public get baseUrl(): string {
+    return getApiBaseUrl();
+  }
+
   private getHeaders(customHeaders: Record<string, string> = {}): Record<string, string> {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -41,7 +76,7 @@ class ApiClient {
       if (params?.search) query.append("search", params.search);
       if (params?.featured) query.append("featured", "true");
 
-      const res = await fetch(`${API_BASE_URL}/diamonds?${query.toString()}`, {
+      const res = await fetch(`${this.baseUrl}/diamonds?${query.toString()}`, {
         headers: this.getHeaders(),
         cache: "no-store",
       });
@@ -56,7 +91,7 @@ class ApiClient {
 
   async getDiamondById(id: string): Promise<Diamond | null> {
     try {
-      const res = await fetch(`${API_BASE_URL}/diamonds/${id}`, {
+      const res = await fetch(`${this.baseUrl}/diamonds/${id}`, {
         headers: this.getHeaders(),
       });
       if (!res.ok) return null;
@@ -68,7 +103,7 @@ class ApiClient {
   }
 
   async createDiamond(diamond: Partial<Diamond>): Promise<Diamond> {
-    const res = await fetch(`${API_BASE_URL}/diamonds`, {
+    const res = await fetch(`${this.baseUrl}/diamonds`, {
       method: "POST",
       headers: this.getHeaders(),
       body: JSON.stringify(diamond),
@@ -82,7 +117,7 @@ class ApiClient {
   }
 
   async updateDiamond(id: string, updates: Partial<Diamond>): Promise<Diamond> {
-    const res = await fetch(`${API_BASE_URL}/diamonds/${id}`, {
+    const res = await fetch(`${this.baseUrl}/diamonds/${id}`, {
       method: "PUT",
       headers: this.getHeaders(),
       body: JSON.stringify(updates),
@@ -96,7 +131,7 @@ class ApiClient {
   }
 
   async deleteDiamond(id: string): Promise<boolean> {
-    const res = await fetch(`${API_BASE_URL}/diamonds/${id}`, {
+    const res = await fetch(`${this.baseUrl}/diamonds/${id}`, {
       method: "DELETE",
       headers: this.getHeaders(),
     });
@@ -106,7 +141,7 @@ class ApiClient {
   // --- BUSINESS PROFILE & VCARD ---
   async getProfile(): Promise<BusinessProfile | null> {
     try {
-      const res = await fetch(`${API_BASE_URL}/profile`, {
+      const res = await fetch(`${this.baseUrl}/profile`, {
         headers: this.getHeaders(),
         cache: "no-store",
       });
@@ -155,7 +190,7 @@ class ApiClient {
   }
 
   async updateProfile(updates: Partial<BusinessProfile>): Promise<BusinessProfile> {
-    const res = await fetch(`${API_BASE_URL}/profile`, {
+    const res = await fetch(`${this.baseUrl}/profile`, {
       method: "PUT",
       headers: this.getHeaders(),
       body: JSON.stringify(updates),
@@ -168,7 +203,7 @@ class ApiClient {
   async getQRCodeDataUrl(targetUrl?: string): Promise<string> {
     try {
       const query = targetUrl ? `?url=${encodeURIComponent(targetUrl)}` : "";
-      const res = await fetch(`${API_BASE_URL}/vcard/qr${query}`);
+      const res = await fetch(`${this.baseUrl}/vcard/qr${query}`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       return data.dataUrl;
@@ -180,7 +215,7 @@ class ApiClient {
 
   async logQRScan(): Promise<void> {
     try {
-      await fetch(`${API_BASE_URL}/vcard/scan`, {
+      await fetch(`${this.baseUrl}/vcard/scan`, {
         method: "POST",
         headers: this.getHeaders(),
       });
@@ -201,7 +236,7 @@ class ApiClient {
     idempotencyKey?: string;
     userId?: string;
   }): Promise<Inquiry> {
-    const res = await fetch(`${API_BASE_URL}/inquiries`, {
+    const res = await fetch(`${this.baseUrl}/inquiries`, {
       method: "POST",
       headers: this.getHeaders({
         ...(inquiry.idempotencyKey ? { "X-Idempotency-Key": inquiry.idempotencyKey } : {}),
@@ -218,7 +253,7 @@ class ApiClient {
   }
 
   async getInquiries(): Promise<Inquiry[]> {
-    const res = await fetch(`${API_BASE_URL}/inquiries`, {
+    const res = await fetch(`${this.baseUrl}/inquiries`, {
       headers: this.getHeaders(),
     });
     if (!res.ok) throw new Error("Failed to load inquiries");
@@ -227,7 +262,7 @@ class ApiClient {
   }
 
   async updateInquiryStatus(id: string, status: string): Promise<Inquiry> {
-    const res = await fetch(`${API_BASE_URL}/inquiries/${id}/status`, {
+    const res = await fetch(`${this.baseUrl}/inquiries/${id}/status`, {
       method: "PUT",
       headers: this.getHeaders(),
       body: JSON.stringify({ status }),
@@ -239,7 +274,7 @@ class ApiClient {
 
   // --- STATS ---
   async getStats(): Promise<any> {
-    const res = await fetch(`${API_BASE_URL}/stats`, {
+    const res = await fetch(`${this.baseUrl}/stats`, {
       headers: this.getHeaders(),
     });
     if (!res.ok) throw new Error("Failed to load analytics");

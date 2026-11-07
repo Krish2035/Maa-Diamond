@@ -28,6 +28,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization", "X-Idempotency-Key"],
   })
 );
+app.options("*", cors());
 
 // Payload size limit & Body Parser
 app.use(express.json({ limit: "2mb" }));
