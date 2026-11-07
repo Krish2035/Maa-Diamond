@@ -116,7 +116,7 @@ export default function RegisterPage() {
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+91 98250 XXXXX"
+                  placeholder="+91 90333 XXXXX"
                   className="w-full rounded-xl border border-slate-300 bg-slate-50 pl-9 pr-3 py-2 text-xs text-slate-900 focus:border-amber-500 focus:bg-white focus:outline-none"
                 />
               </div>

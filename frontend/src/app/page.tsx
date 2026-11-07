@@ -122,7 +122,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen bg-white text-slate-900">
       
       {/* 1. HERO BANNER (100% Clean White Background for Diamond Dealers & Traditional Businessmen) */}
-      <section id="home" className="relative bg-white text-slate-900 border-b border-slate-200 py-16 md:py-24">
+      <section id="home" className="relative bg-white text-slate-900 border-b border-slate-200 pt-6 pb-12 sm:pt-8 sm:pb-16 md:pt-8 md:pb-16">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           
           {/* Badge */}
@@ -152,7 +152,7 @@ export default function HomePage() {
             </a>
 
             <a
-              href="https://wa.me/919879011223?text=Hello%20Maa%20Diamond%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20certified%20diamonds."
+              href="https://wa.me/919033320326?text=Hello%20Maa%20Diamond%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20certified%20diamonds."
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-7 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition-all"
@@ -207,7 +207,7 @@ export default function HomePage() {
                   From rough kimberlite crystal sourcing to skilled laser planning, 57-facet blocking, high-precision polishing, optical grading, and final accredited certification (GIA & IGI), every step is executed with microscopic precision at our Surat manufacturing facility.
                 </p>
                 <p>
-                  Led by experienced directors <strong>Haresh Patel</strong> and <strong>Ketan Patel</strong>, we supply wholesale diamond parcels and single investment stones to jewelers across India, Antwerp, Dubai, and Hong Kong.
+                  Led by experienced directors <strong>Hardik Sorathiya</strong> and <strong>Sanket Sorathiya</strong>, we supply wholesale diamond parcels and single investment stones to jewelers across India, Antwerp, Dubai, and Hong Kong.
                 </p>
               </div>
 
@@ -240,7 +240,7 @@ export default function HomePage() {
               <div className="p-4 bg-slate-50 border-t border-slate-200">
                 <span className="text-sm font-bold text-slate-900 block">Surat Diamond Bourse Headquarters</span>
                 <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                  Tower-D, Office 602, Khajod, Surat, Gujarat • Direct Factory Wholesale Pricing
+                  202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006 • Direct Factory Wholesale Pricing
                 </p>
               </div>
             </div>
@@ -505,7 +505,7 @@ export default function HomePage() {
                 </button>
 
                 <a
-                  href={`https://wa.me/919879011223?text=${encodeURIComponent(
+                  href={`https://wa.me/919033320326?text=${encodeURIComponent(
                     `Hello Maa Diamond! Name: ${formName || "Buyer"} | Cut: ${formShape} | Requirement: ${formMessage || "General diamond inquiry"}`
                   )}`}
                   target="_blank"
@@ -532,7 +532,7 @@ export default function HomePage() {
               Contact Details
             </h2>
             <p className="text-xs sm:text-sm text-slate-600">
-              Visit our trading office at Surat Diamond Bourse or contact our directors directly.
+              Visit our trading office at Varachha or contact our directors directly.
             </p>
           </div>
 
@@ -542,12 +542,12 @@ export default function HomePage() {
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-amber-800 mb-4">
                 <MapPin className="h-6 w-6" />
               </div>
-              <h4 className="font-serif text-base font-bold text-slate-900 mb-2">Our Bourse Office</h4>
+              <h4 className="font-serif text-base font-bold text-slate-900 mb-2">Our Trading Office</h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Tower-D, Office 602, Surat Diamond Bourse, Khajod, Surat, Gujarat - 395007
+                202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006
               </p>
               <a
-                href="https://maps.google.com/?q=Surat+Diamond+Bourse+Gujarat"
+                href="https://maps.google.com/?q=Akshar+Diamond+Market+Mangadh+Chowk+Mini+Bazaar+Varachha+Surat"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-amber-700 hover:underline"
@@ -564,11 +564,11 @@ export default function HomePage() {
               </div>
               <h4 className="font-serif text-base font-bold text-slate-900 mb-2">Call & WhatsApp</h4>
               <div className="space-y-1 text-xs text-slate-700">
-                <p>Haresh Patel: <a href="tel:+919825088991" className="font-bold hover:underline">+91 98250 88991</a></p>
-                <p>Ketan Patel: <a href="tel:+919879011223" className="font-bold hover:underline">+91 98790 11223</a></p>
+                <p>Hardik Sorathiya: <a href="tel:+919033320326" className="font-bold hover:underline">+91 90333 20326</a></p>
+                <p>Sanket Sorathiya: <a href="tel:+918000045391" className="font-bold hover:underline">+91 80000 45391</a></p>
               </div>
               <a
-                href="https://wa.me/919879011223"
+                href="https://wa.me/919033320326"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:underline"

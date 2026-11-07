@@ -122,12 +122,12 @@ export default function Navbar() {
 
           {/* Quick Call */}
           <a
-            href="tel:+919825088991"
+            href="tel:+919033320326"
             className="flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-            title="Call Haresh Patel: +91 98250 88991"
+            title="Call Hardik Sorathiya: +91 90333 20326"
           >
             <Phone className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-            <span className="hidden xl:inline font-bold">+91 98250 88991</span>
+            <span className="hidden xl:inline font-bold">+91 90333 20326</span>
             <span className="xl:hidden font-bold">Call</span>
           </a>
 

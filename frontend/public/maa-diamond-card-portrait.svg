@@ -16,8 +16,8 @@
     <g transform="translate(0, 45)">
       <text x="0" y="40" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="40" font-weight="900" fill="#0F172A" letter-spacing="3">MAA DIAMOND</text>
       <text x="0" y="78" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="16" font-weight="700" fill="#D97706" letter-spacing="2">SURAT DIAMOND BOURSE</text>
-      <text x="0" y="116" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#64748B" letter-spacing="0.5">Haresh Patel &amp; Ketan Patel</text>
-      <text x="0" y="148" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#334155">+91 98250 88991  •  info@maadiamond.com</text>
+      <text x="0" y="116" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#64748B" letter-spacing="0.5">Hardik Sorathiya &amp; Sanket Sorathiya</text>
+      <text x="0" y="148" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" fill="#334155">+91 90333 20326  •  info@maadiamond.com</text>
     </g>
 
     <!-- Right: Geometric Diamond Emblem (Modeled on Screenshot 1) -->
@@ -52,7 +52,7 @@
 
   <!-- Bottom Details & Website Footer -->
   <text x="319" y="865" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A" text-anchor="middle" letter-spacing="3">SCAN TO VIEW DIGITAL VCARD &amp; INVENTORY</text>
-  <text x="319" y="905" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B" text-anchor="middle">Tower-D, Office 602, Surat Diamond Bourse, Khajod, Surat - 395007</text>
-  <text x="319" y="935" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#D97706" text-anchor="middle" letter-spacing="1.5">www.maadiamond.com</text>
+  <text x="319" y="905" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B" text-anchor="middle">202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat - 395006</text>
+  <text x="319" y="935" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#D97706" text-anchor="middle" letter-spacing="1.5">maa-diamond.vercel.app</text>
 
 </svg>

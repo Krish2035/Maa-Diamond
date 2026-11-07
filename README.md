@@ -90,7 +90,7 @@ The login page (`http://localhost:3000/login`) features **1-Click Quick Demo Log
 * **Interactive Actions**:
   * **1-Tap Save Contact (.vcf)**: Instantly downloads RFC 2426 `.vcf` file into phone address book.
   * **Direct WhatsApp**: Deep-links to trade desk with pre-filled inquiry.
-  * **Direct Phone Dialers**: One-tap call to Haresh Bhai Patel (+91 98250 88991) and Ketan Patel (+91 98790 11223).
+  * **Direct Phone Dialers**: One-tap call to Hardik Sorathiya (+91 90333 20326) and Sanket Sorathiya (+91 80000 45391).
   * **Surat Diamond Bourse GPS**: One-tap Google Maps navigation.
   * **Share Modal**: Dynamic QR code modal & Web Share API.
 

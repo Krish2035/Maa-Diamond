@@ -65,15 +65,15 @@ export default function DigitalCardPage() {
     const vcardText = [
       "BEGIN:VCARD",
       "VERSION:3.0",
-      `FN:${profile.companyName} (Haresh Patel & Ketan Patel)`,
+      `FN:${profile.companyName} (Hardik Sorathiya & Sanket Sorathiya)`,
       `ORG:${profile.companyName}`,
       `TITLE:${profile.tagline}`,
-      `TEL;TYPE=WORK,VOICE:+919825088991`,
-      `TEL;TYPE=CELL,VOICE:+919879011223`,
+      `TEL;TYPE=WORK,VOICE:+919033320326`,
+      `TEL;TYPE=CELL,VOICE:+918000045391`,
       `EMAIL;TYPE=PREF,INTERNET:${profile.primaryEmail}`,
       `URL:${typeof window !== "undefined" ? window.location.origin : profile.websiteUrl}`,
-      `ADR;TYPE=WORK:;;Tower-D, Office 602, Surat Diamond Bourse;Surat;Gujarat;395007;India`,
-      `NOTE:Certified Diamonds Manufacturer at Surat Diamond Bourse.`,
+      `ADR;TYPE=WORK:;;202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha;Surat;Gujarat;395006;India`,
+      `NOTE:Certified Diamonds Manufacturer at Akshar Diamond Market, Varachha, Surat.`,
       "END:VCARD",
     ].join("\r\n");
 
@@ -152,7 +152,7 @@ export default function DigitalCardPage() {
             Surat Diamond Bourse
           </p>
           <p className="text-xs text-slate-600 mt-2 font-medium">
-            Owners / Directors: <span className="text-slate-900 font-bold">Haresh Patel & Ketan Patel</span>
+            Owners / Directors: <span className="text-slate-900 font-bold">Hardik Sorathiya & Sanket Sorathiya</span>
           </p>
         </div>
 
@@ -160,27 +160,27 @@ export default function DigitalCardPage() {
         <div className="px-6 py-4 bg-white">
           <div className="grid grid-cols-3 gap-y-6 gap-x-3 text-center">
             
-            {/* 1. Call Haresh Patel */}
+            {/* 1. Call Hardik Sorathiya */}
             <a
-              href="tel:+919825088991"
+              href="tel:+919033320326"
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-500 text-white shadow-md shadow-rose-500/20 group-hover:bg-rose-600">
                 <Phone className="h-5 w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Haresh Patel</span>
+              <span className="mt-2 text-xs font-bold text-slate-800">Hardik Sorathiya</span>
               <span className="text-[10px] text-slate-500">Call</span>
             </a>
 
-            {/* 2. Call Ketan Patel */}
+            {/* 2. Call Sanket Sorathiya */}
             <a
-              href="tel:+919879011223"
+              href="tel:+918000045391"
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-500 text-white shadow-md shadow-rose-500/20 group-hover:bg-rose-600">
                 <Phone className="h-5 w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Ketan Patel</span>
+              <span className="mt-2 text-xs font-bold text-slate-800">Sanket Sorathiya</span>
               <span className="text-[10px] text-slate-500">Call</span>
             </a>
 
@@ -196,9 +196,9 @@ export default function DigitalCardPage() {
               <span className="text-[10px] text-slate-500">Official</span>
             </a>
 
-            {/* 4. WhatsApp Haresh Patel */}
+            {/* 4. WhatsApp Hardik Sorathiya */}
             <a
-              href="https://wa.me/919825088991?text=Hello%20Haresh%20Bhai%2C%20I%20scanned%20your%20Maa%20Diamond%20visiting%20card."
+              href="https://wa.me/919033320326?text=Hello%20Hardik%20Bhai%2C%20I%20scanned%20your%20Maa%20Diamond%20visiting%20card."
               target="_blank"
               rel="noreferrer"
               className="group flex flex-col items-center transition-transform hover:scale-105"
@@ -206,13 +206,13 @@ export default function DigitalCardPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md shadow-emerald-500/20 group-hover:bg-emerald-600">
                 <MessageCircle className="h-5 w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Haresh Patel</span>
+              <span className="mt-2 text-xs font-bold text-slate-800">Hardik Sorathiya</span>
               <span className="text-[10px] text-emerald-700 font-semibold">WhatsApp</span>
             </a>
 
-            {/* 5. WhatsApp Ketan Patel */}
+            {/* 5. WhatsApp Sanket Sorathiya */}
             <a
-              href="https://wa.me/919879011223?text=Hello%20Ketan%20Bhai%2C%20I%20scanned%20your%20Maa%20Diamond%20visiting%20card."
+              href="https://wa.me/918000045391?text=Hello%20Sanket%20Bhai%2C%20I%20scanned%20your%20Maa%20Diamond%20visiting%20card."
               target="_blank"
               rel="noreferrer"
               className="group flex flex-col items-center transition-transform hover:scale-105"
@@ -220,7 +220,7 @@ export default function DigitalCardPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md shadow-emerald-500/20 group-hover:bg-emerald-600">
                 <MessageCircle className="h-5 w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Ketan Patel</span>
+              <span className="mt-2 text-xs font-bold text-slate-800">Sanket Sorathiya</span>
               <span className="text-[10px] text-emerald-700 font-semibold">WhatsApp</span>
             </a>
 
@@ -298,9 +298,9 @@ export default function DigitalCardPage() {
               <span className="text-[10px] text-slate-500">Official</span>
             </a>
 
-            {/* 12. Location (Surat Diamond Bourse) */}
+            {/* 12. Location (Akshar Diamond Market, Varachha, Surat) */}
             <a
-              href="https://maps.google.com/?q=Surat+Diamond+Bourse+Gujarat"
+              href="https://maps.google.com/?q=Akshar+Diamond+Market+Mangadh+Chowk+Mini+Bazaar+Varachha+Surat"
               target="_blank"
               rel="noreferrer"
               className="group flex flex-col items-center transition-transform hover:scale-105"
@@ -309,7 +309,7 @@ export default function DigitalCardPage() {
                 <MapPin className="h-5 w-5" />
               </div>
               <span className="mt-2 text-xs font-bold text-slate-800">Location</span>
-              <span className="text-[10px] text-slate-500">Surat SDB</span>
+              <span className="text-[10px] text-slate-500">Varachha, Surat</span>
             </a>
           </div>
 
@@ -327,10 +327,10 @@ export default function DigitalCardPage() {
           {/* Physical Address Preview */}
           <div className="mt-6 pt-4 border-t border-slate-100 text-center">
             <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
-              Trading Office:
+              TRADING OFFICE:
             </span>
             <p className="text-xs text-slate-500 mt-1">
-              Tower-D, Office 602, Surat Diamond Bourse, Khajod, Surat, Gujarat - 395007
+              202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat - 395006
             </p>
           </div>
         </div>

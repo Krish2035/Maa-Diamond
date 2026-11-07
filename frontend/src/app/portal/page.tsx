@@ -222,13 +222,13 @@ export default function BuyerPortalPage() {
 
                     <div className="flex items-center gap-2 shrink-0">
                       <a
-                        href={`https://wa.me/919879011223?text=Inquiring%20about%20my%20order%20${inq.inquiryNumber}`}
+                        href={`https://wa.me/919033320326?text=Inquiring%20about%20my%20order%20${inq.inquiryNumber}`}
                         target="_blank"
                         rel="noreferrer"
                         className="flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2 text-xs font-bold text-white shadow-xs"
                       >
                         <MessageCircle className="h-3.5 w-3.5" />
-                        <span>WhatsApp SDB Desk</span>
+                        <span>WhatsApp Desk</span>
                       </a>
                     </div>
                   </div>

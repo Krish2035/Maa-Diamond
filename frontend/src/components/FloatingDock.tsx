@@ -45,7 +45,7 @@ export default function FloatingDock() {
     <aside aria-label="Quick contact dock" className="fixed right-3 sm:right-5 bottom-6 z-40 flex flex-col items-center gap-2.5">
       {/* WhatsApp Quick Chat (Signature Green Button) */}
       <a
-        href="https://wa.me/919879011223?text=Hello%20Maa%20Diamond%20Team%2C%20I%20am%20interested%20in%20inquiring%20about%20certified%20diamonds."
+        href="https://wa.me/919033320326?text=Hello%20Maa%20Diamond%20Team%2C%20I%20am%20interested%20in%20inquiring%20about%20certified%20diamonds."
         target="_blank"
         rel="noreferrer"
         aria-label="Chat on WhatsApp"
@@ -59,27 +59,27 @@ export default function FloatingDock() {
 
       {/* Phone Call */}
       <a
-        href="tel:+919825088991"
-        aria-label="Call Haresh Patel"
+        href="tel:+919033320326"
+        aria-label="Call Hardik Sorathiya"
         className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-white shadow-md transition-transform hover:scale-110 hover:bg-slate-800"
       >
         <Phone className="h-5 w-5 text-amber-400" />
         <span className="pointer-events-none absolute right-14 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-bold text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
-          Call: +91 98250 88991
+          Call: +91 90333 20326
         </span>
       </a>
 
       {/* Showroom Directions */}
       <a
-        href="https://maps.google.com/?q=Surat+Diamond+Bourse+Gujarat"
+        href="https://maps.google.com/?q=Akshar+Diamond+Market+Mangadh+Chowk+Mini+Bazaar+Varachha+Surat"
         target="_blank"
         rel="noreferrer"
-        aria-label="Surat Diamond Bourse Location"
+        aria-label="Akshar Diamond Market Location"
         className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-rose-500 text-white shadow-md transition-transform hover:scale-110 hover:bg-rose-600"
       >
         <MapPin className="h-5 w-5" />
         <span className="pointer-events-none absolute right-14 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-bold text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
-          Surat Diamond Bourse GPS
+          Akshar Diamond Market GPS
         </span>
       </a>
 

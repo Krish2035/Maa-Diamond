@@ -99,7 +99,7 @@ export default function InquiryModal({ isOpen, onClose, selectedDiamond }: Inqui
       (selectedDiamond ? `*Stock #:* ${selectedDiamond.stockNumber} (${selectedDiamond.lab} ${selectedDiamond.certificateNo})\n` : "") +
       (notes ? `*Requirement Details:* ${notes}\n` : "")
     );
-    window.open(`https://wa.me/919879011223?text=${text}`, "_blank");
+    window.open(`https://wa.me/919033320326?text=${text}`, "_blank");
   };
 
   return (
@@ -181,7 +181,7 @@ export default function InquiryModal({ isOpen, onClose, selectedDiamond }: Inqui
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+91 98250 XXXXX"
+                    placeholder="+91 90333 XXXXX"
                     className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-900 focus:border-amber-500 focus:bg-white focus:outline-none"
                   />
                 </div>

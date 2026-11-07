@@ -18,7 +18,7 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
     const text = encodeURIComponent(
       `Hello Maa Diamond team! I am interested in inquiring about ${diamond.shape} Diamond (${diamond.stockNumber}, ${diamond.carat} Carat, Color: ${diamond.color}, Clarity: ${diamond.clarity}, Lab: ${diamond.lab} ${diamond.certificateNo}). Is this available?`
     );
-    window.open(`https://wa.me/919879011223?text=${text}`, "_blank");
+    window.open(`https://wa.me/919033320326?text=${text}`, "_blank");
   };
 
   return (

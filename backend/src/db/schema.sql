@@ -114,7 +114,7 @@ VALUES (
     '$2a$10$ifiG1R1.Pk/klse6QGhMhex/QaDd96B6NQYfDPx2Cj7lY.Md2j5n2',
     'Maa Diamond Management',
     'Maa Diamond',
-    '+91 98250 88991',
+    '+91 90333 20326',
     'ADMIN'
 ) ON CONFLICT (email) DO NOTHING;
 

@@ -91,16 +91,16 @@ export default function Footer() {
             <div className="space-y-2.5 text-xs text-slate-600">
               <div className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                <span>Tower-D, Office 602, Surat Diamond Bourse, Khajod, Surat, Gujarat - 395007</span>
+                <span>202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="h-4 w-4 text-amber-600 shrink-0" />
-                <a href="tel:+919825088991" className="text-slate-800 font-bold hover:underline">+91 98250 88991 (Haresh Patel)</a>
+                <a href="tel:+919033320326" className="text-slate-800 font-bold hover:underline">+91 90333 20326 (Hardik Sorathiya)</a>
               </div>
               <div className="flex items-center gap-2.5">
                 <MessageCircle className="h-4 w-4 text-emerald-600 shrink-0" />
-                <a href="https://wa.me/919879011223" target="_blank" rel="noreferrer" className="text-emerald-700 font-bold hover:underline">
-                  +91 98790 11223 (Ketan Patel - WhatsApp)
+                <a href="https://wa.me/918000045391" target="_blank" rel="noreferrer" className="text-emerald-700 font-bold hover:underline">
+                  +91 80000 45391 (Sanket Sorathiya - WhatsApp)
                 </a>
               </div>
               <div className="flex items-center gap-2.5">

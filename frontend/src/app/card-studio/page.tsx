@@ -26,9 +26,9 @@ export default function CardStudioPage() {
   const [orientation, setOrientation] = useState<CardOrientation>("landscape");
   const [theme, setTheme] = useState<CardTheme>("white");
   const [companyName, setCompanyName] = useState("MAA DIAMOND");
-  const [directors, setDirectors] = useState("Haresh Patel & Ketan Patel");
+  const [directors, setDirectors] = useState("Hardik Sorathiya & Sanket Sorathiya");
   const [websiteUrl, setWebsiteUrl] = useState("maa-diamond.vercel.app");
-  const [phone, setPhone] = useState("+91 98250 88991");
+  const [phone, setPhone] = useState("+91 90333 20326");
   const [targetQrUrl, setTargetQrUrl] = useState("https://maa-diamond.vercel.app");
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
   const [downloadSuccess, setDownloadSuccess] = useState(false);
@@ -134,7 +134,7 @@ export default function CardStudioPage() {
 
   <!-- Bottom Captions -->
   <text x="319" y="865" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14" font-weight="800" fill="${textColor}" text-anchor="middle" letter-spacing="3">SCAN TO OPEN WEBSITE</text>
-  <text x="319" y="905" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B" text-anchor="middle">Tower-D, Office 602, Surat Diamond Bourse, Khajod, Surat - 395007</text>
+  <text x="319" y="905" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B" text-anchor="middle">202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat - 395006</text>
   <text x="319" y="935" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="${subColor}" text-anchor="middle" letter-spacing="1.5">${websiteUrl}</text>
 </svg>`;
     } else {
@@ -181,7 +181,7 @@ export default function CardStudioPage() {
   </g>
 
   <text x="749" y="475" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="900" fill="${textColor}" text-anchor="middle" letter-spacing="2">SCAN TO OPEN WEBSITE</text>
-  <text x="749" y="502" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#64748B" text-anchor="middle">Tower-D, Office 602, SDB, Surat</text>
+  <text x="749" y="502" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#64748B" text-anchor="middle">202, Akshar Diamond Market, Varachha, Surat</text>
   <text x="749" y="526" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="800" fill="${subColor}" text-anchor="middle" letter-spacing="1">${websiteUrl}</text>
 </svg>`;
     }
@@ -559,7 +559,7 @@ export default function CardStudioPage() {
                     Scan for Digital Card &amp; Inventory
                   </span>
                   <span className="text-[10px] opacity-75 font-medium mt-0.5 text-center">
-                    Tower-D, Office 602, Surat Diamond Bourse
+                    202, Akshar Diamond Market, Varachha, Surat
                   </span>
                 </div>
 
