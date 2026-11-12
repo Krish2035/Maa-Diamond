@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageCircle, FileText, Heart, ShieldCheck, Eye, Film, Image as ImageIcon } from "lucide-react";
+import { MessageCircle, FileText, Heart, ShieldCheck, Play, Image as ImageIcon } from "lucide-react";
 import { Diamond } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
 
@@ -14,7 +14,6 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
   const { isInWishlist, toggleWishlist } = useAuth();
   const inWish = isInWishlist(diamond.id);
 
-  const hasVideo = Boolean(diamond.videoUrl);
   const [activeMedia, setActiveMedia] = useState<"image" | "video">("image");
 
   const openWhatsApp = () => {
@@ -50,9 +49,9 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
 
       {/* Diamond Cut Image or Video Showcase */}
       <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-3">
-        {hasVideo && activeMedia === "video" ? (
+        {activeMedia === "video" ? (
           <video
-            src={diamond.videoUrl}
+            src={diamond.videoUrl || "/videos/diamond-360.webm"}
             autoPlay
             loop
             muted
@@ -68,43 +67,31 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
           />
         )}
 
-        {/* Interactive Photo / Video Mode Toggle Pill */}
-        {hasVideo && (
-          <div className="absolute top-2 right-2 z-20 flex items-center rounded-lg bg-white/90 p-0.5 border border-slate-200 shadow-xs backdrop-blur-xs">
-            <button
-              type="button"
-              onClick={() => setActiveMedia("image")}
-              className={`flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
-                activeMedia === "image"
-                  ? "bg-slate-900 text-white"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-              title="View Diamond Photo"
-            >
-              <ImageIcon className="h-3 w-3" />
-              <span>Photo</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveMedia("video")}
-              className={`flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
-                activeMedia === "video"
-                  ? "bg-emerald-600 text-white"
-                  : "text-slate-600 hover:text-emerald-700"
-              }`}
-              title="View 360° Video"
-            >
-              <Film className="h-3 w-3" />
-              <span>360° Video</span>
-            </button>
-          </div>
-        )}
-
-        {/* Certificate Tag */}
+        {/* Certificate Tag (bottom-left) */}
         <div className="absolute bottom-2 left-2 z-20 flex items-center gap-1 rounded bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-700 border border-slate-200 shadow-xs">
           <ShieldCheck className="h-3 w-3 text-blue-600" />
           <span>{diamond.lab} {diamond.certificateNo}</span>
         </div>
+
+        {/* Transparent Background Video Button (bottom-right of image) */}
+        <button
+          type="button"
+          onClick={() => setActiveMedia(activeMedia === "video" ? "image" : "video")}
+          className="absolute bottom-2 right-2 z-20 flex items-center gap-1.5 rounded-lg bg-black/60 hover:bg-black/80 backdrop-blur-md px-2.5 py-1 text-[11px] font-semibold text-white border border-white/25 shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          title={activeMedia === "video" ? "Switch to Photo" : "Play Diamond Video"}
+        >
+          {activeMedia === "video" ? (
+            <>
+              <ImageIcon className="h-3.5 w-3.5 text-amber-400" />
+              <span>Photo</span>
+            </>
+          ) : (
+            <>
+              <Play className="h-3 w-3 fill-amber-400 text-amber-400" />
+              <span>Video</span>
+            </>
+          )}
+        </button>
       </div>
 
       {/* Title & 4Cs Info */}
