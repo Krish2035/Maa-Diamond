@@ -24,7 +24,6 @@ import { api } from "@/lib/api";
 import { Diamond, DiamondShape } from "@/lib/types";
 import DiamondCard from "@/components/DiamondCard";
 import InquiryModal from "@/components/InquiryModal";
-import FourCsVisualizer from "@/components/FourCsVisualizer";
 import Footer from "@/components/Footer";
 
 const SHAPES: { shape: DiamondShape; label: string; icon: string }[] = [
@@ -370,14 +369,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. 4CS EDUCATION SECTION (Simple & Clean for Traditional Diamond Merchants) */}
-      <section id="four-cs" className="py-16 md:py-24 bg-white border-b border-slate-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <FourCsVisualizer />
-        </div>
-      </section>
-
-      {/* 5. INLINE INQUIRY FORM SECTION (Matching competitor's Inquiry section) */}
+      {/* 4. INLINE INQUIRY FORM SECTION (Matching competitor's Inquiry section) */}
       <section id="inquiry" className="py-16 md:py-24 bg-slate-50 border-b border-slate-200">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12 shadow-md">

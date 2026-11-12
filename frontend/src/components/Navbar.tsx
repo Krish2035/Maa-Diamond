@@ -28,9 +28,7 @@ export default function Navbar() {
     { name: "Home", href: "/#home" },
     { name: "About Us", href: "/#about-us" },
     { name: "Products", href: "/#products" },
-    { name: "4Cs Guide", href: "/#four-cs" },
     { name: "Digital vCard", href: "/card" },
-    { name: "Card Studio", href: "/card-studio" },
     { name: "Inquiry", href: "/#inquiry" },
     { name: "Contact", href: "/#contact" },
   ];

@@ -328,11 +328,11 @@ export default function AdminPage() {
 
           <div className="flex items-center gap-2">
             <Link
-              href="/card-studio"
+              href="/card"
               className="flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-bold text-slate-800 hover:bg-slate-50 transition-colors"
             >
               <QrCode className="h-3.5 w-3.5 text-amber-600" />
-              <span>Card Studio</span>
+              <span>Digital vCard</span>
             </Link>
 
             <button

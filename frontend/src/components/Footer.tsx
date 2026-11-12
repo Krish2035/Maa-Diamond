@@ -61,13 +61,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/card-studio" className="text-slate-600 hover:text-amber-700 font-medium transition-colors">
-                  Physical NFC & QR Card Studio
+                <Link href="/#products" className="text-slate-600 hover:text-amber-700 font-medium transition-colors">
+                  Diamond Inventory Catalog
                 </Link>
               </li>
               <li>
-                <Link href="/#four-cs" className="text-slate-600 hover:text-amber-700 font-medium transition-colors">
-                  Interactive 4Cs Guide
+                <Link href="/#inquiry" className="text-slate-600 hover:text-amber-700 font-medium transition-colors">
+                  Wholesale Inquiry Desk
                 </Link>
               </li>
               <li>
