@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Gem,
+  Sparkles,
   ShieldCheck,
   Award,
   ArrowRight,
@@ -123,6 +124,12 @@ export default function HomePage() {
       <section id="home" className="relative bg-white text-slate-900 border-b border-slate-200 pt-6 pb-12 sm:pt-8 sm:pb-16 md:pt-10 md:pb-16">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-4 py-1.5 text-xs font-bold text-amber-900 mb-5 shadow-xs">
+            <Sparkles className="h-4 w-4 text-amber-600 shrink-0" />
+            <span className="tracking-wide">MAA DIAMOND • LAB GROWN DIAMOND MANUFACTURER AND SELLER</span>
+          </div>
+
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 max-w-4xl mx-auto leading-tight">
             Precision Diamond Manufacturing & Global Trading
