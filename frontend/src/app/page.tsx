@@ -137,7 +137,7 @@ export default function HomePage() {
 
           {/* Subheading */}
           <p className="mt-4 text-sm sm:text-base md:text-lg text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
-            Direct manufacturers of GIA & IGI certified natural loose diamonds. Delivering highest standards of brilliance, fire, and wholesale value to diamond merchants worldwide.
+            Direct manufacturers of IGI certified lab grown diamond, CVD and natural loose diamonds. Delivering highest standards of brilliance, fire, and wholesale value to diamond merchants worldwide.
           </p>
 
           {/* Action Buttons */}
