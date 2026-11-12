@@ -50,6 +50,7 @@ export async function initPostgresDatabase(): Promise<boolean> {
       if (fs.existsSync(schemaPath)) {
         const sql = fs.readFileSync(schemaPath, "utf-8");
         await client.query(sql);
+        await client.query("ALTER TABLE diamonds ADD COLUMN IF NOT EXISTS video_url TEXT DEFAULT '';").catch(() => {});
         console.log("✓ PostgreSQL Database connected and schema synchronized successfully.");
         isConnected = true;
         return true;
@@ -127,9 +128,9 @@ export async function pgCreateDiamond(data: Omit<Diamond, "id" | "createdAt" | "
     INSERT INTO diamonds (
       id, stock_number, shape, carat, color, clarity, cut, polish, symmetry,
       fluorescence, lab, certificate_no, dimensions, price_per_carat, total_price,
-      image_url, description, is_featured, is_available, created_at, updated_at
+      image_url, video_url, description, is_featured, is_available, created_at, updated_at
     ) VALUES (
-      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22
     ) RETURNING *
   `;
 
@@ -150,6 +151,7 @@ export async function pgCreateDiamond(data: Omit<Diamond, "id" | "createdAt" | "
     data.pricePerCarat,
     totalPrice,
     data.imageUrl,
+    data.videoUrl || "",
     data.description || "",
     data.isFeatured ?? true,
     data.isAvailable ?? true,
@@ -178,8 +180,8 @@ export async function pgUpdateDiamond(id: string, updates: Partial<Diamond>): Pr
       stock_number = $1, shape = $2, carat = $3, color = $4, clarity = $5,
       cut = $6, polish = $7, symmetry = $8, fluorescence = $9, lab = $10,
       certificate_no = $11, dimensions = $12, price_per_carat = $13, total_price = $14,
-      image_url = $15, description = $16, is_featured = $17, is_available = $18, updated_at = $19
-    WHERE id = $20
+      image_url = $15, video_url = $16, description = $17, is_featured = $18, is_available = $19, updated_at = $20
+    WHERE id = $21
     RETURNING *
   `;
 
@@ -199,6 +201,7 @@ export async function pgUpdateDiamond(id: string, updates: Partial<Diamond>): Pr
     merged.pricePerCarat,
     merged.totalPrice,
     merged.imageUrl,
+    merged.videoUrl || "",
     merged.description,
     merged.isFeatured,
     merged.isAvailable,
@@ -237,6 +240,7 @@ function mapDiamondRow(row: any): Diamond {
     pricePerCarat: Number(row.price_per_carat),
     totalPrice: Number(row.total_price),
     imageUrl: row.image_url,
+    videoUrl: row.video_url || "",
     description: row.description || "",
     isFeatured: Boolean(row.is_featured),
     isAvailable: Boolean(row.is_available),

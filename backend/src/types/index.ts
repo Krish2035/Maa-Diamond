@@ -51,6 +51,7 @@ export interface Diamond {
   isAvailable: boolean;
   isFeatured: boolean;
   imageUrl: string;
+  videoUrl?: string;
   description: string;
   createdAt: string;
   updatedAt: string;

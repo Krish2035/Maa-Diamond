@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS diamonds (
     price_per_carat NUMERIC(12, 2) NOT NULL CHECK (price_per_carat >= 0),
     total_price NUMERIC(12, 2) NOT NULL CHECK (total_price >= 0),
     image_url TEXT NOT NULL,
+    video_url TEXT DEFAULT '',
     description TEXT,
     is_featured BOOLEAN NOT NULL DEFAULT false,
     is_available BOOLEAN NOT NULL DEFAULT true,

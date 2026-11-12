@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { MessageCircle, FileText, Heart, ShieldCheck, Eye } from "lucide-react";
+import React, { useState } from "react";
+import { MessageCircle, FileText, Heart, ShieldCheck, Eye, Film, Image as ImageIcon } from "lucide-react";
 import { Diamond } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
 
@@ -13,6 +13,9 @@ interface DiamondCardProps {
 export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
   const { isInWishlist, toggleWishlist } = useAuth();
   const inWish = isInWishlist(diamond.id);
+
+  const hasVideo = Boolean(diamond.videoUrl);
+  const [activeMedia, setActiveMedia] = useState<"image" | "video">("image");
 
   const openWhatsApp = () => {
     const text = encodeURIComponent(
@@ -45,16 +48,17 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
         </button>
       </div>
 
-      {/* Diamond Cut Image or Video */}
+      {/* Diamond Cut Image or Video Showcase */}
       <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-3">
-        {diamond.imageUrl && (diamond.imageUrl.startsWith("data:video/") || /\.(mp4|webm|mov|ogg)($|\?)/i.test(diamond.imageUrl)) ? (
+        {hasVideo && activeMedia === "video" ? (
           <video
-            src={diamond.imageUrl}
+            src={diamond.videoUrl}
             autoPlay
             loop
             muted
             playsInline
-            className="relative z-10 max-h-40 max-w-full object-contain rounded-lg transition-transform duration-300 group-hover:scale-105"
+            controls
+            className="relative z-10 max-h-40 max-w-full object-contain rounded-lg shadow-xs"
           />
         ) : (
           <img
@@ -62,6 +66,38 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
             alt={`${diamond.shape} Diamond`}
             className="relative z-10 max-h-40 max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
           />
+        )}
+
+        {/* Interactive Photo / Video Mode Toggle Pill */}
+        {hasVideo && (
+          <div className="absolute top-2 right-2 z-20 flex items-center rounded-lg bg-white/90 p-0.5 border border-slate-200 shadow-xs backdrop-blur-xs">
+            <button
+              type="button"
+              onClick={() => setActiveMedia("image")}
+              className={`flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
+                activeMedia === "image"
+                  ? "bg-slate-900 text-white"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+              title="View Diamond Photo"
+            >
+              <ImageIcon className="h-3 w-3" />
+              <span>Photo</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveMedia("video")}
+              className={`flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
+                activeMedia === "video"
+                  ? "bg-emerald-600 text-white"
+                  : "text-slate-600 hover:text-emerald-700"
+              }`}
+              title="View 360° Video"
+            >
+              <Film className="h-3 w-3" />
+              <span>360° Video</span>
+            </button>
+          </div>
         )}
 
         {/* Certificate Tag */}

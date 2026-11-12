@@ -104,6 +104,7 @@ router.post(
         isAvailable,
         isFeatured,
         imageUrl,
+        videoUrl,
         description,
       } = req.body;
 
@@ -132,6 +133,7 @@ router.post(
         isAvailable: isAvailable !== undefined ? isAvailable : true,
         isFeatured: isFeatured !== undefined ? isFeatured : false,
         imageUrl: imageUrl || "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
+        videoUrl: videoUrl || "",
         description: description || `Premium ${carat} Carat ${shape} Cut Diamond.`,
       };
 
