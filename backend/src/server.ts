@@ -30,9 +30,9 @@ app.use(
 );
 app.options("*", cors());
 
-// Payload size limit & Body Parser
-app.use(express.json({ limit: "2mb" }));
-app.use(express.urlencoded({ extended: true, limit: "2mb" }));
+// Payload size limit & Body Parser (Supports High-Res Images & Diamond Video Uploads)
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 // Latency & Timeout SLA envelope (Pillar 11)
 app.use(timeoutMiddleware(6000));

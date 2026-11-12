@@ -26,6 +26,9 @@ import {
   ArrowLeft,
   Database,
   Filter,
+  Upload,
+  Image as ImageIcon,
+  Film,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { api } from "@/lib/api";
@@ -81,6 +84,70 @@ export default function AdminPage() {
     description: "",
     isFeatured: true,
   });
+
+  // Media Upload & Drag-and-Drop State
+  const [isDragging, setIsDragging] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  const handleFileProcess = (file: File) => {
+    setUploadError("");
+    const isImage = file.type.startsWith("image/");
+    const isVideo = file.type.startsWith("video/");
+
+    if (!isImage && !isVideo) {
+      setUploadError("Please choose an image (PNG, JPG, WEBP, SVG) or video (MP4, WEBM).");
+      return;
+    }
+
+    if (file.size > 30 * 1024 * 1024) {
+      setUploadError("File size exceeds 30MB limit. Please choose a smaller file.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setFormData((prev) => ({ ...prev, imageUrl: reader.result as string }));
+      }
+    };
+    reader.onerror = () => {
+      setUploadError("Failed to read file from your system.");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFileProcess(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleFileProcess(e.target.files[0]);
+    }
+  };
+
+  const isVideoMedia = (url: string) => {
+    if (!url) return false;
+    return url.startsWith("data:video/") || /\.(mp4|webm|mov|ogg)($|\?)/i.test(url);
+  };
 
   // Delete Confirmation Modal State
   const [diamondToDelete, setDiamondToDelete] = useState<Diamond | null>(null);
@@ -841,14 +908,123 @@ export default function AdminPage() {
                   </div>
                 </div>
 
+                {/* Stone Image / Video Upload with Drag & Drop and Top-Right Cross (X) Removal Button */}
                 <div>
-                  <label className="block text-slate-700 font-bold uppercase mb-1">Stone Image URL</label>
-                  <input
-                    type="url"
-                    value={formData.imageUrl}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                    className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-slate-900 font-mono focus:border-amber-600 focus:bg-white focus:outline-none"
-                  />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-slate-700 font-bold uppercase text-xs">
+                      Stone Image or Video
+                    </label>
+                    <span className="text-[10px] text-slate-500 font-medium">
+                      JPG, PNG, WEBP, MP4, WEBM (Max 30MB)
+                    </span>
+                  </div>
+
+                  {uploadError && (
+                    <div className="mb-2 rounded-xl bg-rose-50 border border-rose-200 px-3 py-2 text-xs text-rose-700 font-semibold">
+                      {uploadError}
+                    </div>
+                  )}
+
+                  {formData.imageUrl ? (
+                    /* Preview Container with Small Cross (X) Button on the Top-Right Corner */
+                    <div className="relative rounded-2xl border-2 border-slate-200 bg-slate-900 p-2 overflow-hidden flex items-center justify-center min-h-[190px] max-h-[260px] shadow-inner group">
+                      {isVideoMedia(formData.imageUrl) ? (
+                        <video
+                          src={formData.imageUrl}
+                          controls
+                          autoPlay
+                          muted
+                          loop
+                          className="max-h-[240px] max-w-full rounded-xl object-contain"
+                        />
+                      ) : (
+                        <img
+                          src={formData.imageUrl}
+                          alt="Diamond stone preview"
+                          className="max-h-[240px] max-w-full rounded-xl object-contain"
+                        />
+                      )}
+
+                      {/* Very Small Cross Icon on the Top-Right Corner to Remove Media */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData({ ...formData, imageUrl: "" });
+                          if (fileInputRef.current) fileInputRef.current.value = "";
+                        }}
+                        className="absolute top-2.5 right-2.5 flex h-7 w-7 items-center justify-center rounded-full bg-slate-950/80 text-white hover:bg-rose-600 hover:text-white shadow-lg transition-all focus:outline-none cursor-pointer z-20"
+                        title="Remove image/video"
+                        aria-label="Remove image or video"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+
+                      {/* Media Format Indicator Pill */}
+                      <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 rounded-lg bg-slate-950/80 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur-xs">
+                        {isVideoMedia(formData.imageUrl) ? (
+                          <>
+                            <Film className="h-3 w-3 text-amber-400" />
+                            <span>Video Attached</span>
+                          </>
+                        ) : (
+                          <>
+                            <ImageIcon className="h-3 w-3 text-amber-400" />
+                            <span>Image Attached</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    /* Drag and Drop & Local System File Selector */
+                    <div>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*,video/*"
+                        onChange={handleFileInputChange}
+                        className="hidden"
+                      />
+
+                      <div
+                        onDragOver={handleDragOver}
+                        onDragEnter={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => fileInputRef.current?.click()}
+                        className={`flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center transition-all cursor-pointer ${
+                          isDragging
+                            ? "border-amber-500 bg-amber-50/80 scale-[1.01]"
+                            : "border-slate-300 bg-slate-50 hover:border-amber-400 hover:bg-amber-50/40"
+                        }`}
+                      >
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-xs border border-slate-200 mb-2.5 text-amber-600">
+                          <Upload className="h-6 w-6" />
+                        </div>
+                        <p className="text-xs font-bold text-slate-800">
+                          <span className="text-amber-700 underline font-extrabold">Choose image or video</span> from your computer
+                        </p>
+                        <p className="text-[11px] text-slate-500 mt-1">
+                          or drag and drop your diamond photo / 360° video file here
+                        </p>
+                      </div>
+
+                      {/* Optional Direct URL Input Toggle */}
+                      <div className="mt-1.5 text-right">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const url = window.prompt("Enter direct image or video web URL:", "https://");
+                            if (url && url !== "https://") {
+                              setFormData({ ...formData, imageUrl: url.trim() });
+                            }
+                          }}
+                          className="text-[11px] font-semibold text-slate-500 hover:text-amber-700 underline"
+                        >
+                          + Or paste direct web URL
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div>

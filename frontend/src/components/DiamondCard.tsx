@@ -45,13 +45,24 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
         </button>
       </div>
 
-      {/* Diamond Cut Image (Clean White Showcase matching Screenshot 5) */}
+      {/* Diamond Cut Image or Video */}
       <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-3">
-        <img
-          src={diamond.imageUrl}
-          alt={`${diamond.shape} Diamond`}
-          className="relative z-10 max-h-40 max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
-        />
+        {diamond.imageUrl && (diamond.imageUrl.startsWith("data:video/") || /\.(mp4|webm|mov|ogg)($|\?)/i.test(diamond.imageUrl)) ? (
+          <video
+            src={diamond.imageUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="relative z-10 max-h-40 max-w-full object-contain rounded-lg transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <img
+            src={diamond.imageUrl || "/favicon.svg"}
+            alt={`${diamond.shape} Diamond`}
+            className="relative z-10 max-h-40 max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+        )}
 
         {/* Certificate Tag */}
         <div className="absolute bottom-2 left-2 z-20 flex items-center gap-1 rounded bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-700 border border-slate-200 shadow-xs">
