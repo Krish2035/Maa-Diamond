@@ -44,18 +44,13 @@ export default function Navbar() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white shadow-sm transition-transform group-hover:scale-105">
               <Gem className="h-5 w-5 text-amber-400" />
             </div>
-            <div>
-              <div className="flex items-center gap-1.5 leading-none">
-                <span className="font-serif text-lg sm:text-xl font-extrabold tracking-wider text-slate-900">
-                  MAA
-                </span>
-                <span className="font-serif text-lg sm:text-xl font-bold tracking-wider text-amber-600">
-                  DIAMOND
-                </span>
-              </div>
-              <p className="text-[9px] uppercase tracking-widest font-semibold text-slate-500 mt-0.5">
-                Surat Diamond Bourse
-              </p>
+            <div className="flex items-center gap-1.5 leading-none">
+              <span className="font-serif text-lg sm:text-xl font-extrabold tracking-wider text-slate-900">
+                MAA
+              </span>
+              <span className="font-serif text-lg sm:text-xl font-bold tracking-wider text-amber-600">
+                DIAMOND
+              </span>
             </div>
           </Link>
 

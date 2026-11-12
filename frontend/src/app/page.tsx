@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Gem,
-  Sparkles,
   ShieldCheck,
   Award,
   ArrowRight,
@@ -122,15 +121,9 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen bg-white text-slate-900">
       
       {/* 1. HERO BANNER (100% Clean White Background for Diamond Dealers & Traditional Businessmen) */}
-      <section id="home" className="relative bg-white text-slate-900 border-b border-slate-200 pt-6 pb-12 sm:pt-8 sm:pb-16 md:pt-8 md:pb-16">
+      <section id="home" className="relative bg-white text-slate-900 border-b border-slate-200 pt-6 pb-12 sm:pt-8 sm:pb-16 md:pt-10 md:pb-16">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-4 py-1.5 text-xs font-bold text-amber-800 mb-4 shadow-xs">
-            <Sparkles className="h-4 w-4 text-amber-600" />
-            <span>Maa Diamond • Surat Diamond Bourse Manufacturer</span>
-          </div>
-
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 max-w-4xl mx-auto leading-tight">
             Precision Diamond Manufacturing & Global Trading
@@ -167,21 +160,6 @@ export default function HomePage() {
             >
               <span>Digital Business Card</span>
             </Link>
-          </div>
-
-          {/* 4 Metric Highlights on Clean Light Cards */}
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            {[
-              { val: "30+ Years", label: "Industry Heritage" },
-              { val: "100% Natural", label: "Certified Conflict-Free" },
-              { val: "Triple Ex", label: "Cut, Polish & Symmetry" },
-              { val: "Surat Bourse", label: "Direct Factory Pricing" },
-            ].map((stat) => (
-              <div key={stat.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-xs text-center">
-                <span className="text-xl sm:text-2xl font-extrabold text-slate-900 block">{stat.val}</span>
-                <span className="text-[11px] text-slate-500 uppercase tracking-wider font-bold mt-1 block">{stat.label}</span>
-              </div>
-            ))}
           </div>
         </div>
       </section>
