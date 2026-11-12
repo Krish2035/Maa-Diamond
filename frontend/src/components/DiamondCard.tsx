@@ -11,12 +11,12 @@ interface DiamondCardProps {
 }
 
 export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
-  const { formatPrice, isInWishlist, toggleWishlist } = useAuth();
+  const { isInWishlist, toggleWishlist } = useAuth();
   const inWish = isInWishlist(diamond.id);
 
   const openWhatsApp = () => {
     const text = encodeURIComponent(
-      `Hello Maa Diamond team! I am interested in inquiring about ${diamond.shape} Diamond (${diamond.stockNumber}, ${diamond.carat} Carat, Color: ${diamond.color}, Clarity: ${diamond.clarity}, Lab: ${diamond.lab} ${diamond.certificateNo}). Is this available?`
+      `Hello Maa Diamond team! I am interested in inquiring about ${diamond.shape} Diamond (${diamond.stockNumber}, Color: ${diamond.color}, Clarity: ${diamond.clarity}, Lab: ${diamond.lab} ${diamond.certificateNo}). Is this available?`
     );
     window.open(`https://wa.me/919033320326?text=${text}`, "_blank");
   };
@@ -26,10 +26,7 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
       {/* Top Meta Bar */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-1.5">
-          <span className="rounded-md border border-amber-300 bg-amber-50 px-2 py-0.5 text-[11px] font-bold text-amber-800">
-            {diamond.carat.toFixed(2)} CT
-          </span>
-          <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-semibold text-slate-700">
+          <span className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-700">
             {diamond.shape} Cut
           </span>
         </div>
@@ -92,21 +89,6 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
             <span className="block text-[9px] text-slate-500 uppercase font-semibold">Polish</span>
             <span className="text-xs font-bold text-slate-800">{diamond.polish.substring(0, 4)}</span>
           </div>
-        </div>
-
-        {/* Pricing */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <span className="block text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
-              Wholesale Price
-            </span>
-            <span className="font-serif text-lg font-extrabold text-slate-900">
-              {formatPrice(diamond.totalPrice)}
-            </span>
-          </div>
-          <span className="text-xs font-medium text-slate-500">
-            ({formatPrice(diamond.pricePerCarat)}/ct)
-          </span>
         </div>
       </div>
 

@@ -32,7 +32,7 @@ export default function InquiryModal({ isOpen, onClose, selectedDiamond }: Inqui
   const [email, setEmail] = useState(user?.email || "");
   const [shape, setShape] = useState<DiamondShape>(selectedDiamond?.shape || "Round");
   const [carat, setCarat] = useState(selectedDiamond?.carat ? selectedDiamond.carat.toString() : "1.50");
-  const [budget, setBudget] = useState(selectedDiamond?.totalPrice ? `$${selectedDiamond.totalPrice.toLocaleString()}` : "$5,000 - $10,000");
+  const [budget, setBudget] = useState("Target Budget / Price on Request");
   const [notes, setNotes] = useState(
     selectedDiamond
       ? `Inquiring about stock ${selectedDiamond.stockNumber} (${selectedDiamond.carat}ct ${selectedDiamond.shape}, Color ${selectedDiamond.color}, Clarity ${selectedDiamond.clarity}, Cert: ${selectedDiamond.lab} ${selectedDiamond.certificateNo})`
