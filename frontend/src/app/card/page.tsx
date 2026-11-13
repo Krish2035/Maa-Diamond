@@ -96,7 +96,7 @@ export default function DigitalCardPage() {
           origin: { y: 0.7 },
           colors: ["#d97706", "#2563eb", "#10b981"],
         });
-      } catch {}
+      } catch { }
     }
   };
 
@@ -120,7 +120,7 @@ export default function DigitalCardPage() {
 
   return (
     <div className="min-h-screen bg-slate-100 py-6 sm:py-12 px-3 sm:px-6 flex flex-col items-center justify-center">
-      
+
       {/* Top Navigation */}
       <div className="w-full max-w-md mb-4 flex items-center justify-between">
         <Link
@@ -137,7 +137,7 @@ export default function DigitalCardPage() {
 
       {/* Main Digital Card Container (Modeled on Screenshot 2 & 3, but Clean & Desktop/Mobile Responsive!) */}
       <div className="w-full max-w-md rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl">
-        
+
         {/* Header Hero Banner with Diamond Graphic (Clean Light Theme) */}
         <div className="relative bg-slate-50 border-b border-slate-200 text-slate-900 pt-8 pb-6 px-6 text-center">
           {/* Circular Diamond Logo */}
@@ -156,7 +156,7 @@ export default function DigitalCardPage() {
         {/* Action Grid (Directly implementing the 10+ buttons from Screenshots 2 & 3) */}
         <div className="px-6 py-4 bg-white">
           <div className="grid grid-cols-3 gap-y-6 gap-x-3 text-center">
-            
+
             {/* 1. Call Hardik Sorathiya */}
             <a
               href="tel:+919033320326"

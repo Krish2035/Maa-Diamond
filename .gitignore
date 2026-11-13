@@ -2,6 +2,7 @@
 node_modules/
 backend/node_modules/
 frontend/node_modules/
+mobile/node_modules/
 
 # Production Build Outputs
 backend/dist/
@@ -9,6 +10,13 @@ frontend/.next/
 frontend/out/
 build/
 dist/
+mobile/android/.gradle/
+mobile/android/app/build/
+mobile/android/build/
+mobile/android/local.properties
+mobile/android/.cxx/
+mobile/ios/build/
+mobile/ios/Pods/
 
 # Confidential Environment & Secrets
 .env
