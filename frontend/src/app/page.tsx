@@ -224,7 +224,7 @@ export default function HomePage() {
               <div className="p-4 bg-slate-50 border-t border-slate-200">
                 <span className="text-sm font-bold text-slate-900 block">Surat Diamond Bourse Headquarters</span>
                 <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                  202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006 • Direct Factory Wholesale Pricing
+                  217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006 • Direct Factory Wholesale Pricing
                 </p>
               </div>
             </div>
@@ -521,7 +521,7 @@ export default function HomePage() {
               </div>
               <h4 className="font-serif text-base font-bold text-slate-900 mb-2">Our Trading Office</h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006
+                217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006
               </p>
               <a
                 href="https://maps.google.com/?q=Akshar+Diamond+Market+Mangadh+Chowk+Mini+Bazaar+Varachha+Surat"

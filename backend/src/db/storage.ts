@@ -115,7 +115,7 @@ export class StorageEngine {
       websiteUrl: "https://maa-diamond.vercel.app",
       cardUrl: "https://maa-diamond.vercel.app/card",
       address: {
-        building: "202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha",
+        building: "217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha",
         street: "Mini Bazaar, Varachha",
         city: "Surat",
         state: "Gujarat",

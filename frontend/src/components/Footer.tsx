@@ -91,7 +91,7 @@ export default function Footer() {
             <div className="space-y-2.5 text-xs text-slate-600">
               <div className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                <span>202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006</span>
+                <span>217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat, 395006</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="h-4 w-4 text-amber-600 shrink-0" />

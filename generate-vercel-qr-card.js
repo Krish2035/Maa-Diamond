@@ -123,7 +123,7 @@ async function generate() {
 
   <!-- Action Callout & Website Footer -->
   <text x="749" y="475" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="2">SCAN TO OPEN WEBSITE</text>
-  <text x="749" y="502" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#64748B" text-anchor="middle">202, Akshar Diamond Market, Varachha, Surat</text>
+  <text x="749" y="502" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#64748B" text-anchor="middle">217, Akshar Diamond Market, Varachha, Surat</text>
   <text x="749" y="526" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="1">maa-diamond.vercel.app</text>
 
 </svg>`;

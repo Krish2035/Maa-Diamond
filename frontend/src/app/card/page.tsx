@@ -72,7 +72,7 @@ export default function DigitalCardPage() {
       `TEL;TYPE=CELL,VOICE:+918000045391`,
       `EMAIL;TYPE=PREF,INTERNET:${profile.primaryEmail}`,
       `URL:${typeof window !== "undefined" ? window.location.origin : profile.websiteUrl}`,
-      `ADR;TYPE=WORK:;;202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha;Surat;Gujarat;395006;India`,
+      `ADR;TYPE=WORK:;;217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha;Surat;Gujarat;395006;India`,
       `NOTE:Certified Diamonds Manufacturer at Akshar Diamond Market, Varachha, Surat.`,
       "END:VCARD",
     ].join("\r\n");
@@ -327,7 +327,7 @@ export default function DigitalCardPage() {
               TRADING OFFICE:
             </span>
             <p className="text-xs text-slate-500 mt-1">
-              202, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat - 395006
+              217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat - 395006
             </p>
           </div>
         </div>
