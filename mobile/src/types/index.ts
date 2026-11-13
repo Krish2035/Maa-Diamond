@@ -93,3 +93,4 @@ export interface BusinessProfile {
   aboutText: string;
   updatedAt: string;
 }
+
