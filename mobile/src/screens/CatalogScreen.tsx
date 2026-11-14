@@ -155,11 +155,11 @@ export default function CatalogScreen({
               style={styles.brandLogoImage}
               resizeMode="contain"
             />
-            <View>
-              <Text style={styles.brandTitle}>MAA DIAMOND</Text>
+            <View style={styles.brandTextContainer}>
+              <Text style={styles.brandTitle} numberOfLines={1}>MAA DIAMOND</Text>
               <View style={styles.verifiedTag}>
-                <Sparkles size={10} color="#d97706" />
-                <Text style={styles.verifiedText}>Lab Grown &amp; Natural Master Cut</Text>
+                <Sparkles size={9} color="#d97706" />
+                <Text style={styles.verifiedText} numberOfLines={1}>Lab Grown &amp; Natural</Text>
               </View>
             </View>
           </View>
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#ffffff",
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
     paddingTop: 12,
     paddingBottom: 10,
     borderBottomWidth: 1,
@@ -371,11 +371,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  headerLeft: {},
+  headerLeft: {
+    marginRight: 14,
+  },
   headerRight: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 6,
   },
   headerIconBtn: {
     width: 38,
@@ -414,27 +416,30 @@ const styles = StyleSheet.create({
   brandHeaderRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 9,
+    gap: 8,
   },
   brandLogoImage: {
-    width: 36,
-    height: 36,
+    width: 34,
+    height: 34,
     borderRadius: 8,
   },
+  brandTextContainer: {
+    flexShrink: 1,
+  },
   brandTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "900",
     color: "#0f172a",
-    letterSpacing: 1.5,
+    letterSpacing: 0.8,
   },
   verifiedTag: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 3,
     marginTop: 2,
   },
   verifiedText: {
-    fontSize: 10,
+    fontSize: 9.5,
     fontWeight: "700",
     color: "#b45309",
   },
@@ -601,9 +606,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#0f172a",
     height: 38,
-    paddingHorizontal: 13,
+    paddingHorizontal: 10,
     borderRadius: 10,
-    gap: 6,
+    gap: 5,
   },
   authHeaderBtnLoggedIn: {
     backgroundColor: "#fffbeb",
