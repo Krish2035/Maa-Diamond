@@ -5,11 +5,14 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
-import { Heart } from "lucide-react-native";
+import { Heart, User as UserIcon } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DiamondCard from "../components/DiamondCard";
 import { Diamond } from "../types";
 import { api } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 interface Props {
   navigation: any;
@@ -22,6 +25,8 @@ export default function WishlistScreen({
   wishlist,
   onToggleWishlist,
 }: Props) {
+  const insets = useSafeAreaInsets();
+  const { currentUser, openAuthModal } = useAuth();
   const [diamonds, setDiamonds] = useState<Diamond[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,9 +46,28 @@ export default function WishlistScreen({
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Saved Diamonds</Text>
-        <Text style={styles.countText}>{diamonds.length} in Wishlist</Text>
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 12) + 8 }]}>
+        <View>
+          <Text style={styles.title}>Saved Diamonds</Text>
+          <Text style={styles.countText}>{diamonds.length} in Wishlist</Text>
+        </View>
+
+        {/* User Sign In / Profile Button */}
+        <TouchableOpacity
+          style={[styles.authHeaderBtn, currentUser ? styles.authHeaderBtnLoggedIn : null]}
+          onPress={() => openAuthModal("signin")}
+        >
+          <UserIcon size={15} color={currentUser ? "#b45309" : "#ffffff"} />
+          <Text
+            style={[
+              styles.authHeaderBtnText,
+              currentUser ? styles.authHeaderBtnTextLoggedIn : null,
+            ]}
+            numberOfLines={1}
+          >
+            {currentUser ? currentUser.name.split(" ")[0] : "Sign In"}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {loading ? (
@@ -91,6 +115,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#e2e8f0",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 18,
@@ -101,6 +128,29 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#64748b",
     marginTop: 2,
+  },
+  authHeaderBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#0f172a",
+    height: 38,
+    paddingHorizontal: 13,
+    borderRadius: 10,
+    gap: 6,
+  },
+  authHeaderBtnLoggedIn: {
+    backgroundColor: "#fffbeb",
+    borderWidth: 1,
+    borderColor: "#fde68a",
+  },
+  authHeaderBtnText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  authHeaderBtnTextLoggedIn: {
+    color: "#b45309",
   },
   list: {
     padding: 16,

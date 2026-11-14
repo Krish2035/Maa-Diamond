@@ -11,11 +11,14 @@ import {
   RefreshControl,
   Modal,
   Alert,
+  Linking,
 } from "react-native";
-import { Search, Sparkles, Filter, X } from "lucide-react-native";
+import { Search, Sparkles, Filter, X, MessageCircle, User as UserIcon } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DiamondCard from "../components/DiamondCard";
 import { Diamond, DiamondShape } from "../types";
 import { api } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 const SHAPES: (DiamondShape | "All")[] = [
   "All",
@@ -33,19 +36,30 @@ const SHAPES: (DiamondShape | "All")[] = [
 
 interface Props {
   navigation: any;
+  route?: any;
   wishlist: string[];
   onToggleWishlist: (id: string) => void;
+  selectedShape?: string;
+  onSelectShape?: (shape: string) => void;
 }
 
 export default function CatalogScreen({
   navigation,
+  route,
   wishlist,
   onToggleWishlist,
+  selectedShape: propShape,
+  onSelectShape: propSetShape,
 }: Props) {
+  const insets = useSafeAreaInsets();
+  const { currentUser, openAuthModal } = useAuth();
   const [diamonds, setDiamonds] = useState<Diamond[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedShape, setSelectedShape] = useState<string>("All");
+  const [internalShape, setInternalShape] = useState<string>("All");
+
+  const selectedShape = propShape ?? internalShape;
+  const setSelectedShape = propSetShape ?? setInternalShape;
   const [searchQuery, setSearchQuery] = useState("");
 
   // Inquiry Modal state
@@ -90,6 +104,14 @@ export default function CatalogScreen({
     );
   });
 
+  const handleOpenInquiry = (diamond: Diamond) => {
+    setInquiryDiamond(diamond);
+    if (currentUser) {
+      setCustomerName(currentUser.name || "");
+      setCustomerPhone(currentUser.phone || "");
+    }
+  };
+
   const handleSubmitInquiry = async () => {
     if (!customerName || !customerPhone) {
       Alert.alert("Missing Details", "Please provide your name and phone number.");
@@ -123,14 +145,45 @@ export default function CatalogScreen({
 
   return (
     <View style={styles.container}>
-      {/* App Header */}
-      <View style={styles.header}>
+      {/* App Header with Dynamic Status Bar Safe Inset */}
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 12) + 8 }]}>
         <View style={styles.headerLeft}>
           <Text style={styles.brandTitle}>MAA DIAMOND</Text>
           <View style={styles.verifiedTag}>
             <Sparkles size={11} color="#d97706" />
             <Text style={styles.verifiedText}>Lab Grown &amp; Natural Master Cut</Text>
           </View>
+        </View>
+
+        <View style={styles.headerRight}>
+          {/* User Sign In / Profile Button */}
+          <TouchableOpacity
+            style={[styles.authHeaderBtn, currentUser ? styles.authHeaderBtnLoggedIn : null]}
+            onPress={() => openAuthModal("signin")}
+          >
+            <UserIcon size={15} color={currentUser ? "#b45309" : "#ffffff"} />
+            <Text
+              style={[
+                styles.authHeaderBtnText,
+                currentUser ? styles.authHeaderBtnTextLoggedIn : null,
+              ]}
+              numberOfLines={1}
+            >
+              {currentUser ? currentUser.name.split(" ")[0] : "Sign In"}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.whatsappHeaderBtn}
+            onPress={() =>
+              Linking.openURL(
+                "https://wa.me/919033320326?text=" +
+                  encodeURIComponent("Hello Maa Diamond! I am viewing your certified diamond vault.")
+              )
+            }
+          >
+            <MessageCircle size={16} color="#ffffff" />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -193,7 +246,7 @@ export default function CatalogScreen({
               isWishlisted={wishlist.includes(item.id)}
               onToggleWishlist={onToggleWishlist}
               onSelect={(d) => navigation.navigate("DiamondDetail", { diamond: d })}
-              onInquire={(d) => setInquiryDiamond(d)}
+              onInquire={(d) => handleOpenInquiry(d)}
             />
           )}
           contentContainerStyle={styles.listContent}
@@ -236,6 +289,26 @@ export default function CatalogScreen({
               Stone: {inquiryDiamond?.shape} Diamond ({inquiryDiamond?.stockNumber} -{" "}
               {inquiryDiamond?.color}/{inquiryDiamond?.clarity})
             </Text>
+
+            {currentUser ? (
+              <View style={styles.modalUserBadge}>
+                <Text style={styles.modalUserBadgeText}>
+                  ✓ Verified Merchant: {currentUser.name}
+                </Text>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={styles.modalAuthHint}
+                onPress={() => {
+                  setInquiryDiamond(null);
+                  openAuthModal("signin");
+                }}
+              >
+                <Text style={styles.modalAuthHintText}>
+                  Registered merchant? <Text style={{ fontWeight: "800", color: "#d97706" }}>Sign In</Text> to auto-fill
+                </Text>
+              </TouchableOpacity>
+            )}
 
             <TextInput
               placeholder="Your Full Name *"
@@ -284,8 +357,50 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#e2e8f0",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   headerLeft: {},
+  headerRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  headerIconBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 10,
+    backgroundColor: "#f1f5f9",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  badge: {
+    position: "absolute",
+    top: 4,
+    right: 4,
+    backgroundColor: "#dc2626",
+    borderRadius: 7,
+    paddingHorizontal: 4,
+    minWidth: 14,
+    height: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  badgeText: {
+    color: "#ffffff",
+    fontSize: 9,
+    fontWeight: "800",
+  },
+  whatsappHeaderBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 10,
+    backgroundColor: "#059669",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   brandTitle: {
     fontSize: 18,
     fontWeight: "900",
@@ -432,6 +547,56 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 13,
     fontWeight: "700",
+  },
+  modalUserBadge: {
+    backgroundColor: "#ecfdf5",
+    borderWidth: 1,
+    borderColor: "#a7f3d0",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    marginBottom: 10,
+  },
+  modalUserBadgeText: {
+    fontSize: 11,
+    color: "#059669",
+    fontWeight: "700",
+  },
+  modalAuthHint: {
+    backgroundColor: "#fffbeb",
+    borderWidth: 1,
+    borderColor: "#fde68a",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    marginBottom: 10,
+  },
+  modalAuthHintText: {
+    fontSize: 11,
+    color: "#92400e",
+  },
+  authHeaderBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#0f172a",
+    height: 38,
+    paddingHorizontal: 13,
+    borderRadius: 10,
+    gap: 6,
+  },
+  authHeaderBtnLoggedIn: {
+    backgroundColor: "#fffbeb",
+    borderWidth: 1,
+    borderColor: "#fde68a",
+  },
+  authHeaderBtnText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  authHeaderBtnTextLoggedIn: {
+    color: "#b45309",
   },
 });
 

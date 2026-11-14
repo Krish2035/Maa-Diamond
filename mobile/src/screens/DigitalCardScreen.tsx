@@ -15,9 +15,14 @@ import {
   Globe,
   Share2,
   Gem,
+  User as UserIcon,
 } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAuth } from "../context/AuthContext";
 
 export default function DigitalCardScreen() {
+  const insets = useSafeAreaInsets();
+  const { currentUser, openAuthModal } = useAuth();
   const openCall = (num: string) => Linking.openURL(`tel:${num}`);
   const openWhatsApp = (num: string) => Linking.openURL(`https://wa.me/${num}`);
   const openMail = () => Linking.openURL("mailto:info@maadiamond.com");
@@ -28,7 +33,13 @@ export default function DigitalCardScreen() {
   const openWebsite = () => Linking.openURL("https://maa-diamond.vercel.app");
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[
+        styles.content,
+        { paddingTop: Math.max(insets.top, 12) + 12 },
+      ]}
+    >
       {/* Card Header Container */}
       <View style={styles.cardHeader}>
         <View style={styles.iconCircle}>
@@ -41,6 +52,47 @@ export default function DigitalCardScreen() {
         <View style={styles.bourseBadge}>
           <Text style={styles.bourseText}>SURAT DIAMOND BOURSE TRADERS</Text>
         </View>
+      </View>
+
+      {/* Wholesale Merchant Account Card */}
+      <View style={styles.accountCard}>
+        {currentUser ? (
+          <View style={styles.accountLoggedInRow}>
+            <View style={styles.accountAvatar}>
+              <Text style={styles.accountAvatarText}>
+                {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : "M"}
+              </Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.accountName}>{currentUser.name}</Text>
+              <Text style={styles.accountCompany}>
+                {currentUser.companyName || "Verified Wholesale Merchant"}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.accountActionBtn}
+              onPress={() => openAuthModal("signin")}
+            >
+              <Text style={styles.accountActionText}>Profile</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.accountLoggedOutRow}>
+            <View style={{ flex: 1, marginRight: 8 }}>
+              <Text style={styles.accountTitle}>Merchant Sign In &amp; Register</Text>
+              <Text style={styles.accountSubtitle}>
+                Access wholesale diamond terms, order history and direct trade desk support.
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.accountSignInBtn}
+              onPress={() => openAuthModal("signin")}
+            >
+              <UserIcon size={13} color="#ffffff" />
+              <Text style={styles.accountSignInText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       {/* Directors Section */}
@@ -312,6 +364,83 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "600",
     color: "#334155",
+  },
+  accountCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    padding: 14,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+  },
+  accountLoggedInRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  accountAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#0f172a",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  accountAvatarText: {
+    color: "#ffffff",
+    fontWeight: "800",
+    fontSize: 14,
+  },
+  accountName: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#0f172a",
+  },
+  accountCompany: {
+    fontSize: 11,
+    color: "#059669",
+    fontWeight: "600",
+  },
+  accountActionBtn: {
+    backgroundColor: "#f1f5f9",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  accountActionText: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#334155",
+  },
+  accountLoggedOutRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  accountTitle: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: "#0f172a",
+  },
+  accountSubtitle: {
+    fontSize: 11,
+    color: "#64748b",
+    lineHeight: 15,
+    marginTop: 2,
+  },
+  accountSignInBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: "#0f172a",
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 8,
+  },
+  accountSignInText: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#ffffff",
   },
 });
 

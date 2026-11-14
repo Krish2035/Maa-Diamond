@@ -109,5 +109,65 @@ export const api = {
     });
     return await res2.json();
   },
+
+  async login(email: string, password: string): Promise<{ token: string; user: any }> {
+    const payload = JSON.stringify({ email, password });
+    try {
+      const res = await fetch(`${BASE_API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Invalid credentials");
+      return data;
+    } catch (e: any) {
+      try {
+        const res2 = await fetch(`${BACKUP_API_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payload,
+        });
+        const data2 = await res2.json();
+        if (!res2.ok) throw new Error(data2.error || "Invalid credentials");
+        return data2;
+      } catch (err: any) {
+        throw new Error(err.message || e.message || "Failed to sign in. Please verify your details.");
+      }
+    }
+  },
+
+  async register(userData: {
+    name: string;
+    email: string;
+    password: string;
+    companyName?: string;
+    phone?: string;
+  }): Promise<{ token: string; user: any }> {
+    const payload = JSON.stringify(userData);
+    try {
+      const res = await fetch(`${BASE_API_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Registration failed");
+      return data;
+    } catch (e: any) {
+      try {
+        const res2 = await fetch(`${BACKUP_API_URL}/auth/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payload,
+        });
+        const data2 = await res2.json();
+        if (!res2.ok) throw new Error(data2.error || "Registration failed");
+        return data2;
+      } catch (err: any) {
+        throw new Error(err.message || e.message || "Registration failed");
+      }
+    }
+  },
 };
 
