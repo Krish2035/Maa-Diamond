@@ -12,6 +12,7 @@ import {
   Modal,
   Alert,
   Linking,
+  Image,
 } from "react-native";
 import { Search, Sparkles, Filter, X, MessageCircle, User as UserIcon } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -148,10 +149,19 @@ export default function CatalogScreen({
       {/* App Header with Dynamic Status Bar Safe Inset */}
       <View style={[styles.header, { paddingTop: Math.max(insets.top, 12) + 8 }]}>
         <View style={styles.headerLeft}>
-          <Text style={styles.brandTitle}>MAA DIAMOND</Text>
-          <View style={styles.verifiedTag}>
-            <Sparkles size={11} color="#d97706" />
-            <Text style={styles.verifiedText}>Lab Grown &amp; Natural Master Cut</Text>
+          <View style={styles.brandHeaderRow}>
+            <Image
+              source={require("../assets/logo.png")}
+              style={styles.brandLogoImage}
+              resizeMode="contain"
+            />
+            <View>
+              <Text style={styles.brandTitle}>MAA DIAMOND</Text>
+              <View style={styles.verifiedTag}>
+                <Sparkles size={10} color="#d97706" />
+                <Text style={styles.verifiedText}>Lab Grown &amp; Natural Master Cut</Text>
+              </View>
+            </View>
           </View>
         </View>
 
@@ -400,6 +410,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#059669",
     alignItems: "center",
     justifyContent: "center",
+  },
+  brandHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 9,
+  },
+  brandLogoImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
   },
   brandTitle: {
     fontSize: 18,

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Linking,
   Dimensions,
+  Image,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -75,10 +76,19 @@ export default function HomeScreen({
       {/* Top Header */}
       <View style={[styles.header, { paddingTop: Math.max(insets.top, 12) + 8 }]}>
         <View style={styles.headerLeft}>
-          <Text style={styles.brandTitle}>MAA DIAMOND</Text>
-          <View style={styles.verifiedTag}>
-            <Sparkles size={11} color="#d97706" />
-            <Text style={styles.verifiedText}>Lab Grown &amp; Natural Master Cut</Text>
+          <View style={styles.brandHeaderRow}>
+            <Image
+              source={require("../assets/logo.png")}
+              style={styles.brandLogoImage}
+              resizeMode="contain"
+            />
+            <View>
+              <Text style={styles.brandTitle}>MAA DIAMOND</Text>
+              <View style={styles.verifiedTag}>
+                <Sparkles size={10} color="#d97706" />
+                <Text style={styles.verifiedText}>Lab Grown &amp; Natural Master Cut</Text>
+              </View>
+            </View>
           </View>
         </View>
 
@@ -432,6 +442,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerLeft: {},
+  brandHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 9,
+  },
+  brandLogoImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+  },
   brandTitle: {
     fontSize: 18,
     fontWeight: "900",

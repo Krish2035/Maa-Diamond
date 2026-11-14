@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Linking,
+  Image,
 } from "react-native";
 import {
   Phone,
@@ -42,9 +43,11 @@ export default function DigitalCardScreen() {
     >
       {/* Card Header Container */}
       <View style={styles.cardHeader}>
-        <View style={styles.iconCircle}>
-          <Gem size={32} color="#ffffff" />
-        </View>
+        <Image
+          source={require("../assets/logo.png")}
+          style={styles.cardLogo}
+          resizeMode="contain"
+        />
         <Text style={styles.brandName}>MAA DIAMOND</Text>
         <Text style={styles.tagline}>
           Direct Manufacturers of IGI Certified Lab Grown &amp; Natural Loose Diamonds
@@ -201,16 +204,13 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
   },
-  iconCircle: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: "rgba(217, 119, 6, 0.25)",
+  cardLogo: {
+    width: 60,
+    height: 60,
+    borderRadius: 14,
+    marginBottom: 12,
     borderWidth: 1.5,
     borderColor: "#fbbf24",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 12,
   },
   brandName: {
     fontSize: 22,
