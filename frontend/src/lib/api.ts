@@ -1,37 +1,11 @@
 import { Diamond, Inquiry, BusinessProfile, User } from "./types";
 
 export function getApiBaseUrl(): string {
-  // 1. If running in browser on a production domain (e.g. Vercel)
+  // Always use local Next.js API routes on Vercel and browser
   if (typeof window !== "undefined") {
-    const hostname = window.location.hostname;
-    if (hostname !== "localhost" && hostname !== "127.0.0.1") {
-      // If NEXT_PUBLIC_API_URL is configured and not pointing to localhost, use it;
-      // otherwise use the production Render backend API.
-      if (
-        process.env.NEXT_PUBLIC_API_URL &&
-        !process.env.NEXT_PUBLIC_API_URL.includes("localhost") &&
-        !process.env.NEXT_PUBLIC_API_URL.includes("127.0.0.1")
-      ) {
-        const trimmed = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
-        return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
-      }
-      return "https://maa-diamond.onrender.com/api";
-    }
+    return "/api";
   }
-
-  // 2. If NEXT_PUBLIC_API_URL is set in environment
-  if (process.env.NEXT_PUBLIC_API_URL) {
-    const trimmed = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
-    return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
-  }
-
-  // 3. Next.js production build / SSR default
-  if (process.env.NODE_ENV === "production") {
-    return "https://maa-diamond.onrender.com/api";
-  }
-
-  // 4. Default for local development
-  return "http://localhost:5000/api";
+  return "/api";
 }
 
 export const API_BASE_URL = getApiBaseUrl();
@@ -55,11 +29,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 12464,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/round-black-bg.png",
-    videoUrl: "/videos/round-360.webm",
+    imageUrl: "/diamonds/round.jpg",
+    videoUrl: "/videos/round-360.mp4",
     description: "Triple Excellent GIA-certified Round Brilliant cut diamond exhibiting flawless symmetry, Hearts & Arrows dispersion, and zero fluorescence on luxury black pedestal.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.126Z",
   },
   {
     id: "dia_pr_002",
@@ -79,11 +53,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 12580,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/pear-black-bg.png",
-    videoUrl: "/videos/pear-360.webm",
+    imageUrl: "/diamonds/pear.jpg",
+    videoUrl: "/videos/pear-360.mp4",
     description: "Graceful teardrop Pear cut diamond offering exquisite curvature, radiant shoulder facets, and exceptional table balance on velvet black background.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_mrq_003",
@@ -103,11 +77,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 14484,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/marquise-black-bg.png",
-    videoUrl: "/videos/marquise-360.webm",
+    imageUrl: "/diamonds/marquise.jpg",
+    videoUrl: "/videos/marquise-360.mp4",
     description: "Royal Marquise (Marques) cut diamond showcasing majestic brilliance with minimal bow-tie effect and pointed French tip faceting.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_ovl_004",
@@ -127,11 +101,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 13260,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/oval-black-bg.png",
-    videoUrl: "/videos/oval-360.webm",
+    imageUrl: "/diamonds/oval.jpg",
+    videoUrl: "/videos/oval-360.mp4",
     description: "Modern Oval cut diamond exhibiting optimal facet fire, zero bow-tie effect, and exceptional optical brilliance on black background.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_csh_005",
@@ -151,11 +125,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 13650,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/cushion-black-bg.png",
-    videoUrl: "/videos/cushion-360.webm",
+    imageUrl: "/diamonds/cushion.jpg",
+    videoUrl: "/videos/cushion-360.mp4",
     description: "Romantic antique-inspired Cushion modified brilliant cut with pillowed curved corners and crushed-ice scintillation on black.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_prn_006",
@@ -175,11 +149,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 18750,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/princess-black-bg.png",
-    videoUrl: "/videos/princess-360.webm",
+    imageUrl: "/diamonds/princess.jpg",
+    videoUrl: "/videos/princess-360.mp4",
     description: "Contemporary square Princess cut with crisp 90-degree corners and intricate cross-brilliant pavilion facets on black backdrop.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_trp_007",
@@ -199,11 +173,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 9660,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/trapezoid-black-bg.png",
-    videoUrl: "/videos/trapezoid-360.webm",
+    imageUrl: "/diamonds/trapezoid.jpg",
+    videoUrl: "/videos/trapezoid-360.mp4",
     description: "Geometric Trapezoid cut diamond offering sleek architectural proportions, tapered symmetry, and mirror-like facet reflection on black.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_trg_008",
@@ -223,11 +197,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 11520,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/triangle-black-bg.png",
-    videoUrl: "/videos/triangle-360.webm",
+    imageUrl: "/diamonds/triangle.jpg",
+    videoUrl: "/videos/triangle-360.mp4",
     description: "Equilateral Triangle cut diamond delivering sharp vertices, intense internal fire, and exquisite optical dispersion on black velvet.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_trl_009",
@@ -247,11 +221,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 12730,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/trillion-black-bg.png",
-    videoUrl: "/videos/trillion-360.webm",
+    imageUrl: "/diamonds/trillion.jpg",
+    videoUrl: "/videos/trillion-360.mp4",
     description: "Curved-edge Trillion brilliant diamond with soft contour sides, high crown angle, and brilliant dispersion on luxury dark studio.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_bgt_010",
@@ -271,11 +245,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 10125,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/baguette-black-bg.png",
-    videoUrl: "/videos/baguette-360.webm",
+    imageUrl: "/diamonds/baguette.jpg",
+    videoUrl: "/videos/baguette-360.mp4",
     description: "Internally Flawless Baguette step-cut diamond with clean parallel facets, hall-of-mirrors clarity, and timeless elegance on black background.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
   {
     id: "dia_rse_011",
@@ -295,11 +269,11 @@ export const FALLBACK_DIAMONDS: Diamond[] = [
     totalPrice: 12950,
     isAvailable: true,
     isFeatured: true,
-    imageUrl: "/diamonds/rosecut-black-bg.png",
-    videoUrl: "/videos/rosecut-360.webm",
+    imageUrl: "/diamonds/rosecut.jpg",
+    videoUrl: "/videos/rosecut-360.mp4",
     description: "Antique heritage Rose Cut diamond with a flat base and domed faceted top resembling an opening rosebud on deep black luxury velvet.",
     createdAt: "2026-11-06T14:12:56.104Z",
-    updatedAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-17T16:53:39.128Z",
   },
 ];
 
@@ -349,7 +323,22 @@ class ApiClient {
       });
 
       if (!res.ok) throw new Error("Failed to fetch diamonds");
-      return await res.json();
+      const data = await res.json();
+      if (data && Array.isArray(data.diamonds) && data.diamonds.length > 0) {
+        const validShapes = new Set(FALLBACK_DIAMONDS.map((d) => d.shape.toLowerCase()));
+        const cleanDiamonds = data.diamonds
+          .filter((d: Diamond) => validShapes.has(d.shape.toLowerCase()))
+          .map((d: Diamond) => {
+            const fallback = FALLBACK_DIAMONDS.find((fb) => fb.shape.toLowerCase() === d.shape.toLowerCase());
+            return {
+              ...d,
+              imageUrl: fallback ? fallback.imageUrl : d.imageUrl,
+              videoUrl: fallback ? fallback.videoUrl : d.videoUrl,
+            };
+          });
+        return { total: cleanDiamonds.length, diamonds: cleanDiamonds };
+      }
+      return data;
     } catch (err) {
       console.warn("Backend API offline or unreachable, using FALLBACK_DIAMONDS store:", err);
       let list = [...FALLBACK_DIAMONDS];
