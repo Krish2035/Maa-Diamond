@@ -36,6 +36,273 @@ export function getApiBaseUrl(): string {
 
 export const API_BASE_URL = getApiBaseUrl();
 
+export const FALLBACK_DIAMONDS: Diamond[] = [
+  {
+    id: "dia_rnd_001",
+    stockNumber: "MD-RND-152",
+    shape: "Round",
+    carat: 1.52,
+    color: "D",
+    clarity: "VVS1",
+    cut: "Ideal",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "GIA",
+    certificateNo: "2235914872",
+    dimensions: "7.38 x 7.42 x 4.56 mm",
+    pricePerCarat: 8200,
+    totalPrice: 12464,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/round-black-bg.png",
+    videoUrl: "/videos/round-360.webm",
+    description: "Triple Excellent GIA-certified Round Brilliant cut diamond exhibiting flawless symmetry, Hearts & Arrows dispersion, and zero fluorescence on luxury black pedestal.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_pr_002",
+    stockNumber: "MD-PEAR-185",
+    shape: "Pear",
+    carat: 1.85,
+    color: "D",
+    clarity: "VS1",
+    cut: "Excellent",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "GIA",
+    certificateNo: "6224810924",
+    dimensions: "10.45 x 6.82 x 4.25 mm",
+    pricePerCarat: 6800,
+    totalPrice: 12580,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/pear-black-bg.png",
+    videoUrl: "/videos/pear-360.webm",
+    description: "Graceful teardrop Pear cut diamond offering exquisite curvature, radiant shoulder facets, and exceptional table balance on velvet black background.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_mrq_003",
+    stockNumber: "MD-MRQ-204",
+    shape: "Marquise",
+    carat: 2.04,
+    color: "E",
+    clarity: "VVS2",
+    cut: "Excellent",
+    polish: "Excellent",
+    symmetry: "Very Good",
+    fluorescence: "Faint",
+    lab: "IGI",
+    certificateNo: "489201948",
+    dimensions: "12.80 x 6.42 x 3.95 mm",
+    pricePerCarat: 7100,
+    totalPrice: 14484,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/marquise-black-bg.png",
+    videoUrl: "/videos/marquise-360.webm",
+    description: "Royal Marquise (Marques) cut diamond showcasing majestic brilliance with minimal bow-tie effect and pointed French tip faceting.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_ovl_004",
+    stockNumber: "MD-OVL-170",
+    shape: "Oval",
+    carat: 1.70,
+    color: "D",
+    clarity: "VVS1",
+    cut: "Ideal",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "GIA",
+    certificateNo: "2198402915",
+    dimensions: "9.85 x 6.95 x 4.35 mm",
+    pricePerCarat: 7800,
+    totalPrice: 13260,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/oval-black-bg.png",
+    videoUrl: "/videos/oval-360.webm",
+    description: "Modern Oval cut diamond exhibiting optimal facet fire, zero bow-tie effect, and exceptional optical brilliance on black background.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_csh_005",
+    stockNumber: "MD-CSH-210",
+    shape: "Cushion",
+    carat: 2.10,
+    color: "E",
+    clarity: "VS1",
+    cut: "Excellent",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "Faint",
+    lab: "IGI",
+    certificateNo: "748920193",
+    dimensions: "7.85 x 7.60 x 5.10 mm",
+    pricePerCarat: 6500,
+    totalPrice: 13650,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/cushion-black-bg.png",
+    videoUrl: "/videos/cushion-360.webm",
+    description: "Romantic antique-inspired Cushion modified brilliant cut with pillowed curved corners and crushed-ice scintillation on black.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_prn_006",
+    stockNumber: "MD-PRN-250",
+    shape: "Princess",
+    carat: 2.50,
+    color: "F",
+    clarity: "VVS2",
+    cut: "Ideal",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "GIA",
+    certificateNo: "5210982341",
+    dimensions: "7.45 x 7.41 x 5.22 mm",
+    pricePerCarat: 7500,
+    totalPrice: 18750,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/princess-black-bg.png",
+    videoUrl: "/videos/princess-360.webm",
+    description: "Contemporary square Princess cut with crisp 90-degree corners and intricate cross-brilliant pavilion facets on black backdrop.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_trp_007",
+    stockNumber: "MD-TRP-140",
+    shape: "Trapezoid",
+    carat: 1.40,
+    color: "E",
+    clarity: "VVS1",
+    cut: "Excellent",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "GIA",
+    certificateNo: "8821903412",
+    dimensions: "7.80 x 5.20 x 3.65 mm",
+    pricePerCarat: 6900,
+    totalPrice: 9660,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/trapezoid-black-bg.png",
+    videoUrl: "/videos/trapezoid-360.webm",
+    description: "Geometric Trapezoid cut diamond offering sleek architectural proportions, tapered symmetry, and mirror-like facet reflection on black.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_trg_008",
+    stockNumber: "MD-TRG-160",
+    shape: "Triangle",
+    carat: 1.60,
+    color: "D",
+    clarity: "VVS2",
+    cut: "Ideal",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "IGI",
+    certificateNo: "9102834190",
+    dimensions: "8.10 x 8.10 x 4.15 mm",
+    pricePerCarat: 7200,
+    totalPrice: 11520,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/triangle-black-bg.png",
+    videoUrl: "/videos/triangle-360.webm",
+    description: "Equilateral Triangle cut diamond delivering sharp vertices, intense internal fire, and exquisite optical dispersion on black velvet.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_trl_009",
+    stockNumber: "MD-TRL-190",
+    shape: "Trillion",
+    carat: 1.90,
+    color: "F",
+    clarity: "VS1",
+    cut: "Excellent",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "GIA",
+    certificateNo: "7721098432",
+    dimensions: "8.90 x 8.75 x 4.40 mm",
+    pricePerCarat: 6700,
+    totalPrice: 12730,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/trillion-black-bg.png",
+    videoUrl: "/videos/trillion-360.webm",
+    description: "Curved-edge Trillion brilliant diamond with soft contour sides, high crown angle, and brilliant dispersion on luxury dark studio.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_bgt_010",
+    stockNumber: "MD-BGT-125",
+    shape: "Baguette",
+    carat: 1.25,
+    color: "D",
+    clarity: "IF",
+    cut: "Excellent",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "GIA",
+    certificateNo: "6612984109",
+    dimensions: "7.95 x 4.10 x 2.85 mm",
+    pricePerCarat: 8100,
+    totalPrice: 10125,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/baguette-black-bg.png",
+    videoUrl: "/videos/baguette-360.webm",
+    description: "Internally Flawless Baguette step-cut diamond with clean parallel facets, hall-of-mirrors clarity, and timeless elegance on black background.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+  {
+    id: "dia_rse_011",
+    stockNumber: "MD-RSE-175",
+    shape: "Rose Cut",
+    carat: 1.75,
+    color: "E",
+    clarity: "VVS1",
+    cut: "Excellent",
+    polish: "Excellent",
+    symmetry: "Excellent",
+    fluorescence: "None",
+    lab: "IGI",
+    certificateNo: "5519820391",
+    dimensions: "8.40 x 8.40 x 3.10 mm",
+    pricePerCarat: 7400,
+    totalPrice: 12950,
+    isAvailable: true,
+    isFeatured: true,
+    imageUrl: "/diamonds/rosecut-black-bg.png",
+    videoUrl: "/videos/rosecut-360.webm",
+    description: "Antique heritage Rose Cut diamond with a flat base and domed faceted top resembling an opening rosebud on deep black luxury velvet.",
+    createdAt: "2026-11-06T14:12:56.104Z",
+    updatedAt: "2026-11-06T14:12:56.104Z",
+  },
+];
+
 class ApiClient {
   public get baseUrl(): string {
     return getApiBaseUrl();
@@ -84,8 +351,36 @@ class ApiClient {
       if (!res.ok) throw new Error("Failed to fetch diamonds");
       return await res.json();
     } catch (err) {
-      console.warn("Backend API offline or unreachable, using local mock store:", err);
-      return { total: 0, diamonds: [] };
+      console.warn("Backend API offline or unreachable, using FALLBACK_DIAMONDS store:", err);
+      let list = [...FALLBACK_DIAMONDS];
+      if (params?.shape && params.shape !== "All") {
+        list = list.filter((d) => d.shape.toLowerCase() === params.shape!.toLowerCase());
+      }
+      if (params?.color && params.color !== "All") {
+        list = list.filter((d) => d.color.toUpperCase() === params.color!.toUpperCase());
+      }
+      if (params?.clarity && params.clarity !== "All") {
+        list = list.filter((d) => d.clarity.toUpperCase() === params.clarity!.toUpperCase());
+      }
+      if (params?.minCarat !== undefined) {
+        list = list.filter((d) => d.carat >= params.minCarat!);
+      }
+      if (params?.maxCarat !== undefined) {
+        list = list.filter((d) => d.carat <= params.maxCarat!);
+      }
+      if (params?.search) {
+        const q = params.search.toLowerCase();
+        list = list.filter(
+          (d) =>
+            d.stockNumber.toLowerCase().includes(q) ||
+            d.shape.toLowerCase().includes(q) ||
+            d.certificateNo.toLowerCase().includes(q)
+        );
+      }
+      if (params?.featured) {
+        list = list.filter((d) => d.isFeatured);
+      }
+      return { total: list.length, diamonds: list };
     }
   }
 
@@ -94,11 +389,11 @@ class ApiClient {
       const res = await fetch(`${this.baseUrl}/diamonds/${id}`, {
         headers: this.getHeaders(),
       });
-      if (!res.ok) return null;
+      if (!res.ok) throw new Error("Failed to load diamond");
       const data = await res.json();
       return data.diamond;
     } catch {
-      return null;
+      return FALLBACK_DIAMONDS.find((d) => d.id === id || d.stockNumber === id) || null;
     }
   }
 

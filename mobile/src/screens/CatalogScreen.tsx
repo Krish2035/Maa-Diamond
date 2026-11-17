@@ -24,15 +24,16 @@ import { useAuth } from "../context/AuthContext";
 const SHAPES: (DiamondShape | "All")[] = [
   "All",
   "Round",
-  "Marquise",
   "Pear",
-  "Princess",
-  "Emerald",
-  "Cushion",
+  "Marquise",
   "Oval",
-  "Radiant",
-  "Heart",
-  "Asscher",
+  "Cushion",
+  "Princess",
+  "Trapezoid",
+  "Triangle",
+  "Trillion",
+  "Baguette",
+  "Rose Cut",
 ];
 
 interface Props {

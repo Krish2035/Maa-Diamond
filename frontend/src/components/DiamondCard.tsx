@@ -47,29 +47,29 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
         </button>
       </div>
 
-      {/* Diamond Cut Image or Video Showcase */}
-      <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-3">
+      {/* Diamond Cut Image or Video Showcase (Luxury Black Background) */}
+      <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-black border border-slate-900 p-2 shadow-inner">
         {activeMedia === "video" ? (
           <video
-            src={diamond.videoUrl || "/videos/diamond-360.webm"}
+            src={diamond.videoUrl || "/videos/round-360.webm"}
             autoPlay
             loop
             muted
             playsInline
             controls
-            className="relative z-10 max-h-40 max-w-full object-contain rounded-lg shadow-xs"
+            className="relative z-10 max-h-44 max-w-full object-contain rounded-lg shadow-md"
           />
         ) : (
           <img
-            src={diamond.imageUrl || "/favicon.svg"}
+            src={diamond.imageUrl || "/diamonds/round-black-bg.png"}
             alt={`${diamond.shape} Diamond`}
-            className="relative z-10 max-h-40 max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+            className="relative z-10 max-h-44 max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
           />
         )}
 
         {/* Certificate Tag (bottom-left) */}
-        <div className="absolute bottom-2 left-2 z-20 flex items-center gap-1 rounded bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-700 border border-slate-200 shadow-xs">
-          <ShieldCheck className="h-3 w-3 text-blue-600" />
+        <div className="absolute bottom-2 left-2 z-20 flex items-center gap-1 rounded bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-white border border-white/20 shadow-xs">
+          <ShieldCheck className="h-3 w-3 text-amber-400" />
           <span>{diamond.lab} {diamond.certificateNo}</span>
         </div>
 
@@ -77,8 +77,8 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
         <button
           type="button"
           onClick={() => setActiveMedia(activeMedia === "video" ? "image" : "video")}
-          className="absolute bottom-2 right-2 z-20 flex items-center gap-1.5 rounded-lg bg-black/60 hover:bg-black/80 backdrop-blur-md px-2.5 py-1 text-[11px] font-semibold text-white border border-white/25 shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
-          title={activeMedia === "video" ? "Switch to Photo" : "Play Diamond Video"}
+          className="absolute bottom-2 right-2 z-20 flex items-center gap-1.5 rounded-lg bg-black/80 hover:bg-black backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-white border border-amber-400/50 shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          title={activeMedia === "video" ? "Switch to Photo" : "Play 360° Diamond Video"}
         >
           {activeMedia === "video" ? (
             <>
@@ -88,7 +88,7 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
           ) : (
             <>
               <Play className="h-3 w-3 fill-amber-400 text-amber-400" />
-              <span>Video</span>
+              <span>360° Video</span>
             </>
           )}
         </button>

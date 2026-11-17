@@ -27,15 +27,16 @@ import Footer from "@/components/Footer";
 
 const SHAPES: { shape: DiamondShape; label: string; icon: string }[] = [
   { shape: "Round", label: "Round Diamond", icon: "💎" },
-  { shape: "Marquise", label: "Marquise Diamond", icon: "✨" },
   { shape: "Pear", label: "Pear Diamond", icon: "💧" },
-  { shape: "Princess", label: "Princess Diamond", icon: "🔷" },
-  { shape: "Emerald", label: "Emerald Diamond", icon: "🏛️" },
-  { shape: "Cushion", label: "Cushion Diamond", icon: "🛋️" },
+  { shape: "Marquise", label: "Marquise Diamond", icon: "✨" },
   { shape: "Oval", label: "Oval Diamond", icon: "🥚" },
-  { shape: "Radiant", label: "Radiant Diamond", icon: "🌟" },
-  { shape: "Heart", label: "Heart Diamond", icon: "❤️" },
-  { shape: "Asscher", label: "Asscher Diamond", icon: "💠" },
+  { shape: "Cushion", label: "Cushion Diamond", icon: "🛋️" },
+  { shape: "Princess", label: "Princess Diamond", icon: "🔷" },
+  { shape: "Trapezoid", label: "Trapezoid Diamond", icon: "📐" },
+  { shape: "Triangle", label: "Triangle Diamond", icon: "🔺" },
+  { shape: "Trillion", label: "Trillion Diamond", icon: "💠" },
+  { shape: "Baguette", label: "Baguette Diamond", icon: "🏛️" },
+  { shape: "Rose Cut", label: "Rose Cut Diamond", icon: "🌹" },
 ];
 
 export default function HomePage() {
@@ -44,7 +45,7 @@ export default function HomePage() {
   const [selectedShape, setSelectedShape] = useState<string>("All");
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [activeDiamondForInquiry, setActiveDiamondForInquiry] = useState<Diamond | null>(null);
-  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [showAllProducts, setShowAllProducts] = useState(true);
 
   // Quick Inline Inquiry Form State (at bottom of page, matching competitor)
   const [formName, setFormName] = useState("");
