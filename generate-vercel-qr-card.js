@@ -3,7 +3,7 @@ const path = require('path');
 const QRCode = require('./frontend/node_modules/qrcode');
 const sharp = require('./frontend/node_modules/sharp');
 
-const TARGET_URL = 'https://maa-diamond.vercel.app/card';
+const TARGET_URL = 'https://maa-diamond-vcard.vercel.app';
 const ARTIFACT_DIR = 'C:/Users/DELL/.gemini/antigravity/brain/35cac826-a18a-47fb-a6b1-332873d2f70f';
 
 async function generate() {
@@ -124,7 +124,7 @@ async function generate() {
   <!-- Action Callout & Website Footer -->
   <text x="749" y="475" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="2">SCAN FOR DIGITAL VCARD</text>
   <text x="749" y="502" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#64748B" text-anchor="middle">217, Akshar Diamond Market, Varachha, Surat</text>
-  <text x="749" y="526" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="0.5">maa-diamond.vercel.app/card</text>
+  <text x="749" y="526" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="0.5">maa-diamond-vcard.vercel.app</text>
 
 </svg>`;
 
@@ -180,7 +180,7 @@ async function generate() {
   <!-- Bottom Details & Website Footer -->
   <text x="319" y="865" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A" text-anchor="middle" letter-spacing="3">SCAN FOR DIGITAL VCARD</text>
   <text x="319" y="905" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B" text-anchor="middle">217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat - 395006</text>
-  <text x="319" y="935" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#2563EB" text-anchor="middle" letter-spacing="1">maa-diamond.vercel.app/card</text>
+  <text x="319" y="935" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#2563EB" text-anchor="middle" letter-spacing="1">maa-diamond-vcard.vercel.app</text>
 
 </svg>`;
 

@@ -14,14 +14,10 @@ import {
   ShieldCheck,
   Instagram,
   FileText,
-  ExternalLink,
-  ChevronRight,
   X,
   Copy,
   Check,
-  Award,
   Building2,
-  Sparkles,
 } from "lucide-react";
 import QRCode from "qrcode";
 import { api, FALLBACK_PROFILE } from "@/lib/api";
@@ -120,118 +116,102 @@ export default function DigitalVCardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-6 sm:py-12 px-3 sm:px-6 flex flex-col items-center justify-center">
+    <div className="h-screen max-h-screen w-full bg-slate-100 flex items-center justify-center p-2 sm:p-4 overflow-hidden">
+      {/* Standalone Single-Screen Card Container */}
+      <div className="w-full max-w-sm sm:max-w-md bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden flex flex-col justify-between">
 
-      {/* Top Header Status Bar */}
-      <div className="w-full max-w-md mb-4 flex items-center justify-between px-1">
-        <a
-          href={profile.websiteUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-amber-700 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-xs transition"
-        >
-          <ExternalLink className="h-3.5 w-3.5 text-amber-500" />
-          <span>Visit Main Website</span>
-        </a>
-        <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          Verified Digital vCard
-        </span>
-      </div>
-
-      {/* Main Digital Card Container */}
-      <div className="w-full max-w-md rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-xl">
-
-        {/* Header Hero Banner with Diamond Graphic */}
-        <div className="relative bg-slate-50 border-b border-slate-200 text-slate-900 pt-8 pb-6 px-6 text-center">
-          {/* Circular Diamond Logo Tile */}
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-md mb-3 border-2 border-amber-400">
-            <Gem className="h-10 w-10 text-amber-400" />
+        {/* 1. Header Hero Section */}
+        <div className="bg-gradient-to-b from-slate-50 to-white pt-5 pb-3 px-5 text-center border-b border-slate-100">
+          {/* Logo Tile */}
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-md mb-2 border border-amber-400/50">
+            <Gem className="h-7 w-7 text-amber-400" />
           </div>
 
-          <h1 className="text-2xl font-extrabold tracking-wider text-slate-900">
+          <h1 className="text-xl sm:text-2xl font-black tracking-wider text-slate-900 leading-tight">
             MAA DIAMOND
           </h1>
-          <p className="text-xs text-amber-600 font-bold uppercase tracking-widest mt-1">
+          <p className="text-[10px] sm:text-[11px] text-amber-600 font-bold uppercase tracking-wider mt-0.5">
             Certified Natural &amp; Lab-Grown Diamonds
           </p>
-          <p className="text-xs text-slate-600 mt-2 font-medium">
+          <p className="text-[11px] text-slate-600 mt-1 font-medium">
             Directors: <span className="text-slate-900 font-bold">Hardik Sorathiya &amp; Sanket Sorathiya</span>
           </p>
 
-          <div className="mt-3 inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-700 border border-slate-200">
+          <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-slate-100/90 px-2.5 py-0.5 text-[10px] font-semibold text-slate-700 border border-slate-200">
             <Building2 className="h-3 w-3 text-amber-500" />
             <span>Surat Diamond Bourse Traders</span>
           </div>
         </div>
 
-        {/* 12-Action Grid */}
-        <div className="px-6 py-5 bg-white">
-          <div className="grid grid-cols-3 gap-y-6 gap-x-3 text-center">
+        {/* 2. 12-Action Grid (4 Columns x 3 Rows - Perfectly Compact) */}
+        <div className="px-4 py-3 bg-white">
+          <div className="grid grid-cols-4 gap-y-3 gap-x-2 text-center">
 
-            {/* 1. Call Hardik Sorathiya */}
+            {/* Row 1: Quick Calls & WhatsApp */}
+            {/* 1. Call Hardik */}
             <a
               href="tel:+919033320326"
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-500 text-white shadow-md shadow-rose-500/20 group-hover:bg-rose-600">
-                <Phone className="h-5 w-5" />
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-rose-500 text-white shadow-xs group-hover:bg-rose-600">
+                <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Hardik S.</span>
-              <span className="text-[10px] text-slate-500">Call</span>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Hardik S.</span>
+              <span className="text-[9px] text-slate-500 leading-none">Call</span>
             </a>
 
-            {/* 2. Call Sanket Sorathiya */}
+            {/* 2. Call Sanket */}
             <a
               href="tel:+918000045391"
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-500 text-white shadow-md shadow-rose-500/20 group-hover:bg-rose-600">
-                <Phone className="h-5 w-5" />
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-rose-500 text-white shadow-xs group-hover:bg-rose-600">
+                <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Sanket S.</span>
-              <span className="text-[10px] text-slate-500">Call</span>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Sanket S.</span>
+              <span className="text-[9px] text-slate-500 leading-none">Call</span>
             </a>
 
-            {/* 3. Email */}
-            <a
-              href="mailto:info@maadiamond.com"
-              className="group flex flex-col items-center transition-transform hover:scale-105"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md shadow-blue-500/20 group-hover:bg-blue-600">
-                <Mail className="h-5 w-5" />
-              </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Email</span>
-              <span className="text-[10px] text-slate-500">Official</span>
-            </a>
-
-            {/* 4. WhatsApp Hardik Sorathiya */}
+            {/* 3. WhatsApp Hardik */}
             <a
               href="https://wa.me/919033320326?text=Hello%20Hardik%20Bhai%2C%20I%20scanned%20your%20Maa%20Diamond%20visiting%20card."
               target="_blank"
               rel="noreferrer"
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md shadow-emerald-500/20 group-hover:bg-emerald-600">
-                <MessageCircle className="h-5 w-5" />
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-emerald-500 text-white shadow-xs group-hover:bg-emerald-600">
+                <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Hardik S.</span>
-              <span className="text-[10px] text-emerald-700 font-semibold">WhatsApp</span>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Hardik S.</span>
+              <span className="text-[9px] text-emerald-700 font-semibold leading-none">WhatsApp</span>
             </a>
 
-            {/* 5. WhatsApp Sanket Sorathiya */}
+            {/* 4. WhatsApp Sanket */}
             <a
               href="https://wa.me/918000045391?text=Hello%20Sanket%20Bhai%2C%20I%20scanned%20your%20Maa%20Diamond%20visiting%20card."
               target="_blank"
               rel="noreferrer"
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md shadow-emerald-500/20 group-hover:bg-emerald-600">
-                <MessageCircle className="h-5 w-5" />
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-emerald-500 text-white shadow-xs group-hover:bg-emerald-600">
+                <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Sanket S.</span>
-              <span className="text-[10px] text-emerald-700 font-semibold">WhatsApp</span>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Sanket S.</span>
+              <span className="text-[9px] text-emerald-700 font-semibold leading-none">WhatsApp</span>
             </a>
+
+            {/* Row 2: Save, Website, Inquiry, Location */}
+            {/* 5. Save Contact */}
+            <button
+              onClick={handleSaveContact}
+              className="group flex flex-col items-center transition-transform hover:scale-105"
+            >
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-amber-500 text-slate-950 shadow-xs group-hover:bg-amber-400">
+                <Download className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <span className="mt-1 text-[10px] font-extrabold text-slate-900 leading-tight">Save Contact</span>
+              <span className="text-[9px] text-amber-700 font-bold leading-none">1-Tap Sync</span>
+            </button>
 
             {/* 6. Website (Full Catalog) */}
             <a
@@ -240,163 +220,158 @@ export default function DigitalVCardPage() {
               rel="noreferrer"
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-white shadow-md shadow-sky-500/20 group-hover:bg-sky-600">
-                <Globe className="h-5 w-5" />
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-sky-500 text-white shadow-xs group-hover:bg-sky-600">
+                <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Website</span>
-              <span className="text-[10px] text-slate-500">Live Vault</span>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Website</span>
+              <span className="text-[9px] text-slate-500 leading-none">Live Vault</span>
             </a>
 
-            {/* 7. QR Code Modal */}
-            <button
-              onClick={() => setQrModalOpen(true)}
-              className="group flex flex-col items-center transition-transform hover:scale-105"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-white shadow-md group-hover:bg-slate-900">
-                <QrCode className="h-5 w-5" />
-              </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">QrCode</span>
-              <span className="text-[10px] text-slate-500">Scan</span>
-            </button>
-
-            {/* 8. Save Contact (.vcf) */}
-            <button
-              onClick={handleSaveContact}
-              className="group flex flex-col items-center transition-transform hover:scale-105"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500 text-slate-950 shadow-md shadow-amber-500/30 group-hover:bg-amber-400">
-                <Download className="h-5 w-5" />
-              </div>
-              <span className="mt-2 text-xs font-bold text-slate-900 font-extrabold">Save Contact</span>
-              <span className="text-[10px] text-amber-700 font-bold">1-Tap Sync</span>
-            </button>
-
-            {/* 9. Share */}
-            <button
-              onClick={handleShare}
-              className="group flex flex-col items-center transition-transform hover:scale-105"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-600 text-white shadow-md shadow-rose-600/20 group-hover:bg-rose-700">
-                <Share2 className="h-5 w-5" />
-              </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Share</span>
-              <span className="text-[10px] text-slate-500">Send Card</span>
-            </button>
-
-            {/* 10. Inquiry */}
+            {/* 7. Inquiry */}
             <button
               onClick={() => setInquiryModalOpen(true)}
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-600 text-white shadow-md shadow-violet-600/20 group-hover:bg-violet-700">
-                <FileText className="h-5 w-5" />
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-violet-600 text-white shadow-xs group-hover:bg-violet-700">
+                <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Inquiry</span>
-              <span className="text-[10px] text-slate-500">Get Quote</span>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Inquiry</span>
+              <span className="text-[9px] text-slate-500 leading-none">Get Quote</span>
             </button>
 
-            {/* 11. Instagram */}
-            <a
-              href={profile.instagramUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="group flex flex-col items-center transition-transform hover:scale-105"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white shadow-md group-hover:opacity-90">
-                <Instagram className="h-5 w-5" />
-              </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Instagram</span>
-              <span className="text-[10px] text-slate-500">Official</span>
-            </a>
-
-            {/* 12. Office Location */}
+            {/* 8. Office Location (Google Maps) */}
             <a
               href={profile.googleMapsUrl}
               target="_blank"
               rel="noreferrer"
               className="group flex flex-col items-center transition-transform hover:scale-105"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white shadow-md shadow-emerald-600/20 group-hover:bg-emerald-700">
-                <MapPin className="h-5 w-5" />
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-emerald-600 text-white shadow-xs group-hover:bg-emerald-700">
+                <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
-              <span className="mt-2 text-xs font-bold text-slate-800">Direction</span>
-              <span className="text-[10px] text-slate-500">Google Map</span>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Location</span>
+              <span className="text-[9px] text-slate-500 leading-none">Google Map</span>
             </a>
+
+            {/* Row 3: Email, Instagram, QR Code, Share */}
+            {/* 9. Email */}
+            <a
+              href="mailto:info@maadiamond.com"
+              className="group flex flex-col items-center transition-transform hover:scale-105"
+            >
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-xs group-hover:bg-blue-600">
+                <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Email</span>
+              <span className="text-[9px] text-slate-500 leading-none">Official</span>
+            </a>
+
+            {/* 10. Instagram */}
+            <a
+              href={profile.instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group flex flex-col items-center transition-transform hover:scale-105"
+            >
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white shadow-xs group-hover:opacity-90">
+                <Instagram className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Instagram</span>
+              <span className="text-[9px] text-slate-500 leading-none">Follow</span>
+            </a>
+
+            {/* 11. QR Code Modal */}
+            <button
+              onClick={() => setQrModalOpen(true)}
+              className="group flex flex-col items-center transition-transform hover:scale-105"
+            >
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-slate-800 text-white shadow-xs group-hover:bg-slate-900">
+                <QrCode className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">QrCode</span>
+              <span className="text-[9px] text-slate-500 leading-none">Scan</span>
+            </button>
+
+            {/* 12. Share */}
+            <button
+              onClick={handleShare}
+              className="group flex flex-col items-center transition-transform hover:scale-105"
+            >
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-rose-600 text-white shadow-xs group-hover:bg-rose-700">
+                <Share2 className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <span className="mt-1 text-[10px] font-bold text-slate-800 leading-tight">Share</span>
+              <span className="text-[9px] text-slate-500 leading-none">Send</span>
+            </button>
+
           </div>
         </div>
 
-        {/* Primary Save Contact Action Bar */}
-        <div className="px-6 pb-5 pt-1 bg-white">
+        {/* 3. Primary 1-Tap Save Action Bar */}
+        <div className="px-4 pb-2.5 pt-1 bg-white">
           <button
             onClick={handleSaveContact}
-            className="w-full flex items-center justify-center gap-2 rounded-2xl bg-slate-900 py-3.5 text-sm font-bold text-white shadow-lg shadow-slate-900/15 hover:bg-slate-800 transition transform active:scale-98"
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-slate-900 py-2.5 text-xs font-bold text-white shadow-md shadow-slate-900/10 hover:bg-slate-800 transition active:scale-98"
           >
-            <Download className="h-4 w-4 text-amber-400" />
+            <Download className="h-3.5 w-3.5 text-amber-400" />
             <span>Save Contact to Phone (.vcf)</span>
           </button>
         </div>
 
-        {/* Company Details & Address Info */}
-        <div className="border-t border-slate-200 bg-slate-50 px-6 py-5 text-xs text-slate-600 space-y-4">
-          <div className="flex items-start gap-3">
-            <MapPin className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-            <div>
-              <p className="font-bold text-slate-900">Headquarters / Trade Office:</p>
-              <p className="mt-0.5 leading-relaxed">
-                217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat, Gujarat - 395006
-              </p>
-            </div>
+        {/* 4. Company Address & Info (Compact Footer) */}
+        <div className="border-t border-slate-200 bg-slate-50 px-4 py-2.5 text-[11px] text-slate-600 space-y-1.5">
+          <div className="flex items-start gap-2">
+            <MapPin className="h-3.5 w-3.5 text-amber-600 shrink-0 mt-0.5" />
+            <p className="leading-snug text-slate-700">
+              <span className="font-bold text-slate-900">Address:</span> 217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat - 395006
+            </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Mail className="h-4 w-4 text-amber-600 shrink-0" />
-            <div>
-              <p className="font-bold text-slate-900">Official Correspondence:</p>
-              <a href="mailto:info@maadiamond.com" className="text-blue-600 hover:underline">
+          <div className="flex items-center justify-between text-[10.5px]">
+            <div className="flex items-center gap-1.5 text-slate-700">
+              <Mail className="h-3 w-3 text-amber-600 shrink-0" />
+              <a href="mailto:info@maadiamond.com" className="text-blue-600 hover:underline font-medium">
                 info@maadiamond.com
               </a>
             </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
-            <p className="text-[11px] text-slate-500">
-              100% Certified Natural &amp; Lab Grown Diamonds • GIA &amp; IGI Certification Standard
-            </p>
+            <div className="flex items-center gap-1 text-emerald-700 font-semibold">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+              <span>Certified Diamonds</span>
+            </div>
           </div>
         </div>
 
-        {/* Card Footer */}
-        <div className="bg-slate-100 py-3 text-center text-[11px] text-slate-500 border-t border-slate-200">
-          © {new Date().getFullYear()} Maa Diamond. Surat Diamond Bourse Traders.
+        {/* 5. Minimal Sub-footer */}
+        <div className="bg-slate-100 py-1.5 text-center text-[10px] text-slate-400 border-t border-slate-200">
+          © {new Date().getFullYear()} Maa Diamond • Surat Diamond Bourse Traders
         </div>
       </div>
 
       {/* QR Code Modal */}
       {qrModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
-          <div className="relative w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl border border-slate-200 text-center">
+          <div className="relative w-full max-w-xs rounded-2xl bg-white p-5 shadow-2xl border border-slate-200 text-center">
             <button
               onClick={() => setQrModalOpen(false)}
-              className="absolute right-4 top-4 rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
+              className="absolute right-3 top-3 rounded-full p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
 
-            <h3 className="text-lg font-bold text-slate-900">Scan Digital vCard</h3>
-            <p className="text-xs text-slate-500 mb-4">Scan with any phone camera to save contact</p>
+            <h3 className="text-base font-bold text-slate-900">Scan Digital vCard</h3>
+            <p className="text-[11px] text-slate-500 mb-3">Scan with phone camera to view &amp; save contact</p>
 
             {qrCodeDataUrl && (
-              <div className="mx-auto my-3 w-56 rounded-2xl border border-slate-200 bg-white p-4 shadow-md">
+              <div className="mx-auto my-2 w-48 rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
                 <img src={qrCodeDataUrl} alt="Maa Diamond QR Code" className="w-full h-auto" />
               </div>
             )}
 
             <button
               onClick={copyCardLink}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
             >
-              {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
               {copied ? "Link Copied!" : "Copy vCard Link"}
             </button>
           </div>
@@ -406,22 +381,22 @@ export default function DigitalVCardPage() {
       {/* Share Modal */}
       {shareModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
-          <div className="relative w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl border border-slate-200 text-center">
+          <div className="relative w-full max-w-xs rounded-2xl bg-white p-5 shadow-2xl border border-slate-200 text-center">
             <button
               onClick={() => setShareModalOpen(false)}
-              className="absolute right-4 top-4 rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
+              className="absolute right-3 top-3 rounded-full p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
 
-            <h3 className="text-lg font-bold text-slate-900 mb-2">Share Digital Card</h3>
-            <p className="text-xs text-slate-500 mb-4">Send this card directly to merchants or clients</p>
+            <h3 className="text-base font-bold text-slate-900 mb-1">Share Digital Card</h3>
+            <p className="text-[11px] text-slate-500 mb-3">Send this card directly to clients &amp; merchants</p>
 
             <button
               onClick={copyCardLink}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-slate-800 transition"
             >
-              {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
               {copied ? "Link Copied to Clipboard!" : "Copy Link"}
             </button>
           </div>

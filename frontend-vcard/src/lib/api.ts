@@ -51,7 +51,7 @@ export const FALLBACK_PROFILE: BusinessProfile = {
   primaryEmail: "info@maadiamond.com",
   salesEmail: "inquiry@maadiamond.com",
   websiteUrl: process.env.NEXT_PUBLIC_MAIN_WEBSITE_URL || "https://maa-diamond.vercel.app",
-  cardUrl: typeof window !== "undefined" ? window.location.href : "https://maa-diamond.vercel.app/card",
+  cardUrl: typeof window !== "undefined" ? window.location.href : "https://maa-diamond-vcard.vercel.app",
   address: {
     building: "217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha",
     street: "Mini Bazaar, Varachha",
