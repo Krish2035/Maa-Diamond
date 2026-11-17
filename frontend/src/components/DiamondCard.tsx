@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageCircle, FileText, Heart, ShieldCheck, Play, Image as ImageIcon, Rotate3d } from "lucide-react";
+import { MessageCircle, FileText, Heart, ShieldCheck, Play, Image as ImageIcon } from "lucide-react";
 import { Diamond } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
-import Diamond3DViewer from "@/components/Diamond3DViewer";
 
 interface DiamondCardProps {
   diamond: Diamond;
@@ -15,7 +14,7 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
   const { isInWishlist, toggleWishlist } = useAuth();
   const inWish = isInWishlist(diamond.id);
 
-  const [activeMedia, setActiveMedia] = useState<"image" | "video" | "3d">("image");
+  const [activeMedia, setActiveMedia] = useState<"image" | "video">("image");
 
   const openWhatsApp = () => {
     const text = encodeURIComponent(
@@ -48,7 +47,7 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
         </button>
       </div>
 
-      {/* Diamond Cut Image, Video, or 3D Showcase (Pure Luxury Black Background) */}
+      {/* Diamond Cut Image or 360° Video Showcase (Pure Luxury Black Background) */}
       <div className="relative mb-3 flex h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-black border border-slate-900 shadow-inner">
         {activeMedia === "video" ? (
           <div className="relative flex h-full w-full items-center justify-center bg-black">
@@ -62,10 +61,6 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
               controls
               className="relative z-10 max-h-44 max-w-full object-contain rounded-lg shadow-md"
             />
-          </div>
-        ) : activeMedia === "3d" ? (
-          <div className="relative h-full w-full">
-            <Diamond3DViewer shape={diamond.shape} className="h-full w-full" />
           </div>
         ) : (
           <img
@@ -81,44 +76,25 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
           <span>{diamond.lab} {diamond.certificateNo}</span>
         </div>
 
-        {/* Action Toggle Buttons (bottom-right of image) */}
-        <div className="absolute bottom-2 right-2 z-20 flex items-center gap-1.5">
-          {activeMedia !== "image" ? (
-            <button
-              type="button"
-              onClick={() => setActiveMedia("image")}
-              className="flex items-center gap-1 rounded-lg bg-black/85 hover:bg-black backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-white border border-amber-400/50 shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              title="Switch to Still Photo"
-            >
+        {/* 360° Video / Photo Toggle Button (bottom-right of image) */}
+        <button
+          type="button"
+          onClick={() => setActiveMedia(activeMedia === "video" ? "image" : "video")}
+          className="absolute bottom-2 right-2 z-20 flex items-center gap-1.5 rounded-lg bg-black/85 hover:bg-black backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-white border border-amber-400/50 shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          title={activeMedia === "video" ? "Switch to Still Photo" : "Play 360° Rotating Video"}
+        >
+          {activeMedia === "video" ? (
+            <>
               <ImageIcon className="h-3.5 w-3.5 text-amber-400" />
               <span>Photo</span>
-            </button>
+            </>
           ) : (
             <>
-              {/* 360° Video Button */}
-              <button
-                type="button"
-                onClick={() => setActiveMedia("video")}
-                className="flex items-center gap-1.5 rounded-lg bg-black/85 hover:bg-black backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-white border border-amber-400/50 shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                title="Play 360° Rotating Video"
-              >
-                <Play className="h-3 w-3 fill-amber-400 text-amber-400" />
-                <span>360° Video</span>
-              </button>
-
-              {/* 3D Spin Button */}
-              <button
-                type="button"
-                onClick={() => setActiveMedia("3d")}
-                className="flex items-center gap-1 rounded-lg bg-black/85 hover:bg-black backdrop-blur-md px-2 py-1 text-[11px] font-bold text-amber-300 border border-slate-700 shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                title="Interactive 3D Spin"
-              >
-                <Rotate3d className="h-3.5 w-3.5 text-amber-400 animate-spin" />
-                <span>3D</span>
-              </button>
+              <Play className="h-3 w-3 fill-amber-400 text-amber-400" />
+              <span>360° Video</span>
             </>
           )}
-        </div>
+        </button>
       </div>
 
       {/* Title & 4Cs Info */}
