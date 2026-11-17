@@ -3,7 +3,7 @@ const path = require('path');
 const QRCode = require('./frontend/node_modules/qrcode');
 const sharp = require('./frontend/node_modules/sharp');
 
-const TARGET_URL = 'https://maa-diamond-vcard.vercel.app';
+const TARGET_URL = 'https://maa-diamond-vcard.vercel.app/';
 const ARTIFACT_DIR = 'C:/Users/DELL/.gemini/antigravity/brain/35cac826-a18a-47fb-a6b1-332873d2f70f';
 
 async function generate() {
