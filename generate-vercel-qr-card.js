@@ -3,11 +3,11 @@ const path = require('path');
 const QRCode = require('./frontend/node_modules/qrcode');
 const sharp = require('./frontend/node_modules/sharp');
 
-const TARGET_URL = 'https://maa-diamond.vercel.app';
+const TARGET_URL = 'https://maa-diamond.vercel.app/card';
 const ARTIFACT_DIR = 'C:/Users/DELL/.gemini/antigravity/brain/35cac826-a18a-47fb-a6b1-332873d2f70f';
 
 async function generate() {
-  console.log(`Generating full-size QR code for: ${TARGET_URL}`);
+  console.log(`Generating digital vCard QR code for: ${TARGET_URL}`);
 
   // 1. Standalone high-res 1024x1024 QR Code PNG
   await QRCode.toFile('frontend/public/maa-diamond-website-qr.png', TARGET_URL, {
@@ -122,18 +122,74 @@ async function generate() {
   </g>
 
   <!-- Action Callout & Website Footer -->
-  <text x="749" y="475" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="2">SCAN TO OPEN WEBSITE</text>
+  <text x="749" y="475" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="2">SCAN FOR DIGITAL VCARD</text>
   <text x="749" y="502" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#64748B" text-anchor="middle">217, Akshar Diamond Market, Varachha, Surat</text>
-  <text x="749" y="526" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="1">maa-diamond.vercel.app</text>
+  <text x="749" y="526" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="800" fill="#2563EB" text-anchor="middle" letter-spacing="0.5">maa-diamond.vercel.app/card</text>
 
 </svg>`;
 
   // 4. Save SVG files
   fs.writeFileSync('frontend/public/maa-diamond-card-horizontal.svg', horizontalCardSvg);
   fs.writeFileSync('frontend/public/maa-diamond-card.svg', horizontalCardSvg);
+
+  // Also generate Portrait card with the same vCard target
+  const portraitCardSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="638" height="1012" viewBox="0 0 638 1012">
+  <defs>
+    <filter id="cardShadow" x="-5%" y="-3%" width="110%" height="108%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- PVC Card Base (Clean White with Rounded Corners R=40) -->
+  <rect x="8" y="8" width="622" height="996" rx="40" ry="40" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2.5" filter="url(#cardShadow)"/>
+
+  <!-- TOP SECTION: BRAND & DIAMOND EMBLEM -->
+  <g transform="translate(60, 60)">
+    <!-- Left: Brand Name & Details -->
+    <g transform="translate(0, 50)">
+      <text x="0" y="45" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="40" font-weight="900" fill="#0F172A" letter-spacing="3">MAA DIAMOND</text>
+      <text x="0" y="88" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="600" fill="#64748B" letter-spacing="0.5">Hardik Sorathiya &amp; Sanket Sorathiya</text>
+      <text x="0" y="116" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">+91 90333 20326</text>
+      <text x="0" y="136" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">+91 80000 45391</text>
+    </g>
+
+    <!-- Right: Geometric Diamond Emblem -->
+    <g transform="translate(370, 40)">
+      <polygon points="65,10 130,55 65,150 0,55" fill="none" stroke="#0F172A" stroke-width="4.5" stroke-linejoin="round"/>
+      <line x1="32" y1="55" x2="98" y2="55" stroke="#0F172A" stroke-width="3"/>
+      <line x1="65" y1="10" x2="65" y2="150" stroke="#0F172A" stroke-width="3"/>
+      <polygon points="65,10 32,55 65,150" fill="#0F172A" fill-opacity="0.12" stroke="#0F172A" stroke-width="2"/>
+      <polygon points="65,10 98,55 65,150" fill="#D97706" fill-opacity="0.25" stroke="#0F172A" stroke-width="2"/>
+      <polygon points="0,55 32,55 65,150" fill="#0F172A" fill-opacity="0.88" stroke="#0F172A" stroke-width="2"/>
+      <polygon points="130,55 98,55 65,150" fill="#0F172A" fill-opacity="0.88" stroke="#0F172A" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- HORIZONTAL DIVIDING LINE -->
+  <line x1="60" y1="320" x2="578" y2="320" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- BOTTOM SECTION: LARGE CRISP QR CODE (Centered) -->
+  <g transform="translate(139, 390)">
+    <rect x="-16" y="-16" width="392" height="392" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
+    <svg x="0" y="0" width="360" height="360" viewBox="0 0 ${vbSize} ${vbSize}" shape-rendering="crispEdges">
+      ${qrInnerPaths}
+    </svg>
+  </g>
+
+  <!-- Bottom Details & Website Footer -->
+  <text x="319" y="865" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A" text-anchor="middle" letter-spacing="3">SCAN FOR DIGITAL VCARD</text>
+  <text x="319" y="905" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B" text-anchor="middle">217, Akshar Diamond Market, Mangadh Chowk, Mini Bazaar, Varachha, Surat - 395006</text>
+  <text x="319" y="935" font-family="Calibri, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="700" fill="#2563EB" text-anchor="middle" letter-spacing="1">maa-diamond.vercel.app/card</text>
+
+</svg>`;
+
+  fs.writeFileSync('frontend/public/maa-diamond-card-portrait.svg', portraitCardSvg);
+
   if (fs.existsSync(ARTIFACT_DIR)) {
     fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-card-horizontal.svg'), horizontalCardSvg);
     fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-card.svg'), horizontalCardSvg);
+    fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-card-portrait.svg'), portraitCardSvg);
     fs.copyFileSync('frontend/public/maa-diamond-website-qr.png', path.join(ARTIFACT_DIR, 'maa-diamond-website-qr.png'));
     fs.writeFileSync(path.join(ARTIFACT_DIR, 'maa-diamond-website-qr.svg'), standaloneQrSvg);
   }

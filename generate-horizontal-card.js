@@ -2,7 +2,7 @@ const fs = require('fs');
 const QRCode = require('./frontend/node_modules/qrcode');
 
 async function main() {
-  const targetUrl = 'https://maa-diamond.vercel.app';
+  const targetUrl = 'https://maa-diamond.vercel.app/card';
 
   // Generate QR as raw SVG
   const qrSvg = await QRCode.toString(targetUrl, {
