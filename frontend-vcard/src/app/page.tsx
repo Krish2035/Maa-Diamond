@@ -133,12 +133,13 @@ export default function DigitalVCardPage() {
           <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-wider text-slate-900 leading-tight">
             MAA DIAMOND
           </h1>
-          <p className="text-[10px] sm:text-xs md:text-sm text-amber-600 font-bold uppercase tracking-wider mt-0.5 sm:mt-1">
-            Certified Natural &amp; Lab-Grown Diamonds
-          </p>
-          <p className="text-[11px] sm:text-xs md:text-sm text-slate-600 mt-1 sm:mt-1.5 font-medium">
-            Directors: <span className="text-slate-900 font-bold">Hardik Sorathiya &amp; Sanket Sorathiya</span>
-          </p>
+          <div className="flex items-start justify-center gap-1.5 text-[11px] sm:text-xs md:text-sm text-slate-600 mt-1.5 sm:mt-2 font-medium">
+            <span>Director name:</span>
+            <div className="flex flex-col text-left font-bold text-slate-900 leading-snug">
+              <span>Hardik Sorathiya</span>
+              <span>Sanket Sorathiya</span>
+            </div>
+          </div>
         </div>
 
         {/* 2. 12-Action Grid (4 Columns x 3 Rows - Responsive Scaling) */}
