@@ -133,12 +133,10 @@ export default function DigitalVCardPage() {
           <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-wider text-slate-900 leading-tight">
             MAA DIAMOND
           </h1>
-          <div className="flex items-start justify-center gap-1.5 text-[11px] sm:text-xs md:text-sm text-slate-600 mt-1.5 sm:mt-2 font-medium">
-            <span>Director name:</span>
-            <div className="flex flex-col text-left font-bold text-slate-900 leading-snug">
-              <span>Hardik Sorathiya</span>
-              <span>Sanket Sorathiya</span>
-            </div>
+          <div className="text-center text-[11px] sm:text-xs md:text-sm mt-1.5 sm:mt-2">
+            <p className="text-slate-500 font-medium">Director name:</p>
+            <p className="text-slate-900 font-bold leading-snug">Hardik Sorathiya</p>
+            <p className="text-slate-900 font-bold leading-snug">Sanket Sorathiya</p>
           </div>
         </div>
 
