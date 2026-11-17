@@ -8,8 +8,6 @@ import {
   ShieldCheck,
   Award,
   ArrowRight,
-  Filter,
-  Search,
   MessageCircle,
   FileText,
   MapPin,
@@ -44,9 +42,6 @@ export default function HomePage() {
   const [diamonds, setDiamonds] = useState<Diamond[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedShape, setSelectedShape] = useState<string>("All");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedColor, setSelectedColor] = useState<string>("All");
-  const [selectedClarity, setSelectedClarity] = useState<string>("All");
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [activeDiamondForInquiry, setActiveDiamondForInquiry] = useState<Diamond | null>(null);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -61,16 +56,13 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchDiamonds();
-  }, [selectedShape, selectedColor, selectedClarity]);
+  }, [selectedShape]);
 
   const fetchDiamonds = async () => {
     setLoading(true);
     try {
       const res = await api.getDiamonds({
         shape: selectedShape !== "All" ? selectedShape : undefined,
-        color: selectedColor !== "All" ? selectedColor : undefined,
-        clarity: selectedClarity !== "All" ? selectedClarity : undefined,
-        search: searchQuery || undefined,
       });
       setDiamonds(res.diamonds);
     } catch (err) {
@@ -250,7 +242,7 @@ export default function HomePage() {
           </div>
 
           {/* Diamond Cut Shape Selector Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
             <button
               onClick={() => setSelectedShape("All")}
               className={`rounded-xl px-4 py-2 text-xs font-bold transition-all ${
@@ -275,60 +267,6 @@ export default function HomePage() {
                 <span>{s.label}</span>
               </button>
             ))}
-          </div>
-
-          {/* Filter Bar (Search, Color, Clarity) */}
-          <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search stock #, carat, shape..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && fetchDiamonds()}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:outline-none"
-              />
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-semibold text-slate-600 uppercase">Color:</span>
-                <select
-                  value={selectedColor}
-                  onChange={(e) => setSelectedColor(e.target.value)}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none"
-                >
-                  <option value="All">All Colors (D-J)</option>
-                  <option value="D">D (Colorless)</option>
-                  <option value="E">E</option>
-                  <option value="F">F</option>
-                  <option value="G">G</option>
-                </select>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-semibold text-slate-600 uppercase">Clarity:</span>
-                <select
-                  value={selectedClarity}
-                  onChange={(e) => setSelectedClarity(e.target.value)}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:outline-none"
-                >
-                  <option value="All">All Clarity</option>
-                  <option value="IF">IF (Flawless)</option>
-                  <option value="VVS1">VVS1</option>
-                  <option value="VVS2">VVS2</option>
-                  <option value="VS1">VS1</option>
-                </select>
-              </div>
-
-              <button
-                onClick={fetchDiamonds}
-                className="rounded-lg bg-slate-900 hover:bg-slate-800 px-4 py-1.5 text-xs font-bold text-white transition-colors"
-              >
-                Search
-              </button>
-            </div>
           </div>
 
           {/* Product Cards Grid (Matching Screenshot 5) */}
