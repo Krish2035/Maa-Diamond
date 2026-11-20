@@ -1,11 +1,35 @@
 import { Diamond, Inquiry, BusinessProfile, User } from "./types";
 
 export function getApiBaseUrl(): string {
-  // Always use local Next.js API routes on Vercel and browser
+  // 1. If running in browser on a production domain (e.g. Vercel)
   if (typeof window !== "undefined") {
-    return "/api";
+    const hostname = window.location.hostname;
+    if (hostname !== "localhost" && hostname !== "127.0.0.1") {
+      if (
+        process.env.NEXT_PUBLIC_API_URL &&
+        !process.env.NEXT_PUBLIC_API_URL.includes("localhost") &&
+        !process.env.NEXT_PUBLIC_API_URL.includes("127.0.0.1")
+      ) {
+        const trimmed = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
+        return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+      }
+      return "https://maa-diamond.onrender.com/api";
+    }
   }
-  return "/api";
+
+  // 2. If NEXT_PUBLIC_API_URL is configured in environment
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    const trimmed = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
+    return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+  }
+
+  // 3. Next.js production build / SSR default
+  if (process.env.NODE_ENV === "production") {
+    return "https://maa-diamond.onrender.com/api";
+  }
+
+  // 4. Default for local development
+  return "http://localhost:5000/api";
 }
 
 export const API_BASE_URL = getApiBaseUrl();
@@ -317,7 +341,9 @@ class ApiClient {
       if (params?.search) query.append("search", params.search);
       if (params?.featured) query.append("featured", "true");
 
-      const res = await fetch(`${this.baseUrl}/diamonds?${query.toString()}`, {
+      // In browser, load diamonds instantly from local Next.js route (/api/diamonds) which serves the 11 verified black-background diamond cuts
+      const targetUrl = typeof window !== "undefined" ? "/api/diamonds" : `${this.baseUrl}/diamonds`;
+      const res = await fetch(`${targetUrl}?${query.toString()}`, {
         headers: this.getHeaders(),
         cache: "no-store",
       });

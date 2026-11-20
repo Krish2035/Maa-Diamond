@@ -22,6 +22,30 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/auth/:path*',
+        destination: 'https://maa-diamond.onrender.com/api/auth/:path*',
+      },
+      {
+        source: '/api/inquiries/:path*',
+        destination: 'https://maa-diamond.onrender.com/api/inquiries/:path*',
+      },
+      {
+        source: '/api/profile/:path*',
+        destination: 'https://maa-diamond.onrender.com/api/profile/:path*',
+      },
+      {
+        source: '/api/stats/:path*',
+        destination: 'https://maa-diamond.onrender.com/api/stats/:path*',
+      },
+      {
+        source: '/api/vcard/:path*',
+        destination: 'https://maa-diamond.onrender.com/api/vcard/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
