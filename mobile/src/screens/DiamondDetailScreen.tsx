@@ -57,12 +57,7 @@ export default function DiamondDetailScreen({
     }
 
     try {
-      const supported = await Linking.canOpenURL(videoUrl).catch(() => true);
-      if (supported) {
-        await Linking.openURL(videoUrl);
-      } else {
-        Alert.alert("Unable to Play Video", `Cannot open video stream: ${videoUrl}`);
-      }
+      await Linking.openURL(videoUrl);
     } catch (err: any) {
       Alert.alert("Video Playback", err?.message || "Could not launch video player.");
     }
