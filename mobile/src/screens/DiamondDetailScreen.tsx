@@ -15,9 +15,12 @@ import {
   MessageCircle,
   FileText,
   CheckCircle2,
-  Sparkles,
+  Play,
+  RotateCw,
+  ExternalLink,
 } from "lucide-react-native";
 import { Diamond } from "../types";
+import { getMediaUrl } from "../services/api";
 
 interface Props {
   route: any;
@@ -43,38 +46,136 @@ export default function DiamondDetailScreen({
     Linking.openURL(`https://wa.me/919033320326?text=${text}`);
   };
 
+  const handlePlayVideo = async () => {
+    const videoUrl = getMediaUrl(diamond.videoUrl);
+    if (!videoUrl) {
+      Alert.alert(
+        "360° Video",
+        `360° video for ${diamond.shape} Diamond (${diamond.stockNumber}) is currently being prepared.`
+      );
+      return;
+    }
+
+    try {
+      const supported = await Linking.canOpenURL(videoUrl).catch(() => true);
+      if (supported) {
+        await Linking.openURL(videoUrl);
+      } else {
+        Alert.alert("Unable to Play Video", `Cannot open video stream: ${videoUrl}`);
+      }
+    } catch (err: any) {
+      Alert.alert("Video Playback", err?.message || "Could not launch video player.");
+    }
+  };
+
+  const imageUrl = getMediaUrl(diamond.imageUrl);
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {/* Media Showcase */}
+      {/* Media Showcase - Pure Black Solid Canvas */}
       <View style={styles.mediaContainer}>
-        <Image
-          source={{
-            uri:
-              diamond.imageUrl ||
-              "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
-          }}
-          style={styles.mediaImage}
-          resizeMode="contain"
-        />
+        {imageUrl ? (
+          <Image
+            source={{ uri: imageUrl }}
+            style={styles.mediaImage}
+            resizeMode="contain"
+          />
+        ) : (
+          <View style={styles.mediaPlaceholder}>
+            <Text style={styles.mediaPlaceholderText}>{diamond.shape} Diamond</Text>
+          </View>
+        )}
 
         {/* Certificate Tag */}
         <View style={styles.certBadge}>
-          <ShieldCheck size={14} color="#2563eb" />
+          <ShieldCheck size={13} color="#fbbf24" />
           <Text style={styles.certText}>
             {diamond.lab} {diamond.certificateNo}
           </Text>
         </View>
 
+        {/* Floating 360° Video Play Button directly on showcase */}
+        <TouchableOpacity
+          style={styles.floatingVideoBtn}
+          activeOpacity={0.8}
+          onPress={handlePlayVideo}
+        >
+          <Play size={12} color="#fbbf24" fill="#fbbf24" />
+          <Text style={styles.floatingVideoText}>360° Video</Text>
+        </TouchableOpacity>
+
         {/* Wishlist Floating Button */}
         <TouchableOpacity
           style={styles.wishlistFloat}
           onPress={() => onToggleWishlist(diamond.id)}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         >
           <Heart
             size={18}
             color={isWishlisted ? "#f43f5e" : "#64748b"}
             fill={isWishlisted ? "#f43f5e" : "transparent"}
           />
+        </TouchableOpacity>
+      </View>
+
+      {/* Media Mode Segmented Switcher */}
+      <View style={styles.mediaSwitcherRow}>
+        <TouchableOpacity
+          style={[styles.mediaSwitchTab, activeMedia === "image" && styles.mediaSwitchTabActive]}
+          onPress={() => setActiveMedia("image")}
+        >
+          <Text
+            style={[
+              styles.mediaSwitchText,
+              activeMedia === "image" && styles.mediaSwitchTextActive,
+            ]}
+          >
+            📷 Pure Black HD Photo
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.mediaSwitchTab, activeMedia === "video" && styles.mediaSwitchTabActive]}
+          onPress={() => {
+            setActiveMedia("video");
+            handlePlayVideo();
+          }}
+        >
+          <Play size={12} color={activeMedia === "video" ? "#ffffff" : "#d97706"} fill={activeMedia === "video" ? "#ffffff" : "#d97706"} />
+          <Text
+            style={[
+              styles.mediaSwitchText,
+              activeMedia === "video" && styles.mediaSwitchTextActive,
+            ]}
+          >
+            Play 360° Video
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* 360° Video Interactive Hero Banner */}
+      <View style={styles.videoBannerCard}>
+        <View style={styles.videoBannerLeft}>
+          <View style={styles.videoBadge}>
+            <RotateCw size={11} color="#b45309" />
+            <Text style={styles.videoBadgeText}>INTERACTIVE 360° INSPECTION</Text>
+          </View>
+          <Text style={styles.videoBannerTitle}>
+            Rotate &amp; Inspect in 360°
+          </Text>
+          <Text style={styles.videoBannerDesc}>
+            Watch high-definition rotating video of this {diamond.shape} cut on black pedestal.
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.playActionBtn}
+          activeOpacity={0.8}
+          onPress={handlePlayVideo}
+        >
+          <Play size={14} color="#0f172a" fill="#0f172a" />
+          <Text style={styles.playActionBtnText}>Play Video</Text>
+          <ExternalLink size={12} color="#0f172a" />
         </TouchableOpacity>
       </View>
 
@@ -168,7 +269,7 @@ export default function DiamondDetailScreen({
           onPress={() => {
             Alert.alert(
               "Wholesale Inquiry",
-              `Direct quote for ${diamond.stockNumber}. Connect directly on WhatsApp with our trading desk for immediate pricing.`,
+              `Direct quote for ${diamond.shape} Diamond (${diamond.stockNumber}). Connect directly on WhatsApp with our trading desk for immediate pricing.`,
               [
                 { text: "Cancel", style: "cancel" },
                 { text: "Open WhatsApp", onPress: openWhatsApp },
@@ -199,17 +300,26 @@ const styles = StyleSheet.create({
   },
   mediaContainer: {
     width: "100%",
-    height: 280,
-    backgroundColor: "#ffffff",
+    height: 300,
+    backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
     borderBottomWidth: 1,
-    borderBottomColor: "#e2e8f0",
+    borderBottomColor: "#1e293b",
   },
   mediaImage: {
-    width: "85%",
-    height: "85%",
+    width: "88%",
+    height: "88%",
+  },
+  mediaPlaceholder: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  mediaPlaceholderText: {
+    color: "#94a3b8",
+    fontSize: 14,
+    fontWeight: "700",
   },
   certBadge: {
     position: "absolute",
@@ -218,20 +328,37 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    backgroundColor: "#ffffff",
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
     borderWidth: 1,
-    borderColor: "#e2e8f0",
+    borderColor: "rgba(255, 255, 255, 0.2)",
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingVertical: 5,
     borderRadius: 6,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
   },
   certText: {
     fontSize: 11,
     fontWeight: "700",
-    color: "#1e293b",
+    color: "#ffffff",
+  },
+  floatingVideoBtn: {
+    position: "absolute",
+    bottom: 12,
+    right: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "rgba(0, 0, 0, 0.85)",
+    borderWidth: 1,
+    borderColor: "rgba(251, 191, 36, 0.7)",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  floatingVideoText: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: "#ffffff",
+    letterSpacing: 0.3,
   },
   wishlistFloat: {
     position: "absolute",
@@ -240,7 +367,7 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 19,
-    backgroundColor: "#ffffff",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderWidth: 1,
     borderColor: "#e2e8f0",
     alignItems: "center",
@@ -249,11 +376,96 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
   },
+  mediaSwitcherRow: {
+    flexDirection: "row",
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e2e8f0",
+    gap: 8,
+  },
+  mediaSwitchTab: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: "#f1f5f9",
+  },
+  mediaSwitchTabActive: {
+    backgroundColor: "#0f172a",
+  },
+  mediaSwitchText: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#475569",
+  },
+  mediaSwitchTextActive: {
+    color: "#ffffff",
+  },
+  videoBannerCard: {
+    backgroundColor: "#fffbeb",
+    marginHorizontal: 16,
+    marginTop: 14,
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: "#fde68a",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  videoBannerLeft: {
+    flex: 1,
+  },
+  videoBadge: {
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    marginBottom: 4,
+  },
+  videoBadgeText: {
+    fontSize: 9,
+    fontWeight: "800",
+    color: "#b45309",
+    letterSpacing: 0.5,
+  },
+  videoBannerTitle: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: "#0f172a",
+    marginBottom: 2,
+  },
+  videoBannerDesc: {
+    fontSize: 10,
+    color: "#64748b",
+    lineHeight: 14,
+  },
+  playActionBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "#f59e0b",
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+    borderRadius: 8,
+  },
+  playActionBtnText: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: "#0f172a",
+  },
   titleSection: {
     backgroundColor: "#ffffff",
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#e2e8f0",
+    marginTop: 14,
   },
   badgeRow: {
     flexDirection: "row",
@@ -412,4 +624,3 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
 });
-

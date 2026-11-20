@@ -26,15 +26,16 @@ import { useAuth } from "../context/AuthContext";
 
 const SHAPES: DiamondShape[] = [
   "Round",
-  "Marquise",
   "Pear",
-  "Princess",
-  "Emerald",
-  "Cushion",
+  "Marquise",
   "Oval",
-  "Radiant",
-  "Heart",
-  "Asscher",
+  "Cushion",
+  "Princess",
+  "Trapezoid",
+  "Triangle",
+  "Trillion",
+  "Baguette",
+  "Rose Cut",
 ];
 
 export default function InquiryScreen() {

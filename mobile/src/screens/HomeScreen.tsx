@@ -31,13 +31,16 @@ const { width } = Dimensions.get("window");
 
 const POPULAR_SHAPES: { shape: DiamondShape; label: string; icon: string; desc: string }[] = [
   { shape: "Round", label: "Round Brilliant", icon: "💎", desc: "Classic 57 Facet Fire" },
-  { shape: "Marquise", label: "Marquise Cut", icon: "✨", desc: "Elongated Royal Elegance" },
   { shape: "Pear", label: "Pear Teardrop", icon: "💧", desc: "Brilliant Tear Silhouette" },
-  { shape: "Princess", label: "Princess Cut", icon: "🔷", desc: "Modern Square Brilliance" },
-  { shape: "Emerald", label: "Emerald Step", icon: "🏛️", desc: "Hall-of-Mirrors Luster" },
+  { shape: "Marquise", label: "Marquise Cut", icon: "✨", desc: "Elongated Royal Elegance" },
   { shape: "Oval", label: "Oval Cut", icon: "🥚", desc: "Maximized Carat Spread" },
-  { shape: "Radiant", label: "Radiant Cut", icon: "🌟", desc: "Vibrant Scintillation" },
   { shape: "Cushion", label: "Cushion Cut", icon: "🛋️", desc: "Pillow Vintage Charm" },
+  { shape: "Princess", label: "Princess Cut", icon: "🔷", desc: "Modern Square Brilliance" },
+  { shape: "Trapezoid", label: "Trapezoid Cut", icon: "📐", desc: "Architectural Symmetry" },
+  { shape: "Triangle", label: "Triangle Cut", icon: "🔺", desc: "Sharp Vertices Fire" },
+  { shape: "Trillion", label: "Trillion Cut", icon: "💠", desc: "Curved Trilliant Luster" },
+  { shape: "Baguette", label: "Baguette Cut", icon: "🏛️", desc: "Hall-of-Mirrors Step" },
+  { shape: "Rose Cut", label: "Rose Cut", icon: "🌹", desc: "Antique Heritage Dome" },
 ];
 
 interface Props {

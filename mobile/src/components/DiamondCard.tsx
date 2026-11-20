@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Linking,
+  Alert,
 } from "react-native";
 import {
   Heart,
@@ -15,6 +16,7 @@ import {
   MessageCircle,
 } from "lucide-react-native";
 import { Diamond } from "../types";
+import { getMediaUrl } from "../services/api";
 
 interface Props {
   diamond: Diamond;
@@ -22,6 +24,7 @@ interface Props {
   onToggleWishlist: (id: string) => void;
   onSelect: (diamond: Diamond) => void;
   onInquire: (diamond: Diamond) => void;
+  onPlayVideo?: (diamond: Diamond) => void;
 }
 
 export default function DiamondCard({
@@ -30,6 +33,7 @@ export default function DiamondCard({
   onToggleWishlist,
   onSelect,
   onInquire,
+  onPlayVideo,
 }: Props) {
   const openWhatsApp = () => {
     const text = encodeURIComponent(
@@ -37,6 +41,35 @@ export default function DiamondCard({
     );
     Linking.openURL(`https://wa.me/919033320326?text=${text}`);
   };
+
+  const handleVideoPress = async () => {
+    if (onPlayVideo) {
+      onPlayVideo(diamond);
+      return;
+    }
+
+    const videoUrl = getMediaUrl(diamond.videoUrl);
+    if (!videoUrl) {
+      Alert.alert(
+        "360° Video",
+        `360° rotating video for ${diamond.shape} Diamond (${diamond.stockNumber}) is currently being prepared.`
+      );
+      return;
+    }
+
+    try {
+      const supported = await Linking.canOpenURL(videoUrl).catch(() => true);
+      if (supported) {
+        await Linking.openURL(videoUrl);
+      } else {
+        Alert.alert("Unable to Play Video", `Cannot open video stream: ${videoUrl}`);
+      }
+    } catch (err: any) {
+      Alert.alert("Video Playback", err?.message || "Could not launch video player.");
+    }
+  };
+
+  const imageUrl = getMediaUrl(diamond.imageUrl);
 
   return (
     <TouchableOpacity
@@ -53,6 +86,7 @@ export default function DiamondCard({
         <TouchableOpacity
           onPress={() => onToggleWishlist(diamond.id)}
           style={[styles.wishButton, isWishlisted && styles.wishButtonActive]}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         >
           <Heart
             size={16}
@@ -62,34 +96,37 @@ export default function DiamondCard({
         </TouchableOpacity>
       </View>
 
-      {/* Diamond Image Container */}
+      {/* Diamond Image Container - Pure Black Solid Canvas matching Website */}
       <View style={styles.imageContainer}>
-        <Image
-          source={{
-            uri:
-              diamond.imageUrl ||
-              "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
-          }}
-          style={styles.diamondImage}
-          resizeMode="contain"
-        />
+        {imageUrl ? (
+          <Image
+            source={{ uri: imageUrl }}
+            style={styles.diamondImage}
+            resizeMode="contain"
+          />
+        ) : (
+          <View style={styles.imagePlaceholder}>
+            <Text style={styles.imagePlaceholderText}>{diamond.shape} Cut</Text>
+          </View>
+        )}
 
         {/* Certificate Badge (Bottom-Left) */}
         <View style={styles.certBadge}>
-          <ShieldCheck size={12} color="#2563eb" />
+          <ShieldCheck size={11} color="#fbbf24" />
           <Text style={styles.certText}>
             {diamond.lab} {diamond.certificateNo}
           </Text>
         </View>
 
-        {/* Transparent Video Button (Bottom-Right, matching user's web requirement) */}
+        {/* 360° Video Button (Bottom-Right, interactive playback) */}
         <TouchableOpacity
           style={styles.videoButton}
-          activeOpacity={0.8}
-          onPress={() => onSelect(diamond)}
+          activeOpacity={0.7}
+          onPress={handleVideoPress}
+          hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
         >
           <Play size={10} color="#fbbf24" fill="#fbbf24" />
-          <Text style={styles.videoButtonText}>Video</Text>
+          <Text style={styles.videoButtonText}>360° Video</Text>
         </TouchableOpacity>
       </View>
 
@@ -190,8 +227,8 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: "100%",
-    height: 180,
-    backgroundColor: "#f8fafc",
+    height: 190,
+    backgroundColor: "#000000",
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
@@ -200,8 +237,17 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   diamondImage: {
-    width: "80%",
-    height: "80%",
+    width: "88%",
+    height: "88%",
+  },
+  imagePlaceholder: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imagePlaceholderText: {
+    color: "#94a3b8",
+    fontSize: 12,
+    fontWeight: "600",
   },
   certBadge: {
     position: "absolute",
@@ -210,17 +256,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: "#ffffff",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
     borderWidth: 1,
-    borderColor: "#e2e8f0",
-    paddingHorizontal: 6,
+    borderColor: "rgba(255, 255, 255, 0.2)",
+    paddingHorizontal: 7,
     paddingVertical: 3,
-    borderRadius: 4,
+    borderRadius: 6,
   },
   certText: {
     fontSize: 10,
     fontWeight: "700",
-    color: "#334155",
+    color: "#ffffff",
+    letterSpacing: 0.3,
   },
   videoButton: {
     position: "absolute",
@@ -229,17 +276,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: "rgba(0, 0, 0, 0.65)",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderColor: "rgba(251, 191, 36, 0.6)",
     paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingVertical: 4,
     borderRadius: 6,
   },
   videoButtonText: {
     fontSize: 10,
     fontWeight: "700",
     color: "#ffffff",
+    letterSpacing: 0.2,
   },
   infoRow: {
     flexDirection: "row",
@@ -328,4 +376,3 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
 });
-
