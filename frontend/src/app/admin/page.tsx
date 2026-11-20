@@ -17,6 +17,7 @@ import {
   AlertCircle,
   QrCode,
   Users,
+  User as UserIcon,
   Search,
   ExternalLink,
   LogOut,
@@ -32,7 +33,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { api } from "@/lib/api";
-import { Diamond, Inquiry, BusinessProfile, DiamondShape } from "@/lib/types";
+import { Diamond, Inquiry, BusinessProfile, DiamondShape, User, UserRole } from "@/lib/types";
 
 const SHAPES: DiamondShape[] = [
   "Round",
@@ -51,12 +52,26 @@ const SHAPES: DiamondShape[] = [
 export default function AdminPage() {
   const router = useRouter();
   const { user, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState<"inventory" | "inquiries" | "analytics">("inventory");
+  const [activeTab, setActiveTab] = useState<"inventory" | "users" | "inquiries" | "analytics">("inventory");
   const [diamonds, setDiamonds] = useState<Diamond[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // User Management State
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [userFormData, setUserFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "USER" as UserRole,
+    companyName: "",
+    phone: "",
+  });
+  const [isSavingUser, setIsSavingUser] = useState(false);
 
   // CRUD Feedback Notification
   const [notification, setNotification] = useState<{
@@ -166,14 +181,16 @@ export default function AdminPage() {
   const loadAllData = async () => {
     setIsLoading(true);
     try {
-      const [diaRes, inqRes, statRes] = await Promise.all([
+      const [diaRes, inqRes, statRes, userList] = await Promise.all([
         api.getDiamonds(),
         api.getInquiries(),
         api.getStats().catch(() => null),
+        api.getUsers().catch(() => []),
       ]);
       setDiamonds(diaRes.diamonds);
       setInquiries(inqRes);
       setStats(statRes?.stats || null);
+      setUsers(userList);
     } catch (e) {
       console.error(e);
       setNotification({
@@ -182,6 +199,153 @@ export default function AdminPage() {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleOpenAddUserModal = () => {
+    setEditingUser(null);
+    setUserFormData({
+      name: "",
+      email: "",
+      password: "",
+      role: "USER",
+      companyName: "",
+      phone: "",
+    });
+    setIsUserModalOpen(true);
+  };
+
+  const handleOpenEditUserModal = (u: User) => {
+    setEditingUser(u);
+    setUserFormData({
+      name: u.name,
+      email: u.email,
+      password: "",
+      role: u.role,
+      companyName: u.companyName || "",
+      phone: u.phone || "",
+    });
+    setIsUserModalOpen(true);
+  };
+
+  const handleSaveUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingUser(true);
+    try {
+      if (editingUser) {
+        const updates: Partial<User> & { password?: string } = {
+          name: userFormData.name,
+          email: userFormData.email,
+          role: userFormData.role,
+          companyName: userFormData.companyName,
+          phone: userFormData.phone,
+        };
+        if (userFormData.password && userFormData.password.trim()) {
+          updates.password = userFormData.password;
+        }
+        await api.updateUser(editingUser.id, updates);
+        setNotification({
+          type: "success",
+          message: `✓ User account "${userFormData.name}" updated successfully (Role: ${userFormData.role})!`,
+        });
+      } else {
+        if (!userFormData.password || userFormData.password.length < 6) {
+          alert("Password must be at least 6 characters.");
+          setIsSavingUser(false);
+          return;
+        }
+        await api.createUser({
+          name: userFormData.name,
+          email: userFormData.email,
+          password: userFormData.password,
+          role: userFormData.role,
+          companyName: userFormData.companyName,
+          phone: userFormData.phone,
+        });
+        setNotification({
+          type: "success",
+          message: `✓ New user "${userFormData.name}" created successfully with ${userFormData.role} access!`,
+        });
+      }
+      setIsUserModalOpen(false);
+      const freshUsers = await api.getUsers();
+      setUsers(freshUsers);
+    } catch (err: any) {
+      setNotification({
+        type: "error",
+        message: err.message || "Failed to save user account.",
+      });
+    } finally {
+      setIsSavingUser(false);
+    }
+  };
+
+  // One-click role toggle: Normal User <-> Admin
+  const handleToggleUserRole = async (targetUser: User) => {
+    const nextRole: UserRole = targetUser.role === "ADMIN" ? "USER" : "ADMIN";
+    const roleLabel = nextRole === "ADMIN" ? "Administrator" : "Standard Buyer";
+
+    if (targetUser.id === user?.id && nextRole === "USER") {
+      alert("You cannot demote your own active logged-in administrator account.");
+      return;
+    }
+
+    if (
+      !confirm(
+        `Are you sure you want to change ${targetUser.name}'s access level to ${roleLabel} (${nextRole})?`
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await api.updateUser(targetUser.id, { role: nextRole });
+      setNotification({
+        type: "success",
+        message: `✓ ${targetUser.name} is now an ${roleLabel} (${nextRole})!`,
+      });
+      const freshUsers = await api.getUsers();
+      setUsers(freshUsers);
+    } catch (err: any) {
+      setNotification({
+        type: "error",
+        message: err.message || "Failed to switch user role.",
+      });
+    }
+  };
+
+  const handleDeleteUser = async (targetUser: User) => {
+    if (targetUser.id === user?.id || targetUser.email === user?.email) {
+      alert("You cannot delete your own logged-in administrator account.");
+      return;
+    }
+
+    if (targetUser.email === "admin@maadiamond.com") {
+      alert("The primary default system administrator cannot be deleted.");
+      return;
+    }
+
+    if (
+      !confirm(
+        `Are you sure you want to permanently delete user "${targetUser.name}" (${targetUser.email})? This action cannot be undone.`
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await api.deleteUser(targetUser.id);
+      setNotification({
+        type: "success",
+        message: `✓ User account "${targetUser.name}" was permanently deleted.`,
+      });
+      const freshUsers = await api.getUsers();
+      setUsers(freshUsers);
+    } catch (err: any) {
+      setNotification({
+        type: "error",
+        message: err.message || "Failed to delete user account.",
+      });
     }
   };
 
@@ -317,6 +481,18 @@ export default function AdminPage() {
     );
   });
 
+  // Filter users based on search query (case-insensitive)
+  const filteredUsers = users.filter((u) => {
+    if (!trimmedSearch) return true;
+    return (
+      u.name.toLowerCase().includes(trimmedSearch) ||
+      u.email.toLowerCase().includes(trimmedSearch) ||
+      u.role.toLowerCase().includes(trimmedSearch) ||
+      (u.companyName && u.companyName.toLowerCase().includes(trimmedSearch)) ||
+      (u.phone && u.phone.toLowerCase().includes(trimmedSearch))
+    );
+  });
+
   return (
     <div className="min-h-screen bg-white text-slate-900 py-8 px-4 sm:px-6">
       <div className="mx-auto max-w-7xl">
@@ -423,17 +599,23 @@ export default function AdminPage() {
         </div>
 
         {/* Quick KPI Stat Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-8">
           <div className="rounded-2xl border border-slate-300 bg-white p-4 shadow-xs">
-            <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">Total In Database</span>
+            <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">Diamond Inventory</span>
             <span className="font-serif text-2xl font-extrabold text-slate-900 mt-1 block">{diamonds.length}</span>
-            <span className="text-[11px] text-emerald-700 font-bold">Live Diamond Stones</span>
+            <span className="text-[11px] text-emerald-700 font-bold">Live Stones</span>
+          </div>
+
+          <div className="rounded-2xl border border-slate-300 bg-white p-4 shadow-xs">
+            <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">User Accounts</span>
+            <span className="font-serif text-2xl font-extrabold text-slate-900 mt-1 block">{users.length}</span>
+            <span className="text-[11px] text-indigo-700 font-bold">RBAC Registered</span>
           </div>
 
           <div className="rounded-2xl border border-slate-300 bg-white p-4 shadow-xs">
             <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">Trade Inquiries</span>
             <span className="font-serif text-2xl font-extrabold text-slate-900 mt-1 block">{inquiries.length}</span>
-            <span className="text-[11px] text-amber-700 font-bold">B2B Leads Received</span>
+            <span className="text-[11px] text-amber-700 font-bold">B2B Leads</span>
           </div>
 
           <div className="rounded-2xl border border-slate-300 bg-white p-4 shadow-xs">
@@ -441,15 +623,15 @@ export default function AdminPage() {
             <span className="font-serif text-2xl font-extrabold text-slate-900 mt-1 block">
               {stats?.totalScans || 28}
             </span>
-            <span className="text-[11px] text-indigo-700 font-bold">QR Business Card Scans</span>
+            <span className="text-[11px] text-indigo-700 font-bold">QR Scans</span>
           </div>
 
-          <div className="rounded-2xl border border-slate-300 bg-white p-4 shadow-xs">
-            <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">Active Diamond Cuts</span>
+          <div className="rounded-2xl border border-slate-300 bg-white p-4 shadow-xs col-span-2 sm:col-span-1">
+            <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">Active Cuts</span>
             <span className="font-serif text-2xl font-extrabold text-slate-900 mt-1 block">
               {new Set(diamonds.map((d) => d.shape)).size}
             </span>
-            <span className="text-[11px] text-indigo-700 font-bold">Official Shapes</span>
+            <span className="text-[11px] text-slate-600 font-bold">Official Shapes</span>
           </div>
         </div>
 
@@ -457,6 +639,7 @@ export default function AdminPage() {
         <div className="flex items-center gap-2 mb-6 border-b border-slate-200 pb-4 overflow-x-auto">
           {[
             { id: "inventory", label: `Diamond Inventory Database (${diamonds.length})`, icon: Gem },
+            { id: "users", label: `User Management & Access (${users.length})`, icon: Users },
             { id: "inquiries", label: `Customer Inquiries (${inquiries.length})`, icon: FileText },
             { id: "analytics", label: "Scan Analytics", icon: QrCode },
           ].map((tab) => {
@@ -633,7 +816,204 @@ export default function AdminPage() {
         )}
 
         {/* ========================================================= */}
-        {/* 2. INQUIRIES TAB */}
+        {/* 2. USER MANAGEMENT & ACCESS CONTROL (RBAC) TAB */}
+        {/* ========================================================= */}
+        {activeTab === "users" && (
+          <div>
+            {/* Search and Action Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+              <div className="relative w-full sm:w-96">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search user name, email, company, role (ADMIN/USER)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-9 py-2.5 text-xs text-slate-900 font-medium placeholder-slate-400 focus:border-amber-600 focus:outline-none shadow-xs"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                    title="Clear search"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <span className="text-xs text-slate-600 font-semibold hidden md:inline">
+                  Showing {filteredUsers.length} of {users.length} registered accounts
+                </span>
+
+                <button
+                  onClick={handleOpenAddUserModal}
+                  className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition-colors"
+                >
+                  <Plus className="h-4 w-4 text-amber-400" />
+                  <span>+ Add New User Account</span>
+                </button>
+              </div>
+            </div>
+
+            {/* USERS TABLE */}
+            {filteredUsers.length === 0 ? (
+              <div className="rounded-3xl border-2 border-dashed border-slate-300 bg-slate-50/50 p-10 text-center my-6 shadow-xs">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 mb-4 shadow-xs">
+                  <Users className="h-8 w-8 text-slate-600" />
+                </div>
+                <h3 className="font-serif text-lg font-bold text-slate-900 mb-2">
+                  No Users Matching &quot;{searchQuery}&quot;
+                </h3>
+                <p className="text-xs text-slate-600 max-w-md mx-auto mb-6">
+                  No user accounts match the search criteria. Try a different name, email, or role.
+                </p>
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100 shadow-xs"
+                >
+                  Clear Search & View All Users
+                </button>
+              </div>
+            ) : (
+              <div className="overflow-x-auto rounded-2xl border border-slate-300 bg-white shadow-xs">
+                <table className="w-full text-left text-xs text-slate-800">
+                  <thead className="border-b border-slate-200 bg-slate-50 text-[11px] uppercase font-bold text-slate-700 tracking-wider">
+                    <tr>
+                      <th className="p-3.5">User Identity</th>
+                      <th className="p-3.5">Company & Contact</th>
+                      <th className="p-3.5">Current Role (RBAC)</th>
+                      <th className="p-3.5">Access Switcher</th>
+                      <th className="p-3.5">Registered</th>
+                      <th className="p-3.5 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {filteredUsers.map((u) => {
+                      const isAdmin = u.role === "ADMIN";
+                      const isSelf = u.id === user?.id || u.email === user?.email;
+                      return (
+                        <tr key={u.id} className="hover:bg-amber-50/30 transition-colors">
+                          {/* Name and Email */}
+                          <td className="p-3.5">
+                            <div className="flex items-center gap-3">
+                              <div
+                                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl font-bold text-xs ${
+                                  isAdmin
+                                    ? "bg-amber-100 text-amber-900 border border-amber-300"
+                                    : "bg-slate-100 text-slate-800 border border-slate-300"
+                                }`}
+                              >
+                                {u.name ? u.name.substring(0, 2).toUpperCase() : "MD"}
+                              </div>
+                              <div>
+                                <span className="font-bold text-slate-900 flex items-center gap-1.5">
+                                  {u.name}
+                                  {isSelf && (
+                                    <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[9px] font-bold text-emerald-800 border border-emerald-300">
+                                      Active Session (You)
+                                    </span>
+                                  )}
+                                </span>
+                                <span className="font-mono text-[11px] text-slate-500">{u.email}</span>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* Company & Phone */}
+                          <td className="p-3.5">
+                            <span className="font-semibold text-slate-800 block">
+                              {u.companyName || "Independent Jeweler"}
+                            </span>
+                            <span className="text-[11px] text-slate-500 font-mono">
+                              {u.phone || "—"}
+                            </span>
+                          </td>
+
+                          {/* Role Badge */}
+                          <td className="p-3.5">
+                            {isAdmin ? (
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-[11px] font-bold text-amber-900 border border-amber-300 shadow-2xs">
+                                <ShieldCheck className="h-3.5 w-3.5 text-amber-600" />
+                                <span>ADMIN (Full Suite)</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-[11px] font-bold text-blue-800 border border-blue-200">
+                                <UserIcon className="h-3.5 w-3.5 text-blue-600" />
+                                <span>USER (Buyer Portal)</span>
+                              </span>
+                            )}
+                          </td>
+
+                          {/* Role Switcher */}
+                          <td className="p-3.5">
+                            {isAdmin ? (
+                              <button
+                                onClick={() => handleToggleUserRole(u)}
+                                disabled={isSelf}
+                                title={isSelf ? "Cannot demote yourself" : "Change this Admin to standard Normal User"}
+                                className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-700 shadow-2xs transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                              >
+                                <UserIcon className="h-3 w-3 text-slate-500" />
+                                <span>Demote to Normal User</span>
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => handleToggleUserRole(u)}
+                                title="Promote this Normal User to Administrator"
+                                className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100 px-2.5 py-1 text-[11px] font-bold text-amber-900 shadow-2xs transition-all"
+                              >
+                                <ShieldCheck className="h-3 w-3 text-amber-700" />
+                                <span>Promote to Admin</span>
+                              </button>
+                            )}
+                          </td>
+
+                          {/* Registered Date */}
+                          <td className="p-3.5 text-slate-500 text-[11px] font-mono">
+                            {u.createdAt
+                              ? new Date(u.createdAt).toLocaleDateString("en-US", {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                })
+                              : "Active"}
+                          </td>
+
+                          {/* Actions */}
+                          <td className="p-3.5 text-right space-x-1.5 whitespace-nowrap">
+                            <button
+                              onClick={() => handleOpenEditUserModal(u)}
+                              className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-800 hover:bg-slate-100 hover:border-slate-400 shadow-2xs transition-colors"
+                              title="Edit User Details & Permissions"
+                            >
+                              <Edit className="h-3.5 w-3.5 text-amber-700" />
+                              <span>Edit</span>
+                            </button>
+
+                            <button
+                              onClick={() => handleDeleteUser(u)}
+                              disabled={isSelf || u.email === "admin@maadiamond.com"}
+                              className="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-bold text-rose-700 hover:bg-rose-100 hover:border-rose-300 shadow-2xs transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                              title={isSelf ? "Cannot delete yourself" : "Delete user account"}
+                            >
+                              <Trash2 className="h-3.5 w-3.5 text-rose-600" />
+                              <span>Delete</span>
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ========================================================= */}
+        {/* 3. INQUIRIES TAB */}
         {/* ========================================================= */}
         {activeTab === "inquiries" && (
           <div className="space-y-4">
@@ -1169,6 +1549,188 @@ export default function AdminPage() {
                   {isDeleting ? "Deleting..." : "Yes, Delete from Database"}
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================= */}
+        {/* USER MODAL (CREATE / EDIT USER & RBAC) */}
+        {/* ========================================================= */}
+        {isUserModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs overflow-y-auto">
+            <div className="relative w-full max-w-lg rounded-3xl border border-slate-300 bg-white p-6 sm:p-8 shadow-2xl text-slate-900 my-8">
+              <button
+                onClick={() => setIsUserModalOpen(false)}
+                className="absolute right-5 top-5 rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-sm">
+                  <Users className="h-6 w-6 text-amber-400" />
+                </div>
+                <div>
+                  <h2 className="font-serif text-xl font-bold text-slate-900">
+                    {editingUser ? `Edit User: ${editingUser.name}` : "Create New User Account"}
+                  </h2>
+                  <p className="text-xs text-slate-500 font-medium">
+                    {editingUser
+                      ? "Manage access privileges, contact information, and role."
+                      : "Add a new client buyer or administrator to the platform."}
+                  </p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSaveUser} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={userFormData.name}
+                    onChange={(e) => setUserFormData({ ...userFormData, name: e.target.value })}
+                    placeholder="e.g. Rajesh Parekh"
+                    className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 font-bold focus:border-amber-600 focus:bg-white focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={userFormData.email}
+                    onChange={(e) => setUserFormData({ ...userFormData, email: e.target.value })}
+                    placeholder="e.g. buyer@jewelers.com"
+                    className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 font-bold focus:border-amber-600 focus:bg-white focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    Password {editingUser ? "(Leave blank to keep unchanged)" : "* (Min 6 characters)"}
+                  </label>
+                  <input
+                    type="password"
+                    required={!editingUser}
+                    minLength={editingUser ? 0 : 6}
+                    value={userFormData.password}
+                    onChange={(e) => setUserFormData({ ...userFormData, password: e.target.value })}
+                    placeholder={editingUser ? "•••••••••••• (Leave blank to keep current)" : "Enter secure password"}
+                    className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 font-bold focus:border-amber-600 focus:bg-white focus:outline-none"
+                  />
+                </div>
+
+                {/* Role / Access Level Radio Cards */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                    Access Level & Permissions (RBAC) *
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <label
+                      className={`cursor-pointer rounded-2xl border p-4 transition-all flex flex-col justify-between ${
+                        userFormData.role === "USER"
+                          ? "border-blue-500 bg-blue-50/50 shadow-xs ring-1 ring-blue-500"
+                          : "border-slate-300 bg-white hover:bg-slate-50"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                          <UserIcon className="h-4 w-4 text-blue-600" />
+                          <span>Normal User (Buyer)</span>
+                        </span>
+                        <input
+                          type="radio"
+                          name="userRole"
+                          value="USER"
+                          checked={userFormData.role === "USER"}
+                          onChange={() => setUserFormData({ ...userFormData, role: "USER" })}
+                          className="accent-blue-600"
+                        />
+                      </div>
+                      <p className="text-[11px] text-slate-600">
+                        Can browse wholesale diamonds, view 360° videos, manage wishlist, and submit RFQ inquiries.
+                      </p>
+                    </label>
+
+                    <label
+                      className={`cursor-pointer rounded-2xl border p-4 transition-all flex flex-col justify-between ${
+                        userFormData.role === "ADMIN"
+                          ? "border-amber-500 bg-amber-50/50 shadow-xs ring-1 ring-amber-500"
+                          : "border-slate-300 bg-white hover:bg-slate-50"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                          <ShieldCheck className="h-4 w-4 text-amber-600" />
+                          <span>Administrator</span>
+                        </span>
+                        <input
+                          type="radio"
+                          name="userRole"
+                          value="ADMIN"
+                          checked={userFormData.role === "ADMIN"}
+                          onChange={() => setUserFormData({ ...userFormData, role: "ADMIN" })}
+                          className="accent-amber-600"
+                        />
+                      </div>
+                      <p className="text-[11px] text-slate-600">
+                        Full administrative access: diamond CRUD, user accounts & roles, inquiry updates, and analytics.
+                      </p>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                      Company / Jewelry Firm
+                    </label>
+                    <input
+                      type="text"
+                      value={userFormData.companyName}
+                      onChange={(e) => setUserFormData({ ...userFormData, companyName: e.target.value })}
+                      placeholder="e.g. Parekh Heritage"
+                      className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 focus:border-amber-600 focus:bg-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      value={userFormData.phone}
+                      onChange={(e) => setUserFormData({ ...userFormData, phone: e.target.value })}
+                      placeholder="+91 98980 54321"
+                      className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 focus:border-amber-600 focus:bg-white focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setIsUserModalOpen(false)}
+                    className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSavingUser}
+                    className="flex items-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-5 py-2.5 text-xs font-bold text-white shadow-md transition-all disabled:opacity-50"
+                  >
+                    <Save className="h-4 w-4 text-amber-400" />
+                    <span>{isSavingUser ? "Saving User..." : editingUser ? "Save User Changes" : "Create User Account"}</span>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

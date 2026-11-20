@@ -10,6 +10,7 @@ import inquiriesRoutes from "./routes/inquiries.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import vcardRoutes from "./routes/vcard.routes.js";
 import statsRoutes from "./routes/stats.routes.js";
+import usersRoutes from "./routes/users.routes.js";
 import { initPostgresDatabase, isPostgresActive } from "./db/postgres.js";
 
 const app = express();
@@ -80,6 +81,7 @@ app.use("/api/inquiries", inquiriesRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/vcard", vcardRoutes);
 app.use("/api/stats", statsRoutes);
+app.use("/api/users", usersRoutes);
 
 // 404 Handler
 app.use((req: Request, res: Response) => {

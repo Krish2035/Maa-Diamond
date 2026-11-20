@@ -44,6 +44,10 @@ const nextConfig = {
         source: '/api/vcard/:path*',
         destination: 'https://maa-diamond.onrender.com/api/vcard/:path*',
       },
+      {
+        source: '/api/users/:path*',
+        destination: 'https://maa-diamond.onrender.com/api/users/:path*',
+      },
     ];
   },
 };

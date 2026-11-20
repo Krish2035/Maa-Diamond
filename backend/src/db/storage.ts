@@ -490,6 +490,34 @@ export class StorageEngine {
     return newUser;
   }
 
+  public getAllUsers(): User[] {
+    return [...this.data.users];
+  }
+
+  public updateUser(id: string, updates: Partial<User>): User | undefined {
+    const idx = this.data.users.findIndex((u) => u.id === id);
+    if (idx === -1) return undefined;
+    const existing = this.data.users[idx];
+    const updated: User = {
+      ...existing,
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+    this.data.users[idx] = updated;
+    this.persist(this.data);
+    return updated;
+  }
+
+  public deleteUser(id: string): boolean {
+    const initialLen = this.data.users.length;
+    this.data.users = this.data.users.filter((u) => u.id !== id);
+    const deleted = this.data.users.length < initialLen;
+    if (deleted) {
+      this.persist(this.data);
+    }
+    return deleted;
+  }
+
   // --- DIAMOND INVENTORY OPERATIONS ---
   public getDiamonds(filters?: {
     shape?: string;

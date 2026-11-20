@@ -28,6 +28,8 @@ export interface User {
   role: UserRole;
   companyName?: string;
   phone?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Diamond {

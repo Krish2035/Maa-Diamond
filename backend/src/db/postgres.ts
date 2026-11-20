@@ -321,4 +321,84 @@ export async function pgCreateUser(data: Omit<User, "id" | "createdAt" | "update
   };
 }
 
+export async function pgGetAllUsers(): Promise<User[]> {
+  const p = getPostgresPool();
+  if (!p) throw new Error("PostgreSQL pool not available");
+
+  const res = await p.query("SELECT * FROM users ORDER BY created_at DESC");
+  return res.rows.map((row) => ({
+    id: row.id,
+    email: row.email,
+    passwordHash: row.password_hash,
+    name: row.name,
+    companyName: row.company_name,
+    phone: row.phone,
+    role: row.role,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }));
+}
+
+export async function pgUpdateUser(id: string, updates: Partial<User>): Promise<User | null> {
+  const p = getPostgresPool();
+  if (!p) throw new Error("PostgreSQL pool not available");
+
+  const fields: string[] = [];
+  const values: any[] = [];
+  let idx = 1;
+
+  if (updates.name !== undefined) {
+    fields.push(`name = $${idx++}`);
+    values.push(updates.name);
+  }
+  if (updates.email !== undefined) {
+    fields.push(`email = $${idx++}`);
+    values.push(updates.email);
+  }
+  if (updates.role !== undefined) {
+    fields.push(`role = $${idx++}`);
+    values.push(updates.role);
+  }
+  if (updates.companyName !== undefined) {
+    fields.push(`company_name = $${idx++}`);
+    values.push(updates.companyName);
+  }
+  if (updates.phone !== undefined) {
+    fields.push(`phone = $${idx++}`);
+    values.push(updates.phone);
+  }
+  if (updates.passwordHash !== undefined) {
+    fields.push(`password_hash = $${idx++}`);
+    values.push(updates.passwordHash);
+  }
+
+  fields.push(`updated_at = $${idx++}`);
+  values.push(new Date().toISOString());
+
+  values.push(id);
+  const query = `UPDATE users SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`;
+  const res = await p.query(query, values);
+  if (res.rows.length === 0) return null;
+  const row = res.rows[0];
+  return {
+    id: row.id,
+    email: row.email,
+    passwordHash: row.password_hash,
+    name: row.name,
+    companyName: row.company_name,
+    phone: row.phone,
+    role: row.role,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export async function pgDeleteUser(id: string): Promise<boolean> {
+  const p = getPostgresPool();
+  if (!p) throw new Error("PostgreSQL pool not available");
+
+  const res = await p.query("DELETE FROM users WHERE id = $1", [id]);
+  return (res.rowCount ?? 0) > 0;
+}
+
 
