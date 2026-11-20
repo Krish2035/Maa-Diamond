@@ -18,6 +18,8 @@ import {
   QrCode,
   Users,
   User as UserIcon,
+  Eye,
+  EyeOff,
   Search,
   ExternalLink,
   LogOut,
@@ -71,6 +73,7 @@ export default function AdminPage() {
     companyName: "",
     phone: "",
   });
+  const [showUserPassword, setShowUserPassword] = useState(false);
   const [isSavingUser, setIsSavingUser] = useState(false);
 
   // CRUD Feedback Notification
@@ -1615,15 +1618,29 @@ export default function AdminPage() {
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                     Password {editingUser ? "(Leave blank to keep unchanged)" : "* (Min 6 characters)"}
                   </label>
-                  <input
-                    type="password"
-                    required={!editingUser}
-                    minLength={editingUser ? 0 : 6}
-                    value={userFormData.password}
-                    onChange={(e) => setUserFormData({ ...userFormData, password: e.target.value })}
-                    placeholder={editingUser ? "•••••••••••• (Leave blank to keep current)" : "Enter secure password"}
-                    className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 font-bold focus:border-amber-600 focus:bg-white focus:outline-none"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showUserPassword ? "text" : "password"}
+                      required={!editingUser}
+                      minLength={editingUser ? 0 : 6}
+                      value={userFormData.password}
+                      onChange={(e) => setUserFormData({ ...userFormData, password: e.target.value })}
+                      placeholder={editingUser ? "•••••••••••• (Leave blank to keep current)" : "Enter secure password"}
+                      className="w-full rounded-xl border border-slate-300 bg-slate-50 pl-3.5 pr-10 py-2.5 text-xs text-slate-900 font-bold focus:border-amber-600 focus:bg-white focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowUserPassword(!showUserPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 focus:outline-none transition-colors"
+                      aria-label={showUserPassword ? "Hide password" : "Show password"}
+                    >
+                      {showUserPassword ? (
+                        <EyeOff className="h-4 w-4 text-slate-600" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-slate-400 hover:text-slate-600" />
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Role / Access Level Radio Cards */}
