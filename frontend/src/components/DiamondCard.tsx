@@ -53,7 +53,7 @@ export default function DiamondCard({ diamond, onInquire }: DiamondCardProps) {
           <div className="relative flex h-full w-full items-center justify-center bg-black">
             <video
               key={diamond.videoUrl || diamond.id}
-              src={diamond.videoUrl || "/videos/round-360.mp4"}
+              src={diamond.videoUrl || "/videos/Round-diamond.mp4"}
               autoPlay
               loop
               muted
