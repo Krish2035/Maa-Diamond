@@ -50,7 +50,7 @@ const SHAPES: DiamondShape[] = [
 
 export default function AdminPage() {
   const router = useRouter();
-  const { user, logout, formatPrice } = useAuth();
+  const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState<"inventory" | "inquiries" | "analytics">("inventory");
   const [diamonds, setDiamonds] = useState<Diamond[]>([]);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
@@ -445,11 +445,11 @@ export default function AdminPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-300 bg-white p-4 shadow-xs">
-            <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">Total Inventory Value</span>
+            <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold block">Active Diamond Cuts</span>
             <span className="font-serif text-2xl font-extrabold text-slate-900 mt-1 block">
-              ${diamonds.reduce((acc, d) => acc + (d.totalPrice || 0), 0).toLocaleString()}
+              {new Set(diamonds.map((d) => d.shape)).size}
             </span>
-            <span className="text-[11px] text-slate-600 font-semibold">USD Valuation</span>
+            <span className="text-[11px] text-indigo-700 font-bold">Official Shapes</span>
           </div>
         </div>
 
@@ -574,8 +574,6 @@ export default function AdminPage() {
                       <th className="p-3.5">Clarity</th>
                       <th className="p-3.5">Cut / Polish</th>
                       <th className="p-3.5">Lab Certificate</th>
-                      <th className="p-3.5">Price / Ct</th>
-                      <th className="p-3.5">Total Value</th>
                       <th className="p-3.5">Database Status</th>
                       <th className="p-3.5 text-right">Actions</th>
                     </tr>
@@ -597,12 +595,6 @@ export default function AdminPage() {
                           <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-bold text-slate-800 border border-slate-200">
                             {dia.lab} {dia.certificateNo}
                           </span>
-                        </td>
-                        <td className="p-3.5 font-mono text-slate-700">
-                          ${dia.pricePerCarat.toLocaleString()}
-                        </td>
-                        <td className="p-3.5 font-bold text-slate-900">
-                          {formatPrice(dia.totalPrice)}
                         </td>
                         <td className="p-3.5">
                           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-300">
@@ -826,7 +818,7 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
                     <label className="block text-slate-700 font-bold uppercase mb-1">Color (D - J)</label>
                     <input
@@ -856,28 +848,6 @@ export default function AdminPage() {
                       className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-slate-900 focus:border-amber-600 focus:bg-white focus:outline-none"
                     />
                   </div>
-                  <div>
-                    <label className="block text-slate-700 font-bold uppercase mb-1">Price / Carat ($) *</label>
-                    <input
-                      type="number"
-                      step="10"
-                      min="100"
-                      required
-                      value={formData.pricePerCarat}
-                      onChange={(e) => setFormData({ ...formData, pricePerCarat: parseFloat(e.target.value) || 0 })}
-                      className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-slate-900 font-bold focus:border-amber-600 focus:bg-white focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Auto Calculated Live Total Price Preview */}
-                <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 uppercase">
-                    Calculated Total Wholesale Price:
-                  </span>
-                  <span className="font-mono text-base font-extrabold text-amber-800">
-                    ${Math.round(formData.carat * formData.pricePerCarat).toLocaleString()} USD
-                  </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
